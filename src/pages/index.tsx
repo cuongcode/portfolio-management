@@ -3,29 +3,40 @@ import { useState } from 'react';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
 
-const tokensAPI = [
-  { symbol: 'BNBUSDT', price: '304.50000000' },
-  { symbol: 'BTCUSDT', price: '26899.26000000' },
-];
-
 const AddTokenForm = ({ onFormSubmit }) => {
+  const [token, setToken] = useState('');
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    onFormSubmit(`${token.toUpperCase()}USDT`);
+    setToken('');
+  };
+
   return (
-    <form action="/send-data-here" method="post" onSubmit={onFormSubmit}>
+    <form action="/send-data-here" method="post" onSubmit={submitHandler}>
       <label>Token:</label>
       <input
         type="text"
         id="token"
         name="token"
+        placeholder="Input token here"
+        value={token}
         onChange={(e) => {
-          e.target.value;
+          setToken(e.target.value);
         }}
       />
-      <button type="submit">Add Token</button>
+      <button type="submit" disabled={!token}>
+        Add Token
+      </button>
     </form>
   );
 };
 
-const Token = ({ token, handleDelete }) => {
+const Token = ({ token, tokenDelete }) => {
+  const handleDelete = () => {
+    tokenDelete(token);
+  };
+
   return (
     <div>
       {token.symbol}: {token.price}|
@@ -41,7 +52,7 @@ const Portfolio = ({ tokens, onTokenDelete }) => {
         {tokens.map((token) => {
           return (
             <li key={token.symbol}>
-              <Token token={token} handleDelete={onTokenDelete} />
+              <Token token={token} tokenDelete={onTokenDelete} />
             </li>
           );
         })}
@@ -51,20 +62,41 @@ const Portfolio = ({ tokens, onTokenDelete }) => {
 };
 
 const Index = () => {
-  const [tokens, setTokens] = useState(tokensAPI);
-  // fetch Binance API
-  const submitHandler = (e) => {
-    e.preventDefault();
-    const newTokens = [
-      ...tokens,
-      { symbol: e.target.token.value, price: '????' },
-    ];
-    setTokens(newTokens);
-    e.target.token.value = '';
+  const [tokens, setTokens] = useState([]);
+
+  // handle add token
+  const submitHandler = async (token) => {
+    try {
+      // fetch token price from Binance
+      const response = await fetch(
+        `https://api.binance.com/api/v3/ticker/price?symbol=${token}`,
+        {
+          method: 'GET',
+        }
+      );
+      if (response.status === 200) {
+        const newToken = await response.json();
+        // update token list
+        const newTokens = [
+          ...tokens,
+          { symbol: newToken.symbol, price: newToken.price },
+        ];
+        setTokens(newTokens);
+      } else {
+        console.log('Something wrong in fetch token');
+      }
+    } catch (error) {
+      console.log(error);
+      alert('Please input a valid token');
+    }
   };
 
-  const tokenDeleteHandle = () => {
-    // TODO
+  // handle delete token
+  const tokenDeleteHandle = (deleteToken) => {
+    const newTokens = tokens.filter(
+      (token) => token.symbol !== deleteToken.symbol
+    );
+    setTokens(newTokens);
   };
 
   return (
