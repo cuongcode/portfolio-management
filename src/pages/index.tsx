@@ -57,7 +57,7 @@ const Index = () => {
     e.preventDefault();
     const newTokens = [
       ...tokens,
-      { symbol: e.target.token.value, price: '????' },
+      { symbol: e.target.token.value, price: '?????' },
     ];
     setTokens(newTokens);
     e.target.token.value = '';
