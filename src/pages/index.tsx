@@ -50,8 +50,57 @@ const Token = ({ token, tokenDelete }) => {
 
 const Portfolio = ({ tokens, onTokenDelete }) => {
   return (
-    <div>
-      <h3>My Portfolio</h3>
+    <div className="flex min-h-screen flex-col rounded-md border-2 border-black p-2">
+      <div className="mb-10 flex justify-between">
+        <div className="flex items-center">
+          <h3 className="mr-2 font-bold">My Portfolio</h3>
+          {/* add icon here */}
+          <div className=" cursor-pointer ">+</div>
+        </div>
+        <div className=" cursor-pointer rounded-md bg-green-500 px-4 py-2 text-white ">
+          Add New Coin
+        </div>
+      </div>
+
+      <div className="mb-10 flex">
+        <div className=" mr-6 ">
+          <h4>$5000.00</h4>
+          <h5>Total Balance</h5>
+        </div>
+        <div>
+          <h4>$1000.00</h4>
+          <h5>Total Profit Loss</h5>
+        </div>
+      </div>
+
+      <table className='table-fixed text-left'>
+        <thead>
+          <tr className='border-t'>
+            <th>#</th>
+            <th>Coin</th>
+            
+            <th>Price</th>
+            <th>Avg Price</th>
+            <th>Holdings</th>
+            <th>PNL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr className='border-t'>
+            <td>1</td>
+            <td>Bitcoin</td>
+            <td>27,331.22</td>
+            <td>24,120.81</td>
+            <td>$1000 (10%) 0.1BTC</td>
+            <td>$20.00 4%</td>
+            <div>
+              <div>+</div>
+              <div>></div>
+            </div>
+          </tr>
+        </tbody>
+      </table>
+
       <ul>
         {tokens.map((token) => {
           return (
@@ -117,6 +166,7 @@ const Index = () => {
           ...tokens,
           { symbol: newToken.symbol, price: newToken.price },
         ];
+
         setTokens(newTokens);
       } else {
         console.log('Something wrong in fetch token');
@@ -136,15 +186,15 @@ const Index = () => {
   };
 
   return (
+    <>
     <Main meta={<Meta title="Portfolio" description="Portfolio" />}>
-      <AddTokenForm onFormSubmit={submitHandler} />
-      {/* test styling here */}
-      <Portfolio
-        className="bg-green-500"
-        tokens={tokens}
-        onTokenDelete={tokenDeleteHandle}
-      />
+      <div className="px-5">
+        <AddTokenForm onFormSubmit={submitHandler} />
+        {/* test styling here */}
+        <Portfolio tokens={tokens} onTokenDelete={tokenDeleteHandle} />
+      </div>
     </Main>
+    </>
   );
 };
 
