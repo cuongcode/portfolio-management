@@ -3,12 +3,15 @@ import { useState } from 'react';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
 
+import coinList from '../utils/CoinGeckoCoinsList.json';
+
 const AddTokenForm = ({ onFormSubmit }) => {
   const [token, setToken] = useState('');
 
   const submitHandler = (e) => {
     e.preventDefault();
-    onFormSubmit(`${token.toUpperCase()}USDT`);
+    // onFormSubmit(`${token.toUpperCase()}USDT`);
+    onFormSubmit(token);
     setToken('');
   };
 
@@ -48,6 +51,7 @@ const Token = ({ token, tokenDelete }) => {
 const Portfolio = ({ tokens, onTokenDelete }) => {
   return (
     <div>
+      <h3>My Portfolio</h3>
       <ul>
         {tokens.map((token) => {
           return (
@@ -65,18 +69,50 @@ const Index = () => {
   const [tokens, setTokens] = useState([]);
 
   // handle add token
-  const submitHandler = async (token) => {
+  const submitHandler = async (symbol) => {
     try {
-      // fetch token price from Binance
+      // https://pro-api.coingecko.com/api/v3/
+
+      // get token id from token symbol, use coinList json fetch from Coingecko
+      const coin = coinList.filter((coin) => coin.symbol === symbol)[0];
+
+      const params = new URLSearchParams({
+        ids: coin.id,
+        vs_currencies: 'usd',
+        precision: '3',
+      });
+
+      // fetch token price from Coingecko
+      // https://api.coingecko.com/api/v3/simple/price?
       const response = await fetch(
-        `https://api.binance.com/api/v3/ticker/price?symbol=${token}`,
-        {
-          method: 'GET',
-        }
+        `https://api.coingecko.com/api/v3/simple/price?${params}`
       );
+
+      // fetch token price from Binance
+      // const response = await fetch(
+      //   `https://api.binance.com/api/v3/ticker/price?symbol=${token}`,
+      //   {
+      //     method: 'GET',
+      //   }
+      // );
+
       if (response.status === 200) {
-        const newToken = await response.json();
-        // update token list
+        // const newToken = await response.json();
+
+        // // update token list
+        // // const newTokens = [
+        // //   ...tokens,
+        // //   { symbol: newToken.symbol, price: newToken.price },
+        // // ];
+        // // setTokens(newTokens);
+
+        const data = await response.json();
+        const coinPrice = data[coin.id].usd;
+        const newToken = {
+          symbol: coin?.symbol,
+          name: coin?.name,
+          price: coinPrice,
+        };
         const newTokens = [
           ...tokens,
           { symbol: newToken.symbol, price: newToken.price },
@@ -102,7 +138,12 @@ const Index = () => {
   return (
     <Main meta={<Meta title="Portfolio" description="Portfolio" />}>
       <AddTokenForm onFormSubmit={submitHandler} />
-      <Portfolio tokens={tokens} onTokenDelete={tokenDeleteHandle} />
+      {/* test styling here */}
+      <Portfolio
+        className="bg-green-500"
+        tokens={tokens}
+        onTokenDelete={tokenDeleteHandle}
+      />
     </Main>
   );
 };
