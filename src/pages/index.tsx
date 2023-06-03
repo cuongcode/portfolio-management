@@ -62,7 +62,6 @@ const Portfolio = ({ tokens, onTokenDelete }) => {
 };
 
 const Index = () => {
-<<<<<<< HEAD
   const [tokens, setTokens] = useState([]);
 
   // handle add token
@@ -90,7 +89,6 @@ const Index = () => {
       console.log(error);
       alert('Please input a valid token');
     }
-=======
   const [tokens, setTokens] = useState(tokensAPI);
   // fetch Binance API
   const submitHandler = (e) => {
@@ -101,7 +99,6 @@ const Index = () => {
     ];
     setTokens(newTokens);
     e.target.token.value = '';
->>>>>>> c8d3bf99bb6f484facac966f3e053f74374cdcf5
   };
 
   // handle delete token
