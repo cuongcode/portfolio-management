@@ -89,16 +89,6 @@ const Index = () => {
       console.log(error);
       alert('Please input a valid token');
     }
-  const [tokens, setTokens] = useState(tokensAPI);
-  // fetch Binance API
-  const submitHandler = (e) => {
-    e.preventDefault();
-    const newTokens = [
-      ...tokens,
-      { symbol: e.target.token.value, price: '?????' },
-    ];
-    setTokens(newTokens);
-    e.target.token.value = '';
   };
 
   // handle delete token
