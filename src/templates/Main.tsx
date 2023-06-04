@@ -19,9 +19,10 @@ const Main = (props: IMainProps) => (
           </h1>
           <h2 className="text-xl">{AppConfig.description}</h2>
         </div>
+        {/* <Link>Porfolio</Link> */}
       </header>
 
-      <main className="content py-5 text-xl">{props.children}</main>
+      <main className="content py-5 text-sm">{props.children}</main>
 
       <footer className="border-t border-gray-300 py-8 text-center text-sm">
         © Copyright {new Date().getFullYear()} {AppConfig.title}. Made with{' '}

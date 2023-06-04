@@ -194,13 +194,13 @@ function Token({ token, tokenDelete }) {
   );
 }
 
-const Portfolio = ({ tokens, onTokenDelete }) => {
+const Board = ({ tokens, onTokenDelete }) => {
   return (
-    <div className="flex min-h-screen flex-col rounded-md border-2 border-black p-2">
+    <div className="flex min-h-screen flex-col rounded-md border-[1px] border-gray-400 p-4">
       <div className="mb-10 flex justify-between">
         <div className="flex items-center">
           <h3 className="mr-2 font-bold">My Portfolio</h3>
-          {/* add icon here */}
+          {/* add icon here to modify portfolio eg: rename, delete, ... */}
           <div className=" cursor-pointer ">+</div>
         </div>
         <ButtonCenterModal
@@ -210,15 +210,15 @@ const Portfolio = ({ tokens, onTokenDelete }) => {
         />
       </div>
 
-      {/* show total */}
+      {/* show total cards */}
       <div className="mb-10 flex">
-        <div className=" mr-6 ">
-          <h4>$5000.00</h4>
-          <h5>Total Balance</h5>
+        <div className=" mr-6 p-4 shadow-md">
+          <div>$5000.00</div>
+          <div>Total Balance</div>
         </div>
-        <div>
-          <h4>$1000.00</h4>
-          <h5>Total Profit Loss</h5>
+        <div className=" mr-6 p-4 shadow-md">
+          <div>$1000.00</div>
+          <div>Total Profit Loss</div>
         </div>
       </div>
 
@@ -228,7 +228,6 @@ const Portfolio = ({ tokens, onTokenDelete }) => {
           <tr className="border-t">
             <th>#</th>
             <th>Coin</th>
-
             <th>Price</th>
             <th>Avg Price</th>
             <th>Holdings</th>
@@ -243,13 +242,13 @@ const Portfolio = ({ tokens, onTokenDelete }) => {
             <td>24,120.81</td>
             <td>$1000 (10%) 0.1BTC</td>
             <td>$20.00 4%</td>
-            <td className="flex flex-col">
+            <td className="flex flex-col items-center">
               {/* <button>+</button> */}
               <ButtonLeftSideModal
                 text="+"
                 modalContent={<AddTransactionForm />}
               />
-              <button>-</button>
+              <button className="w-fit">+</button>
             </td>
           </tr>
         </tbody>
@@ -292,24 +291,7 @@ const Index = () => {
         `https://api.coingecko.com/api/v3/simple/price?${params}`
       );
 
-      // fetch token price from Binance
-      // const response = await fetch(
-      //   `https://api.binance.com/api/v3/ticker/price?symbol=${token}`,
-      //   {
-      //     method: 'GET',
-      //   }
-      // );
-
       if (response.status === 200) {
-        // const newToken = await response.json();
-
-        // // update token list
-        // // const newTokens = [
-        // //   ...tokens,
-        // //   { symbol: newToken.symbol, price: newToken.price },
-        // // ];
-        // // setTokens(newTokens);
-
         const data = await response.json();
         const coinPrice = data[coin.id].usd;
         const newToken = {
@@ -344,9 +326,9 @@ const Index = () => {
     <>
       <Main meta={<Meta title="Portfolio" description="Portfolio" />}>
         <div className="px-5">
-          <AddTokenForm onFormSubmit={submitHandler} />
-          {/* test styling here */}
-          <Portfolio tokens={tokens} onTokenDelete={tokenDeleteHandle} />
+          {/* test fetch */}
+          {/* <AddTokenForm onFormSubmit={submitHandler} /> */}
+          <Board tokens={tokens} onTokenDelete={tokenDeleteHandle} />
         </div>
       </Main>
       <div id="portal" />
