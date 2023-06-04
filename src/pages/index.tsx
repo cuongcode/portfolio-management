@@ -5,7 +5,53 @@ import { Main } from '@/templates/Main';
 
 import coinList from '../utils/CoinGeckoCoinsList.json';
 
-const AddTokenForm = ({ onFormSubmit }) => {
+const Modal = ({ open, children, onClose }) => {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0  bg-black bg-opacity-50">
+      <div className="z-1 fixed inset-x-1/2 inset-y-1/4">
+        <div className="flex w-96 -translate-x-1/2 -translate-y-1/2 flex-col rounded-lg bg-white p-4">
+          <button className="mb-4 text-left" onClick={onClose}>
+            X
+          </button>
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AddNewToken = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div>
+      <button
+        onClick={() => setIsOpen(true)}
+        className="rounded-md bg-green-500 px-4 py-2 text-white "
+      >
+        Add New Coin
+      </button>
+      <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+        <form action="" className="flex flex-col">
+          <label htmlFor="" className="mb-4 font-bold">
+            Seach your favorite coin
+          </label>
+          <input
+            className="mb-4 rounded-md border-2 p-2"
+            type="text"
+            placeholder="Enter Coin Name"
+          />
+          <button className="text-left" type="submit" disabled>
+            Add
+          </button>
+        </form>
+      </Modal>
+    </div>
+  );
+};
+
+function AddTokenForm({ onFormSubmit }) {
   const [token, setToken] = useState('');
 
   const submitHandler = (e) => {
@@ -33,9 +79,9 @@ const AddTokenForm = ({ onFormSubmit }) => {
       </button>
     </form>
   );
-};
+}
 
-const Token = ({ token, tokenDelete }) => {
+function Token({ token, tokenDelete }) {
   const handleDelete = () => {
     tokenDelete(token);
   };
@@ -46,7 +92,7 @@ const Token = ({ token, tokenDelete }) => {
       <button onClick={handleDelete}>Delete</button>
     </div>
   );
-};
+}
 
 const Portfolio = ({ tokens, onTokenDelete }) => {
   return (
@@ -57,9 +103,13 @@ const Portfolio = ({ tokens, onTokenDelete }) => {
           {/* add icon here */}
           <div className=" cursor-pointer ">+</div>
         </div>
-        <div className=" cursor-pointer rounded-md bg-green-500 px-4 py-2 text-white ">
-          Add New Coin
-        </div>
+        {/* <div>
+          <div className=" cursor-pointer rounded-md bg-green-500 px-4 py-2 text-white ">
+            Add New Coin
+          </div>
+          <Modal>My Modal</Modal>
+        </div> */}
+        <AddNewToken />
       </div>
 
       <div className="mb-10 flex">
@@ -73,12 +123,12 @@ const Portfolio = ({ tokens, onTokenDelete }) => {
         </div>
       </div>
 
-      <table className='table-fixed text-left'>
+      <table className="table-fixed text-left">
         <thead>
-          <tr className='border-t'>
+          <tr className="border-t">
             <th>#</th>
             <th>Coin</th>
-            
+
             <th>Price</th>
             <th>Avg Price</th>
             <th>Holdings</th>
@@ -86,17 +136,17 @@ const Portfolio = ({ tokens, onTokenDelete }) => {
           </tr>
         </thead>
         <tbody>
-          <tr className='border-t'>
+          <tr className="border-t">
             <td>1</td>
             <td>Bitcoin</td>
             <td>27,331.22</td>
             <td>24,120.81</td>
             <td>$1000 (10%) 0.1BTC</td>
             <td>$20.00 4%</td>
-            <div>
-              <div>+</div>
-              <div>></div>
-            </div>
+            <td className="flex flex-col">
+              <button>+</button>
+              <button>-</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -187,13 +237,14 @@ const Index = () => {
 
   return (
     <>
-    <Main meta={<Meta title="Portfolio" description="Portfolio" />}>
-      <div className="px-5">
-        <AddTokenForm onFormSubmit={submitHandler} />
-        {/* test styling here */}
-        <Portfolio tokens={tokens} onTokenDelete={tokenDeleteHandle} />
-      </div>
-    </Main>
+      <Main meta={<Meta title="Portfolio" description="Portfolio" />}>
+        <div className="px-5">
+          <AddTokenForm onFormSubmit={submitHandler} />
+          {/* test styling here */}
+          <Portfolio tokens={tokens} onTokenDelete={tokenDeleteHandle} />
+        </div>
+      </Main>
+      <div id="portal" />
     </>
   );
 };
