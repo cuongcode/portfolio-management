@@ -6,10 +6,8 @@ import { handleError } from '@/services/apiHelper';
 import coinList from '@/utils/CoinGeckoCoinsList.json';
 
 import { ButtonCenterModal } from './button-center-modal';
-import { ButtonLeftSideModal } from './button-left-side-modal';
 import { AddNewCoinForm } from './form-add-new-coin';
-import { AddTransactionForm } from './form-add-transaction';
-import { Token } from './token';
+import { CoinsTable } from './table-coins';
 
 export const Board = () => {
   const [tokens, setTokens] = useState<any[]>([]);
@@ -43,7 +41,7 @@ export const Board = () => {
 
       setTokens((current) => [
         ...current,
-        { symbol: newToken.symbol, price: newToken.price },
+        { symbol: newToken.name, price: newToken.price },
       ]);
     }
   };
@@ -93,51 +91,7 @@ export const Board = () => {
         </div>
       </div>
 
-      {/* table */}
-      <table className="table-fixed text-left">
-        <thead>
-          <tr className="border-t">
-            <th>#</th>
-            <th>Coin</th>
-            <th>Price</th>
-            <th>Avg Price</th>
-            <th>Holdings</th>
-            <th>PNL</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="border-t">
-            <td>1</td>
-            <td>Bitcoin</td>
-            <td>27,331.22</td>
-            <td>24,120.81</td>
-            <td>$1000 (10%) 0.1BTC</td>
-            <td>$20.00 4%</td>
-            <td className="flex flex-col items-center">
-              {/* <button>+</button> */}
-              <ButtonLeftSideModal
-                text="+"
-                style=""
-                modalContent={<AddTransactionForm />}
-              />
-              <button type="button" className="w-fit">
-                +
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      {/* testing */}
-      <ul>
-        {tokens.map((token) => {
-          return (
-            <li key={token?.symbol}>
-              <Token token={token} tokenDelete={tokenDeleteHandle} />
-            </li>
-          );
-        })}
-      </ul>
+      <CoinsTable coins={tokens} coinDelete={tokenDeleteHandle} />
     </div>
   );
 };
