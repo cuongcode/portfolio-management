@@ -3,7 +3,7 @@ export function Token({
   tokenDelete,
 }: {
   token: any;
-  tokenDelete: (token: any) => { void: any };
+  tokenDelete: (token: any) => void;
 }) {
   const handleDelete = () => {
     tokenDelete(token);
