@@ -7,8 +7,6 @@ const HomePage = () => {
     <>
       <Main meta={<Meta title="Portfolio" description="Portfolio" />}>
         <div className="px-5">
-          {/* test fetch */}
-          {/* <AddTokenForm onFormSubmit={onAddToken} /> */}
           <Board />
         </div>
       </Main>
