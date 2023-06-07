@@ -1,6 +1,6 @@
 export * from './form-add-new-coin';
 export * from './add-token-form';
-export * from './form-add-transaction';
+export * from '../transaction-page/form-add-transaction';
 export * from './board';
 export * from './button-center-modal';
 export * from './button-left-side-modal';

@@ -1,5 +1,5 @@
 import { ButtonLeftSideModal } from './button-left-side-modal';
-import { AddTransactionForm } from './form-add-transaction';
+import { AddTransactionForm } from '../transaction-page/form-add-transaction';
 
 export const CoinsTable = ({
   coins,
