@@ -1,22 +1,19 @@
+import Router from 'next/router';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { ApiInstance } from '@/services/api';
 import { handleError } from '@/services/apiHelper';
-import coinList from '@/utils/CoinGeckoCoinsList.json';
 
 import { ButtonCenterModal } from './button-center-modal';
 import { AddNewCoinForm } from './form-add-new-coin';
 import { CoinsTable } from './table-coins';
 
 export const Board = () => {
-  const [tokens, setTokens] = useState<any[]>([]);
+  const [coins, setCoins] = useState<any[]>([]);
 
-  const handleAddToken = async (symbol: string) => {
+  const coinAddHanlde = async (coin: string) => {
     // https://pro-api.coingecko.com/api/v3/
-
-    // get token id from token symbol, use coinList json fetch from Coingecko
-    const coin = coinList.find((item) => item.symbol === symbol);
 
     const body = {
       ids: coin?.id,
@@ -27,31 +24,44 @@ export const Board = () => {
     const res = await ApiInstance.getTokenPrice(body);
     const { result, error } = handleError(res);
     if (error) {
-      console.log('Something wrong in fetch token', error.message);
-      toast.error('Something wrong in fetch token');
+      console.log('Something wrong in fetch coin', error.message);
+      toast.error('Something wrong in fetch coin');
       return;
     }
     if (coin?.id) {
       const coinPrice = result?.[coin?.id].usd;
-      const newToken = {
-        symbol: coin?.symbol,
-        name: coin?.name,
-        price: coinPrice,
-      };
+      // const newCoin = {
+      //   symbol: coin?.symbol,
+      //   name: coin?.name,
+      //   price: coinPrice,
+      // };
+      const newCoin = { ...coin, price: coinPrice, transactions: [] };
 
-      setTokens((current) => [
-        ...current,
-        { symbol: newToken.name, price: newToken.price },
-      ]);
+      setCoins((current) => [...current, newCoin]);
     }
   };
 
-  const tokenDeleteHandle = (deleteToken: any) => {
-    setTokens((current) => {
-      const newTokens = current.filter(
-        (token) => token.symbol !== deleteToken.symbol
+  const coinDeleteHandle = (deleteCoin: any) => {
+    setCoins((current) => {
+      const newCoins = current.filter(
+        (coin) => coin.symbol !== deleteCoin.symbol
       );
-      return newTokens;
+      return newCoins;
+    });
+  };
+
+  const handleAddTransaction = (transaction) => {
+    console.log('add');
+  };
+
+  const coinTransactionsHandle = (coin: any) => {
+    Router.push(`/transactions/${coin.symbol}`);
+    Router.push({
+      pathname: `/transactions/${coin.symbol}`,
+      query: {
+        addTransaction: handleAddTransaction,
+        abc: coin,
+      },
     });
   };
 
@@ -75,7 +85,7 @@ export const Board = () => {
             duration-300
             hover:-translate-y-1"
           text="Add New Coin"
-          modalContent={<AddNewCoinForm onFormSubmit={handleAddToken} />}
+          modalContent={<AddNewCoinForm onFormSubmit={coinAddHanlde} />}
         />
       </div>
 
@@ -91,7 +101,11 @@ export const Board = () => {
         </div>
       </div>
 
-      <CoinsTable coins={tokens} coinDelete={tokenDeleteHandle} />
+      <CoinsTable
+        coins={coins}
+        coinDelete={coinDeleteHandle}
+        coinTransactions={coinTransactionsHandle}
+      />
     </div>
   );
 };

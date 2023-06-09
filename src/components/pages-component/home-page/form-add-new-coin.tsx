@@ -8,7 +8,7 @@ export const AddNewCoinForm = ({
 }: {
   onFormSubmit: (token: string) => void;
 }) => {
-  const [token, setToken] = useState('');
+  const [symbol, setSymbol] = useState('');
   const [autocompleteList, setAutocompleteList] = useState<any[]>([]);
 
   const _debounceSearch = useCallback(
@@ -25,21 +25,23 @@ export const AddNewCoinForm = ({
     }
 
     const list = coinList
-      .filter((coin) => coin.symbol?.includes(searchString?.toLowerCase()))
+      .filter(
+        (coin) => coin.symbol?.toLowerCase() === searchString?.toLowerCase()
+      )
       .splice(0, 10);
     setAutocompleteList(list);
   };
 
-  const _onSubmit = (inputSymbol?: string) => {
-    onFormSubmit(inputSymbol || token);
-    setToken('');
+  const _onSubmit = (coin: any) => {
+    onFormSubmit(coin);
+    setSymbol('');
     setAutocompleteList([]);
   };
 
-  const _onChangeSearchString = (e: any) => {
-    const searchString = e.target.value;
-    setToken(searchString);
-    _debounceSearch(searchString);
+  const _onChangeSearchSymbol = (e: any) => {
+    const searchSymbol = e.target.value;
+    setSymbol(searchSymbol);
+    _debounceSearch(searchSymbol);
   };
 
   return (
@@ -49,35 +51,24 @@ export const AddNewCoinForm = ({
         <input
           className="mb-4 rounded-md border-2 p-2"
           type="text"
-          id="token"
-          name="token"
+          id="symbol"
+          name="symbol"
           placeholder="Enter Coin Name"
-          value={token}
-          onChange={_onChangeSearchString}
+          value={symbol}
+          onChange={_onChangeSearchSymbol}
         />
-        {/* List of coins as buttons to choose show here */}
-        {/* <button
-          className="text-left"
-          type="submit"
-          disabled
-          onClick={onFormClick}
-        >
-          BTC
-        </button>
-        <button className="text-left" type="submit" disabled>
-          ETH
-        </button> */}
 
         {autocompleteList?.length ? (
           <div className="flex flex-col">
             {autocompleteList.map((item) => (
               <button
-                key={item.name}
+                key={item.symbol}
                 type="button"
-                onClick={() => _onSubmit(item.symbol)}
+                onClick={() => _onSubmit(item)}
               >
-                <div>({item.symbol})</div>
-                <div>{item.name}</div>
+                <div>
+                  {item.symbol} | {item.name}
+                </div>
               </button>
             ))}
           </div>

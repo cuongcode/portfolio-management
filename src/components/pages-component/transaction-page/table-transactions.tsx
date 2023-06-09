@@ -1,10 +1,30 @@
-export const TransactionsTable = ({
-  transactions,
-  transactionDelete,
-}: {
-  transactions: any;
-  transactionDelete: (transaction: any) => void;
-}) => {
+export const TransactionsTable = () => {
+  // if (transactions?.length === 0) {
+  //   return null;
+  // }
+  const transactions = [
+    {
+      price: 23321,
+      quantity: 213,
+      date: 2323,
+      fees: 324,
+      notes: 'sdfdfs',
+    },
+    {
+      price: 23321,
+      quantity: 213,
+      date: 2323,
+      fees: 324,
+      notes: 'sdfdfs',
+    },
+    {
+      price: 23321,
+      quantity: 213,
+      date: 2323,
+      fees: 324,
+      notes: 'sdfdfs',
+    },
+  ];
   return (
     <table className="table-fixed text-left">
       <thead>
@@ -19,20 +39,16 @@ export const TransactionsTable = ({
         </tr>
       </thead>
       <tbody>
-        {transactions.map((item, index) => (
-          <tr key={item.name} className="border-t">
+        {transactions?.map((transaction, index) => (
+          <tr key={transaction.name} className="border-t">
             <td>{index}</td>
-            <td>{item.price}</td>
-            <td>{item.quantity}</td>
-            <td>{item.date}</td>
-            <td>{item.fees}</td>
-            <td>{item.notes}</td>
+            <td>{transaction.price}</td>
+            <td>{transaction.quantity}</td>
+            <td>{transaction.date}</td>
+            <td>{transaction.fees}</td>
+            <td>{transaction.notes}</td>
             <td className="flex flex-col items-center">
-              <button
-                type="button"
-                className="w-fit"
-                onClick={() => transactionDelete(item)}
-              >
+              <button type="button" className="w-fit">
                 -
               </button>
             </td>

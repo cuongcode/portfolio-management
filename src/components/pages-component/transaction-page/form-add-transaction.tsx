@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const AddTransactionForm = ({ addTransactionClick }) => {
+export const AddTransactionForm = () => {
   const [transaction, setTransaction] = useState({
     price: null,
     quantity: null,
@@ -79,8 +79,7 @@ export const AddTransactionForm = ({ addTransactionClick }) => {
           <button
             type="button"
             className="grow rounded-md bg-green-500 p-2"
-            onClick={() => addTransactionClick(transaction)}
-            disabled
+            disable
           >
             Submit
           </button>

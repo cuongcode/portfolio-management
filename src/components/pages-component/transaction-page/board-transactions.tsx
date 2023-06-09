@@ -1,27 +1,19 @@
-import { useState } from 'react';
-
 import { AddTransactionForm, ButtonLeftSideModal } from '../home-page';
 import { TransactionsTable } from './table-transactions';
 
-export const BoardTransactions = () => {
-  const [transactions, setTransactions] = useState([]);
-
-  handleTransactionClick;
-
+export const BoardTransactions = ({ symbol }: { symbol: any }) => {
   return (
     <div className="flex min-h-screen flex-col rounded-md border-[1px] border-gray-400 p-4">
       <div className="mb-10 flex justify-between">
         <div className="flex items-center">
-          <h3 className="mr-2 font-bold">Transactions</h3>
+          <h3 className="mr-2 font-bold"> {symbol} Transactions</h3>
           {/* add icon here to modify portfolio eg: rename, delete, ... */}
           <div className=" cursor-pointer ">+</div>
         </div>
         <ButtonLeftSideModal
           style="rounded-md bg-green-500 px-4 py-2 text-white "
           text="Add Transaction"
-          modalContent={
-            <AddTransactionForm addTransactionClick={handleTransactionClick} />
-          }
+          modalContent={<AddTransactionForm />}
         />
       </div>
 
@@ -49,10 +41,7 @@ export const BoardTransactions = () => {
         </div>
       </div>
 
-      <TransactionsTable
-        transactions={transactions}
-        transactionDelete={handleTransactionDelete}
-      />
+      <TransactionsTable />
     </div>
   );
 };

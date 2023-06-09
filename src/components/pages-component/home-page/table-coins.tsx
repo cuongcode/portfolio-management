@@ -4,9 +4,11 @@ import { AddTransactionForm } from '../transaction-page/form-add-transaction';
 export const CoinsTable = ({
   coins,
   coinDelete,
+  coinTransactions,
 }: {
   coins: any;
-  coinDelete: (token: any) => void;
+  coinDelete: (coin: any) => void;
+  coinTransactions: (coin: any) => void;
 }) => {
   return (
     <>
@@ -23,11 +25,11 @@ export const CoinsTable = ({
           </tr>
         </thead>
         <tbody>
-          {coins.map((item, index) => (
-            <tr key={item.name} className="border-t">
+          {coins.map((coin, index) => (
+            <tr key={coin.name} className="border-t">
               <td>{index}</td>
-              <td>{item.symbol}</td>
-              <td>{item.price}</td>
+              <td>{coin.symbol}</td>
+              <td>{coin.price}</td>
               <td>24,120.81</td>
               <td>$1000 (10%) 0.1BTC</td>
               <td>$20.00 4%</td>
@@ -41,9 +43,16 @@ export const CoinsTable = ({
                 <button
                   type="button"
                   className="w-fit"
-                  onClick={() => coinDelete(item)}
+                  onClick={() => coinDelete(coin)}
                 >
                   -
+                </button>
+                <button
+                  type="button"
+                  className="w-fit"
+                  onClick={() => coinTransactions(coin)}
+                >
+                  >
                 </button>
               </td>
             </tr>
