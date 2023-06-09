@@ -24,7 +24,6 @@ export const Board = () => {
     const res = await ApiInstance.getTokenPrice(body);
     const { result, error } = handleError(res);
     if (error) {
-      console.log('Something wrong in fetch coin', error.message);
       toast.error('Something wrong in fetch coin');
       return;
     }
@@ -63,7 +62,7 @@ export const Board = () => {
           <div className=" cursor-pointer ">+</div>
         </div>
         <ButtonCenterModal
-          style="
+          windtailStyle="
             rounded-md
             bg-green-500
             px-4 py-2

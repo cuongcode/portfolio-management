@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { ModalLeftSide } from './modal-left-side';
 
 export const ButtonLeftSideModal = ({
-  style,
+  tailwindStyle,
   text,
   modalContent,
 }: {
-  style: string;
+  tailwindStyle: string;
   text: string;
   modalContent: any;
 }) => {
@@ -15,7 +15,11 @@ export const ButtonLeftSideModal = ({
 
   return (
     <div>
-      <button type="button" onClick={() => setIsOpen(true)} className={style}>
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
+        className={tailwindStyle}
+      >
         {text}
       </button>
       <ModalLeftSide open={isOpen} onClose={() => setIsOpen(false)}>

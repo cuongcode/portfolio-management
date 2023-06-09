@@ -1,5 +1,5 @@
-import { ButtonLeftSideModal } from './button-left-side-modal';
 import { AddTransactionForm } from '../transaction-page/form-add-transaction';
+import { ButtonLeftSideModal } from './button-left-side-modal';
 
 export const CoinsTable = ({
   coins,
@@ -37,7 +37,7 @@ export const CoinsTable = ({
                 {/* <button>+</button> */}
                 <ButtonLeftSideModal
                   text="+"
-                  style=""
+                  tailwindStyle=""
                   modalContent={<AddTransactionForm />}
                 />
                 <button
@@ -52,7 +52,7 @@ export const CoinsTable = ({
                   className="w-fit"
                   onClick={() => coinTransactions(coin)}
                 >
-                  >
+                  `{'>'}`
                 </button>
               </td>
             </tr>

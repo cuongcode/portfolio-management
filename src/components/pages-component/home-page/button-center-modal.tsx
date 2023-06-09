@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { ModalCenter } from './modal-center';
 
 export const ButtonCenterModal = ({
-  style,
+  windtailStyle,
   text,
   modalContent,
 }: {
-  style: any;
+  windtailStyle: any;
   text: string;
   modalContent: any;
 }) => {
@@ -15,7 +15,11 @@ export const ButtonCenterModal = ({
 
   return (
     <div>
-      <button type="button" onClick={() => setIsOpen(true)} className={style}>
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
+        className={windtailStyle}
+      >
         {text}
       </button>
       <ModalCenter open={isOpen} onClose={() => setIsOpen(false)}>

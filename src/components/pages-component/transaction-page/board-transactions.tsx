@@ -11,7 +11,7 @@ export const BoardTransactions = ({ symbol }: { symbol: any }) => {
           <div className=" cursor-pointer ">+</div>
         </div>
         <ButtonLeftSideModal
-          style="rounded-md bg-green-500 px-4 py-2 text-white "
+          tailwindStyle="rounded-md bg-green-500 px-4 py-2 text-white "
           text="Add Transaction"
           modalContent={<AddTransactionForm />}
         />
