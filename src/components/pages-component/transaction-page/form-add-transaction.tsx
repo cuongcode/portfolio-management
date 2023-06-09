@@ -76,11 +76,7 @@ export const AddTransactionForm = () => {
           >
             Cancel
           </button>
-          <button
-            type="button"
-            className="grow rounded-md bg-green-500 p-2"
-            disable
-          >
+          <button type="button" className="grow rounded-md bg-green-500 p-2">
             Submit
           </button>
         </div>

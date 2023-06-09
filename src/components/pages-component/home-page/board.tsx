@@ -50,19 +50,8 @@ export const Board = () => {
     });
   };
 
-  const handleAddTransaction = (transaction) => {
-    console.log('add');
-  };
-
   const coinTransactionsHandle = (coin: any) => {
     Router.push(`/transactions/${coin.symbol}`);
-    Router.push({
-      pathname: `/transactions/${coin.symbol}`,
-      query: {
-        addTransaction: handleAddTransaction,
-        abc: coin,
-      },
-    });
   };
 
   return (
