@@ -27,6 +27,7 @@
     "postbuild": "next-sitemap"
   },
   "dependencies": {
+    "@heroicons/react": "v1",
     "apisauce": "^3.0.0",
     "axios": "^1.4.0",
     "lodash": "^4.17.21",

@@ -1,3 +1,5 @@
+import { ChevronRightIcon } from '@heroicons/react/outline';
+
 import { AddTransactionForm } from '../transaction-page/form-add-transaction';
 import { ButtonLeftSideModal } from './button-left-side-modal';
 
@@ -52,7 +54,7 @@ export const CoinsTable = ({
                   className="w-fit"
                   onClick={() => coinTransactions(coin)}
                 >
-                  `{'>'}`
+                  <ChevronRightIcon className="w-5" />
                 </button>
               </td>
             </tr>
