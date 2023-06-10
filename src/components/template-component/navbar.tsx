@@ -21,7 +21,7 @@ export const Navbar = () => {
             <div className="mr-2">
               <Button>Login</Button>
             </div>
-            <div>
+            <div className="">
               <Button>Sign Up</Button>
             </div>
           </>

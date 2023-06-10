@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 
+import { Footer } from '@/components/template-component/footer';
 import { Navbar } from '@/components/template-component/navbar';
 import { AppConfig } from '@/utils/AppConfig';
 
@@ -12,7 +13,7 @@ const Main = (props: IMainProps) => (
   <div className="w-full px-1 text-gray-700 antialiased">
     {props.meta}
 
-    <div className="mx-auto max-w-screen-md text-sm">
+    <div className="mx-auto max-w-screen-xl px-5 text-sm">
       <header className="border-b border-gray-300 pb-4">
         <div className="pb-8 pt-16">
           <h1 className="text-3xl font-bold text-gray-900">
@@ -25,16 +26,7 @@ const Main = (props: IMainProps) => (
 
       <main className="content py-5 ">{props.children}</main>
 
-      <footer className="border-t border-gray-300 py-8 text-center text-sm">
-        © Copyright {new Date().getFullYear()} {AppConfig.title}. Made with{' '}
-        <a href="https://creativedesignsguru.com">CreativeDesignsGuru</a>.
-        {/*
-         * PLEASE READ THIS SECTION
-         * I'm an indie maker with limited resources and funds, I'll really appreciate if you could have a link to my website.
-         * The link doesn't need to appear on every pages, one link on one page is enough.
-         * For example, in the `About` page. Thank you for your support, it'll mean a lot to me.
-         */}
-      </footer>
+      <Footer />
     </div>
   </div>
 );
