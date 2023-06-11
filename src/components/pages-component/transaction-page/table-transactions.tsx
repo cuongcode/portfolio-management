@@ -1,30 +1,10 @@
-export const TransactionsTable = () => {
-  // if (transactions?.length === 0) {
-  //   return null;
-  // }
-  const transactions = [
-    {
-      price: 23321,
-      quantity: 213,
-      date: 2323,
-      fees: 324,
-      notes: 'sdfdfs',
-    },
-    {
-      price: 23321,
-      quantity: 213,
-      date: 2323,
-      fees: 324,
-      notes: 'sdfdfs',
-    },
-    {
-      price: 23321,
-      quantity: 213,
-      date: 2323,
-      fees: 324,
-      notes: 'sdfdfs',
-    },
-  ];
+import type { Transaction } from '@/types/Transaction';
+
+export const TransactionsTable = ({
+  transactions,
+}: {
+  transactions: Transaction[];
+}) => {
   return (
     <table className="table-fixed text-left">
       <thead>
@@ -40,10 +20,11 @@ export const TransactionsTable = () => {
       </thead>
       <tbody>
         {transactions?.map((transaction, index) => (
-          <tr key={transaction.name} className="border-t">
+          <tr key={index} className="border-t">
             <td>{index}</td>
             <td>{transaction.price}</td>
             <td>{transaction.quantity}</td>
+            <td>-</td>
             <td>{transaction.date}</td>
             <td>{transaction.fees}</td>
             <td>{transaction.notes}</td>

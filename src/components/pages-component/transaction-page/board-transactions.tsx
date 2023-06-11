@@ -1,12 +1,16 @@
+import type { Coin } from '@/types/Coin';
+
 import { AddTransactionForm, ButtonLeftSideModal } from '../home-page';
 import { TransactionsTable } from './table-transactions';
 
-export const BoardTransactions = ({ symbol }: { symbol: any }) => {
+export const BoardTransactions = ({ coin }: { coin: Coin }) => {
   return (
     <div className="flex min-h-screen flex-col rounded-md border-[1px] border-gray-400 p-4">
       <div className="mb-10 flex justify-between">
         <div className="flex items-center">
-          <h3 className="mr-2 font-bold"> {symbol} Transactions</h3>
+          <h3 className="mr-2 font-bold">
+            {coin.symbol.toUpperCase()} Transactions
+          </h3>
           {/* add icon here to modify portfolio eg: rename, delete, ... */}
           <div className=" cursor-pointer ">+</div>
         </div>
@@ -41,7 +45,7 @@ export const BoardTransactions = ({ symbol }: { symbol: any }) => {
         </div>
       </div>
 
-      <TransactionsTable />
+      <TransactionsTable transactions={coin.transactions} />
     </div>
   );
 };
