@@ -1,9 +1,16 @@
 import type { Coin } from '@/types/Coin';
+import type { Transaction } from '@/types/Transaction';
 
 import { AddTransactionForm, ButtonLeftSideModal } from '../home-page';
 import { TransactionsTable } from './table-transactions';
 
-export const BoardTransactions = ({ coin }: { coin: Coin }) => {
+export const BoardTransactions = ({
+  coin,
+  transactionAddHandle,
+}: {
+  coin: Coin;
+  transactionAddHandle: (coin: Coin, transaction: Transaction) => void;
+}) => {
   return (
     <div className="flex min-h-screen flex-col rounded-md border-[1px] border-gray-400 p-4">
       <div className="mb-10 flex justify-between">
@@ -17,7 +24,12 @@ export const BoardTransactions = ({ coin }: { coin: Coin }) => {
         <ButtonLeftSideModal
           tailwindStyle="rounded-md bg-green-500 px-4 py-2 text-white "
           text="Add Transaction"
-          modalContent={<AddTransactionForm />}
+          modalContent={
+            <AddTransactionForm
+              transactionAdd={transactionAddHandle}
+              coin={coin}
+            />
+          }
         />
       </div>
 

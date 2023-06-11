@@ -6,11 +6,14 @@ import { Main } from '@/templates/Main';
 import { DataContext } from '@/utils/data-context';
 
 const TransactionPage = ({ query }: { query: any }) => {
-  const { data } = useContext(DataContext);
+  const { data, transactionAddHandle } = useContext(DataContext);
   const coin = data.find((item) => item.symbol === query.slug);
   return (
     <Main meta={<Meta title="Transaction" description="Lorem ipsum" />}>
-      <BoardTransactions coin={coin} />
+      <BoardTransactions
+        coin={coin}
+        transactionAddHandle={transactionAddHandle}
+      />
     </Main>
   );
 };

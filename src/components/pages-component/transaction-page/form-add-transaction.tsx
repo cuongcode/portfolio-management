@@ -1,13 +1,31 @@
 import { useState } from 'react';
 
-export const AddTransactionForm = () => {
-  const [transaction, setTransaction] = useState({
-    price: null,
-    quantity: null,
-    date: null,
-    fees: null,
-    notes: null,
-  });
+import type { Coin } from '@/types/Coin';
+import type { Transaction } from '@/types/Transaction';
+
+const emptyTransaction = {
+  price: '',
+  quantity: '',
+  date: '',
+  fees: '',
+  notes: '',
+};
+
+export const AddTransactionForm = ({
+  transactionAdd,
+  coin,
+}: {
+  transactionAdd: (coin: Coin, transaction: Transaction) => void;
+  coin: Coin;
+}) => {
+  const [transaction, setTransaction] = useState<Transaction>(emptyTransaction);
+
+  const isValid = transaction.price && transaction.quantity;
+
+  const _transactionAdd = () => {
+    transactionAdd(coin, transaction);
+    setTransaction(emptyTransaction);
+  };
 
   const inputStyle = 'mb-4 rounded-md border-2 p-2';
   return (
@@ -20,7 +38,10 @@ export const AddTransactionForm = () => {
           type="text"
           placeholder="USD"
           onChange={(e) => {
-            setTransaction({ ...transaction, price: e.target.value });
+            setTransaction((current) => ({
+              ...current,
+              price: e.target.value,
+            }));
           }}
         />
 
@@ -30,7 +51,10 @@ export const AddTransactionForm = () => {
           type="text"
           placeholder="1"
           onChange={(e) => {
-            setTransaction({ ...transaction, quantity: e.target.value });
+            setTransaction((current) => ({
+              ...current,
+              quantity: e.target.value,
+            }));
           }}
         />
 
@@ -44,7 +68,10 @@ export const AddTransactionForm = () => {
           type="text"
           placeholder="datetime"
           onChange={(e) => {
-            setTransaction({ ...transaction, date: e.target.value });
+            setTransaction((current) => ({
+              ...current,
+              date: e.target.value,
+            }));
           }}
         />
 
@@ -54,7 +81,10 @@ export const AddTransactionForm = () => {
           type="text"
           placeholder="USD"
           onChange={(e) => {
-            setTransaction({ ...transaction, fee: e.target.value });
+            setTransaction((current) => ({
+              ...current,
+              fees: e.target.value,
+            }));
           }}
         />
 
@@ -64,7 +94,10 @@ export const AddTransactionForm = () => {
           type="text"
           placeholder="Optional"
           onChange={(e) => {
-            setTransaction({ ...transaction, notes: e.target.value });
+            setTransaction((current) => ({
+              ...current,
+              notes: e.target.value,
+            }));
           }}
         />
 
@@ -76,7 +109,12 @@ export const AddTransactionForm = () => {
           >
             Cancel
           </button>
-          <button type="button" className="grow rounded-md bg-green-500 p-2">
+          <button
+            onClick={_transactionAdd}
+            type="submit"
+            className="grow rounded-md bg-green-500 p-2"
+            disabled={!isValid}
+          >
             Submit
           </button>
         </div>

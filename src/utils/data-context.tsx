@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import { ApiInstance } from '@/services/api';
 import { handleError } from '@/services/apiHelper';
 import type { Coin } from '@/types/Coin';
+import type { Transaction } from '@/types/Transaction';
 
 import { staticData } from './static-data';
 
@@ -46,8 +47,27 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
     Router.push(`/transactions/${coin.symbol}`);
   };
 
+  const transactionAddHandle = (coin: Coin, transaction: Transaction) => {
+    const updatedTransactions = [...coin.transactions, transaction];
+    const updatedCoin = { ...coin, transactions: updatedTransactions };
+    setData((current) => {
+      return current.map((item) => {
+        if (item.id === updatedCoin.id) {
+          return updatedCoin;
+        }
+        return item;
+      });
+    });
+  };
+
   const DataContextProviderValue = useMemo(
-    () => ({ data, coinAddHandle, coinDeleteHandle, coinTransactionsHandle }),
+    () => ({
+      data,
+      coinAddHandle,
+      coinDeleteHandle,
+      coinTransactionsHandle,
+      transactionAddHandle,
+    }),
     [data, coinAddHandle, coinDeleteHandle, coinTransactionsHandle]
   );
 
