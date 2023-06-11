@@ -1,12 +1,13 @@
 import { debounce } from 'lodash';
 import { useCallback, useState } from 'react';
 
+import type { Coin } from '@/types/Coin';
 import coinList from '@/utils/CoinGeckoCoinsList.json';
 
 export const AddNewCoinForm = ({
   onFormSubmit,
 }: {
-  onFormSubmit: (coin: string) => void;
+  onFormSubmit: (coin: Coin) => void;
 }) => {
   const [symbol, setSymbol] = useState('');
   const [autocompleteList, setAutocompleteList] = useState<any[]>([]);

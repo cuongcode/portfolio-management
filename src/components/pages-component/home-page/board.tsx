@@ -1,57 +1,14 @@
-import Router from 'next/router';
-import { useState } from 'react';
-import toast from 'react-hot-toast';
+import { useContext } from 'react';
 
-import { ApiInstance } from '@/services/api';
-import { handleError } from '@/services/apiHelper';
+import { DataContext } from '@/utils/data-context';
 
 import { ButtonCenterModal } from './button-center-modal';
 import { AddNewCoinForm } from './form-add-new-coin';
 import { CoinsTable } from './table-coins';
 
 export const Board = () => {
-  const [coins, setCoins] = useState<any[]>([]);
-
-  const coinAddHanlde = async (coin: string) => {
-    // https://pro-api.coingecko.com/api/v3/
-
-    const body = {
-      ids: coin?.id,
-      vs_currencies: 'usd',
-      precision: '3',
-    };
-
-    const res = await ApiInstance.getTokenPrice(body);
-    const { result, error } = handleError(res);
-    if (error) {
-      toast.error('Something wrong in fetch coin');
-      return;
-    }
-    if (coin?.id) {
-      const coinPrice = result?.[coin?.id].usd;
-      // const newCoin = {
-      //   symbol: coin?.symbol,
-      //   name: coin?.name,
-      //   price: coinPrice,
-      // };
-      const newCoin = { ...coin, price: coinPrice, transactions: [] };
-
-      setCoins((current) => [...current, newCoin]);
-    }
-  };
-
-  const coinDeleteHandle = (deleteCoin: any) => {
-    setCoins((current) => {
-      const newCoins = current.filter(
-        (coin) => coin.symbol !== deleteCoin.symbol
-      );
-      return newCoins;
-    });
-  };
-
-  const coinTransactionsHandle = (coin: any) => {
-    Router.push(`/transactions/${coin.symbol}`);
-  };
+  const { data, coinAddHandle, coinDeleteHandle, coinTransactionsHandle } =
+    useContext(DataContext);
 
   return (
     <div className="flex min-h-screen flex-col rounded-md border-[1px] border-gray-400 p-4">
@@ -73,7 +30,7 @@ export const Board = () => {
             duration-300
             hover:-translate-y-1"
           text="Add New Coin"
-          modalContent={<AddNewCoinForm onFormSubmit={coinAddHanlde} />}
+          modalContent={<AddNewCoinForm onFormSubmit={coinAddHandle} />}
         />
       </div>
 
@@ -90,7 +47,7 @@ export const Board = () => {
       </div>
 
       <CoinsTable
-        coins={coins}
+        coins={data}
         coinDelete={coinDeleteHandle}
         coinTransactions={coinTransactionsHandle}
       />

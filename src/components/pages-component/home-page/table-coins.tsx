@@ -1,5 +1,7 @@
 import { ChevronRightIcon } from '@heroicons/react/outline';
 
+import type { Coin } from '@/types/Coin';
+
 import { AddTransactionForm } from '../transaction-page/form-add-transaction';
 import { ButtonLeftSideModal } from './button-left-side-modal';
 
@@ -8,9 +10,9 @@ export const CoinsTable = ({
   coinDelete,
   coinTransactions,
 }: {
-  coins: any;
-  coinDelete: (coin: any) => void;
-  coinTransactions: (coin: any) => void;
+  coins: Coin[];
+  coinDelete: (coin: Coin) => void;
+  coinTransactions: (coin: Coin) => void;
 }) => {
   return (
     <>
