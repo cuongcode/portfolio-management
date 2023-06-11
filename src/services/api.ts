@@ -2,7 +2,7 @@ import apisauce from 'apisauce';
 import axios from 'axios';
 
 const axiosApiCoingecko = axios.create({
-  baseURL: 'https://api.coingecko.com/api',
+  baseURL: 'https://api.coingecko.com/api/v3/',
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
@@ -29,8 +29,7 @@ const create = () => {
   // API function
 
   // TEST
-  const getTokenPrice = (body: any) =>
-    apiCoingecko.get('/v3/simple/price', body);
+  const getTokenPrice = (body: any) => apiCoingecko.get('simple/price', body);
 
   return {
     getTokenPrice,
