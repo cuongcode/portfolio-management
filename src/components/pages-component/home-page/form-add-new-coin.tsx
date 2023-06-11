@@ -6,7 +6,7 @@ import coinList from '@/utils/CoinGeckoCoinsList.json';
 export const AddNewCoinForm = ({
   onFormSubmit,
 }: {
-  onFormSubmit: (token: string) => void;
+  onFormSubmit: (coin: string) => void;
 }) => {
   const [symbol, setSymbol] = useState('');
   const [autocompleteList, setAutocompleteList] = useState<any[]>([]);
