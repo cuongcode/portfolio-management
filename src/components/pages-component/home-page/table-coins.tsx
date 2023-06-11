@@ -2,9 +2,6 @@ import { ChevronRightIcon } from '@heroicons/react/outline';
 
 import type { Coin } from '@/types/Coin';
 
-import { AddTransactionForm } from '../transaction-page/form-add-transaction';
-import { ButtonLeftSideModal } from './button-left-side-modal';
-
 export const CoinsTable = ({
   coins,
   coinDelete,
@@ -38,12 +35,6 @@ export const CoinsTable = ({
               <td>$1000 (10%) 0.1BTC</td>
               <td>$20.00 4%</td>
               <td className="flex flex-col items-center">
-                {/* <button>+</button> */}
-                <ButtonLeftSideModal
-                  text="+"
-                  tailwindStyle=""
-                  modalContent={<AddTransactionForm />}
-                />
                 <button
                   type="button"
                   className="w-fit"

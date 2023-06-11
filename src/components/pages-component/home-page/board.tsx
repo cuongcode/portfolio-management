@@ -4,6 +4,7 @@ import { DataContext } from '@/utils/data-context';
 
 import { ButtonCenterModal } from './button-center-modal';
 import { AddNewCoinForm } from './form-add-new-coin';
+import Header from './header';
 import { CoinsTable } from './table-coins';
 
 export const Board = () => {
@@ -12,11 +13,19 @@ export const Board = () => {
 
   return (
     <div className="flex min-h-screen flex-col rounded-md border-[1px] border-gray-400 p-4">
+      <Header />
+
+      {/* show total cards */}
       <div className="mb-10 flex justify-between">
-        <div className="flex items-center">
-          <h3 className="mr-2 font-bold">My Portfolio</h3>
-          {/* add icon here to modify portfolio eg: rename, delete, ... */}
-          <div className=" cursor-pointer ">+</div>
+        <div className="flex">
+          <div className=" mr-6 p-4 shadow-md">
+            <div>$5000.00</div>
+            <div>Total Balance</div>
+          </div>
+          <div className=" mr-6 p-4 shadow-md">
+            <div>$1000.00</div>
+            <div>Total Profit Loss</div>
+          </div>
         </div>
         <ButtonCenterModal
           windtailStyle="
@@ -32,18 +41,6 @@ export const Board = () => {
           text="Add New Coin"
           modalContent={<AddNewCoinForm onFormSubmit={coinAddHandle} />}
         />
-      </div>
-
-      {/* show total cards */}
-      <div className="mb-10 flex">
-        <div className=" mr-6 p-4 shadow-md">
-          <div>$5000.00</div>
-          <div>Total Balance</div>
-        </div>
-        <div className=" mr-6 p-4 shadow-md">
-          <div>$1000.00</div>
-          <div>Total Profit Loss</div>
-        </div>
       </div>
 
       <CoinsTable
