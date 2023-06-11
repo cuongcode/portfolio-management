@@ -19,9 +19,9 @@ export const TransactionsTable = ({
         </tr>
       </thead>
       <tbody>
-        {transactions?.map((transaction, index) => (
-          <tr key={index} className="border-t">
-            <td>{index}</td>
+        {transactions?.map((transaction) => (
+          <tr key={transaction.id} className="border-t">
+            <td>{transaction.id}</td>
             <td>{transaction.price}</td>
             <td>{transaction.quantity}</td>
             <td>-</td>

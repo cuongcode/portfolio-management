@@ -4,6 +4,7 @@ import type { Coin } from '@/types/Coin';
 import type { Transaction } from '@/types/Transaction';
 
 const emptyTransaction = {
+  id: '',
   price: '',
   quantity: '',
   date: '',
@@ -32,6 +33,19 @@ export const AddTransactionForm = ({
     <>
       <h2 className="mb-4 text-3xl">Add transaction</h2>
       <div className="flex flex-col text-base">
+        <div>ID</div>
+        <input
+          className={inputStyle}
+          type="text"
+          placeholder={(coin.transactions.length + 1).toString()}
+          onChange={(e) => {
+            setTransaction((current) => ({
+              ...current,
+              id: e.target.value,
+            }));
+          }}
+        />
+
         <div>Price Per Coin</div>
         <input
           className={inputStyle}
