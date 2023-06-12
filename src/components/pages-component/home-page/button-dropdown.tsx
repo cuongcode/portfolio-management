@@ -41,7 +41,7 @@ const DropDown = ({ isOpen }: { isOpen: boolean }) => {
     <div
       className={`absolute -right-28 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-300 rounded-md bg-white px-2 shadow-lg ring-1 ring-black/5 
       focus:outline-none ${
-        !isOpen ? ' scale-95 opacity-0' : 'scale-100 opacity-100'
+        !isOpen ? 'opacity-0' : 'opacity-100'
       } transition duration-100 ease-in`}
       role="menu"
     >
