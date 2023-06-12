@@ -38,9 +38,10 @@ export const Board = () => {
             hover:scale-110
             duration-300
             hover:-translate-y-1"
-          text="Add New Coin"
           modalContent={<AddNewCoinForm onFormSubmit={coinAddHandle} />}
-        />
+        >
+          Add New Coin
+        </ButtonCenterModal>
       </div>
 
       <CoinsTable
