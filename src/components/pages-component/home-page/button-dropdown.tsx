@@ -48,7 +48,7 @@ const DropDown = ({ isOpen }: { isOpen: boolean }) => {
       <div className="py-1" role="none">
         {/* Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700"  */}
         <div
-          className="block p-2 text-sm text-gray-700  hover:bg-gray-100 hover:text-gray-900"
+          className="block py-2 text-sm text-gray-700  hover:bg-gray-100 hover:text-gray-900"
           role="menuitem"
           id="menu-item-0"
         >
