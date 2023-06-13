@@ -3,15 +3,6 @@ import { useState } from 'react';
 import type { Coin } from '@/types/Coin';
 import type { Transaction } from '@/types/Transaction';
 
-const emptyTransaction = {
-  id: '',
-  price: '',
-  quantity: '',
-  date: '',
-  fees: '',
-  notes: '',
-};
-
 export const AddTransactionForm = ({
   transactionAdd,
   coin,
@@ -19,93 +10,94 @@ export const AddTransactionForm = ({
   transactionAdd: (coin: Coin, transaction: Transaction) => void;
   coin: Coin;
 }) => {
-  const [transaction, setTransaction] = useState<any>({});
+  const [form, setForm] = useState<any>({});
+  const [errors, setErrors] = useState<any>({});
 
-  const isValid = transaction.price && transaction.quantity;
+  const _validateForm = () => {
+    const errorObject: any = {};
+    if (!form.price || form.price <= 0) {
+      errorObject.price = 'Pls input price';
+    }
 
-  const _transactionAdd = () => {
-    setTransaction((current) => ({
-      ...current,
-      id: coin.transactions.length + 1,
-    }));
-    transactionAdd(coin, transaction);
-    setTransaction({});
+    setErrors(errorObject);
+    if (Object.keys(errorObject).length > 0) return false;
+    return true;
   };
 
-  const inputStyle = 'mb-4 rounded-md border-2 p-2';
+  const _addTransaction = () => {
+    if (!_validateForm()) return;
+    const body = {
+      price: Number(form.price),
+      quantity: Number(form.quantity),
+      date: form.date,
+      fees: Number(form.fees),
+      notes: form.notes,
+      id: coin.transactions.length + 1,
+    };
+    transactionAdd(coin, body);
+    setForm({});
+    setErrors({});
+  };
+
+  const _onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    setForm((current: any) => ({ ...current, [name]: value }));
+    setErrors((current: any) => ({ ...current, [name]: '' }));
+  };
+
   return (
     <>
       <h2 className="mb-4 text-3xl">Add transaction</h2>
       <div className="flex flex-col text-base">
-        <div>Price Per Coin</div>
-        <input
-          className={inputStyle}
+        <TextInput
+          title="Price Per Coin"
           type="number"
+          name="price"
           placeholder="USD"
-          value={transaction.price}
-          onChange={(e) => {
-            setTransaction((current) => ({
-              ...current,
-              price: Number(e.target.value),
-            }));
-          }}
+          value={form.price}
+          error={errors.price}
+          onChange={_onChange}
         />
-
-        <div>Quantity</div>
-        <input
-          className={inputStyle}
+        <TextInput
+          title="Quantity"
           type="number"
+          name="quantity"
           placeholder="1"
-          value={transaction.quantity}
-          onChange={(e) => {
-            setTransaction((current) => ({
-              ...current,
-              quantity: Number(e.target.value),
-            }));
-          }}
+          value={form.quantity}
+          error={errors.quantity}
+          onChange={_onChange}
         />
-
-        <div>Total Spent</div>
-        <input className={inputStyle} type="text" placeholder="USD" />
-
-        {/* how to create a calender */}
-        <div>Date</div>
-        <input
-          className={inputStyle}
+        <TextInput
+          title="Total Spent"
+          type="text"
+          name="quantity"
+          placeholder="USD"
+        />
+        <TextInput
+          title="Date"
           type="datetime-local"
-          onChange={(e) => {
-            setTransaction((current) => ({
-              ...current,
-              date: e.target.value,
-            }));
-          }}
+          name="date"
+          value={form.date}
+          error={errors.date}
+          onChange={_onChange}
         />
-
-        <div>Fees (Optional)</div>
-        <input
-          className={inputStyle}
+        <TextInput
+          title="Fees (Optional)"
           type="number"
           placeholder="USD"
-          onChange={(e) => {
-            setTransaction((current) => ({
-              ...current,
-              fees: Number(e.target.value),
-            }));
-          }}
+          name="fees"
+          value={form.fees}
+          error={errors.fees}
+          onChange={_onChange}
         />
-
-        <div>Notes (Optional)</div>
-        <input
-          className={inputStyle}
+        <TextInput
+          title="Notes (Optional)"
           type="text"
           placeholder="Optional"
-          value={transaction.notes}
-          onChange={(e) => {
-            setTransaction((current) => ({
-              ...current,
-              notes: e.target.value,
-            }));
-          }}
+          name="notes"
+          value={form.notes}
+          error={errors.notes}
+          onChange={_onChange}
         />
 
         <div className="flex justify-between space-x-2">
@@ -117,10 +109,9 @@ export const AddTransactionForm = ({
             Cancel
           </button>
           <button
-            onClick={_transactionAdd}
+            onClick={_addTransaction}
             type="submit"
             className="grow rounded-md bg-green-500 p-2"
-            disabled={!isValid}
           >
             Submit
           </button>
@@ -129,3 +120,24 @@ export const AddTransactionForm = ({
     </>
   );
 };
+
+interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  title: string;
+  error?: string;
+}
+const TextInput = ({ title, error, ...rest }: TextInputProps) => {
+  return (
+    <div className="mb-4 flex flex-col">
+      <div className="font-bold">{title}</div>
+      <input
+        className="rounded-md border-2 p-2"
+        type="number"
+        placeholder="1"
+        {...rest}
+      />
+      <div className="text-red-500">{error}</div>
+    </div>
+  );
+};
+
+// ADVANCDE FORM : useCallback , useMemo
