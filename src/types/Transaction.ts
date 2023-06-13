@@ -1,8 +1,8 @@
 export interface Transaction {
-  id: string;
-  price: string;
-  quantity: string;
-  date: string;
-  fees: string;
+  id: number;
+  price: number;
+  quantity: number;
+  date: Date;
+  fees: number;
   notes: string;
 }

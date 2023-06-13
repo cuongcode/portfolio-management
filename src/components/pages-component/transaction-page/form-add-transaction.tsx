@@ -19,13 +19,17 @@ export const AddTransactionForm = ({
   transactionAdd: (coin: Coin, transaction: Transaction) => void;
   coin: Coin;
 }) => {
-  const [transaction, setTransaction] = useState<Transaction>(emptyTransaction);
+  const [transaction, setTransaction] = useState<any>({});
 
   const isValid = transaction.price && transaction.quantity;
 
   const _transactionAdd = () => {
+    setTransaction((current) => ({
+      ...current,
+      id: coin.transactions.length + 1,
+    }));
     transactionAdd(coin, transaction);
-    setTransaction(emptyTransaction);
+    setTransaction({});
   };
 
   const inputStyle = 'mb-4 rounded-md border-2 p-2';
@@ -33,28 +37,16 @@ export const AddTransactionForm = ({
     <>
       <h2 className="mb-4 text-3xl">Add transaction</h2>
       <div className="flex flex-col text-base">
-        <div>ID</div>
-        <input
-          className={inputStyle}
-          type="text"
-          placeholder={(coin.transactions.length + 1).toString()}
-          onChange={(e) => {
-            setTransaction((current) => ({
-              ...current,
-              id: e.target.value,
-            }));
-          }}
-        />
-
         <div>Price Per Coin</div>
         <input
           className={inputStyle}
-          type="text"
+          type="number"
           placeholder="USD"
+          value={transaction.price}
           onChange={(e) => {
             setTransaction((current) => ({
               ...current,
-              price: e.target.value,
+              price: Number(e.target.value),
             }));
           }}
         />
@@ -62,12 +54,13 @@ export const AddTransactionForm = ({
         <div>Quantity</div>
         <input
           className={inputStyle}
-          type="text"
+          type="number"
           placeholder="1"
+          value={transaction.quantity}
           onChange={(e) => {
             setTransaction((current) => ({
               ...current,
-              quantity: e.target.value,
+              quantity: Number(e.target.value),
             }));
           }}
         />
@@ -79,8 +72,7 @@ export const AddTransactionForm = ({
         <div>Date</div>
         <input
           className={inputStyle}
-          type="text"
-          placeholder="datetime"
+          type="datetime-local"
           onChange={(e) => {
             setTransaction((current) => ({
               ...current,
@@ -89,24 +81,25 @@ export const AddTransactionForm = ({
           }}
         />
 
-        <div>Fees</div>
+        <div>Fees (Optional)</div>
         <input
           className={inputStyle}
-          type="text"
+          type="number"
           placeholder="USD"
           onChange={(e) => {
             setTransaction((current) => ({
               ...current,
-              fees: e.target.value,
+              fees: Number(e.target.value),
             }));
           }}
         />
 
-        <div>Notes</div>
+        <div>Notes (Optional)</div>
         <input
           className={inputStyle}
           type="text"
           placeholder="Optional"
+          value={transaction.notes}
           onChange={(e) => {
             setTransaction((current) => ({
               ...current,

@@ -22,11 +22,11 @@ export const TransactionsTable = ({
         {transactions?.map((transaction) => (
           <tr key={transaction.id} className="border-t">
             <td>{transaction.id}</td>
-            <td>{transaction.price}</td>
+            <td>{transaction.price} $</td>
             <td>{transaction.quantity}</td>
-            <td>-</td>
+            <td>{(transaction.price * transaction.quantity).toFixed(3)} $</td>
             <td>{transaction.date}</td>
-            <td>{transaction.fees}</td>
+            <td>{transaction.fees} $</td>
             <td>{transaction.notes}</td>
             <td className="flex flex-col items-center">
               <button type="button" className="w-fit">
