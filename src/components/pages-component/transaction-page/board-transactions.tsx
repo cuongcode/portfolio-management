@@ -1,7 +1,7 @@
 import type { Coin } from '@/types/Coin';
 import type { Transaction } from '@/types/Transaction';
 
-import { AddTransactionForm, ButtonLeftSideModal } from '../home-page';
+import { AddTransactionForm, ButtonCenterModal } from '../home-page';
 import { TransactionsTable } from './table-transactions';
 
 export const BoardTransactions = ({
@@ -29,16 +29,18 @@ export const BoardTransactions = ({
           {/* add icon here to modify portfolio eg: rename, delete, ... */}
           <div className=" cursor-pointer ">+</div>
         </div>
-        <ButtonLeftSideModal
+        <ButtonCenterModal
           tailwindStyle="rounded-md bg-green-500 px-4 py-2 text-white "
-          text="Add Transaction"
           modalContent={
             <AddTransactionForm
               transactionAdd={transactionAddHandle}
               coin={coin}
+              holdings={holdings}
             />
           }
-        />
+        >
+          Add Transaction
+        </ButtonCenterModal>
       </div>
 
       {/* show total cards */}
