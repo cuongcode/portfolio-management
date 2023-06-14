@@ -28,7 +28,7 @@ export const Board = () => {
           </div>
         </div>
         <ButtonCenterModal
-          windtailStyle="
+          tailwindStyle="
             rounded-md
             bg-green-500
             px-4 py-2

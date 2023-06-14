@@ -1,6 +1,9 @@
-import { ChevronRightIcon } from '@heroicons/react/outline';
+import { ChevronRightIcon, TrashIcon } from '@heroicons/react/outline';
 
 import type { Coin } from '@/types/Coin';
+
+import { ButtonCenterModal } from './button-center-modal';
+import { DeleteCoinForm } from './form-delete-coin';
 
 export const CoinsTable = ({
   coins,
@@ -29,26 +32,41 @@ export const CoinsTable = ({
           {coins.map((coin, index) => (
             <tr key={coin.name} className="border-t">
               <td>{index}</td>
-              <td>{coin.symbol}</td>
+              <td>
+                <span className="mr-2 font-bold">
+                  {coin.name.toUpperCase()}
+                </span>
+                <span className="text-xs font-light">
+                  {coin.symbol.toLocaleUpperCase()}
+                </span>
+              </td>
               <td>{coin.price}</td>
               <td>24,120.81</td>
               <td>$1000 (10%) 0.1BTC</td>
               <td>$20.00 4%</td>
-              <td className="flex flex-col items-center">
+              <td className="flex flex-col items-center py-1">
                 <button
+                  type="button"
+                  className="mb-1 w-fit"
+                  onClick={() => coinTransactions(coin)}
+                >
+                  <ChevronRightIcon className="w-4" />
+                </button>
+                {/* <button
                   type="button"
                   className="w-fit"
                   onClick={() => coinDelete(coin)}
                 >
-                  -
-                </button>
-                <button
-                  type="button"
-                  className="w-fit"
-                  onClick={() => coinTransactions(coin)}
+                  <TrashIcon className="w-4" />
+                </button> */}
+                <ButtonCenterModal
+                  tailwindStyle="w-fit"
+                  modalContent={
+                    <DeleteCoinForm coin={coin} onDeleteCoin={coinDelete} />
+                  }
                 >
-                  <ChevronRightIcon className="w-5" />
-                </button>
+                  <TrashIcon className="w-4" />
+                </ButtonCenterModal>
               </td>
             </tr>
           ))}
