@@ -1,6 +1,6 @@
 import Router from 'next/router';
 import type { ReactNode } from 'react';
-import React, { createContext, useMemo, useState } from 'react';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { ApiInstance } from '@/services/api';
@@ -13,11 +13,39 @@ import { staticData } from './static-data';
 export const DataContext = createContext<Coin[]>([]);
 
 export const DataContextProvider = ({ children }: { children: ReactNode }) => {
-  const [data, setData] = useState<Coin[]>(staticData);
+  const [data, setData] = useState<any>(staticData);
+
+  useEffect(() => {
+    data.map(async (item: any) => {
+      const body = {
+        ids: item?.id,
+        vs_currencies: 'usd',
+        precision: '3',
+      };
+      const res = await ApiInstance.getTokenPrice(body);
+      const { result, error } = handleError(res);
+      if (error) {
+        toast.error('Something wrong in fetch coin');
+        return;
+      }
+      if (item?.id) {
+        const coinPrice = result?.[item.id]?.usd;
+        const updateCoin = { ...item, price: coinPrice };
+        setData((current: any) =>
+          current.map((coin: any) => {
+            if (coin?.id === updateCoin?.id) {
+              return updateCoin;
+            }
+            return coin;
+          })
+        );
+      }
+    });
+  }, []);
 
   const coinAddHandle = async (coin: Coin) => {
     const body = {
-      ids: coin.id,
+      ids: coin?.id,
       vs_currencies: 'usd',
       precision: '3',
     };
@@ -27,10 +55,10 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
       toast.error('Something wrong in fetch coin');
       return;
     }
-    if (coin.id) {
+    if (coin?.id) {
       const coinPrice = result?.[coin.id].usd;
       const newCoin = { ...coin, price: coinPrice, transactions: [] };
-      setData((current) => [...current, newCoin]);
+      setData((current: any) => [...current, newCoin]);
     }
   };
 

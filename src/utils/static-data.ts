@@ -1,9 +1,9 @@
 export const staticData = [
   {
-    id: 1,
+    id: 'bitcoin',
     symbol: 'btc',
-    name: 'bitcoin',
-    price: '26123',
+    name: 'Bitcoin',
+    price: '',
     transactions: [
       {
         id: '1',
@@ -11,7 +11,7 @@ export const staticData = [
         quantity: 0.01,
         date: '12/5/2023',
         fees: '0.15',
-        notes: 'some notes',
+        notes: 'Notes',
       },
       {
         id: '2',
@@ -27,7 +27,7 @@ export const staticData = [
         quantity: 0.123,
         date: '12/5/2019',
         fees: '0.34',
-        notes: 'some notes',
+        notes: 'Notes',
       },
       {
         id: '4',
@@ -35,7 +35,47 @@ export const staticData = [
         quantity: 0.465,
         date: '12/6/2023',
         fees: '0.15',
-        notes: 'some notes',
+        notes: 'Notes',
+      },
+    ],
+  },
+  {
+    id: 'ethereum',
+    symbol: 'eth',
+    name: 'Ethereum',
+    price: '',
+    transactions: [
+      {
+        id: '1',
+        price: 1340,
+        quantity: 0.01,
+        date: '12/5/2023',
+        fees: '0.15',
+        notes: 'Notes',
+      },
+      {
+        id: '2',
+        price: 1445,
+        quantity: 0.022,
+        date: '12/5/2023',
+        fees: '0.78',
+        notes: 'Notes',
+      },
+      {
+        id: '3',
+        price: 1425,
+        quantity: 0.123,
+        date: '12/5/2019',
+        fees: '0.34',
+        notes: 'Notes',
+      },
+      {
+        id: '4',
+        price: 1500,
+        quantity: 0.465,
+        date: '12/6/2023',
+        fees: '0.15',
+        notes: 'Notes',
       },
     ],
   },

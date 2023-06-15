@@ -34,7 +34,8 @@ export const CoinsTable = ({
               <td>{index}</td>
               <td>
                 <span className="mr-2 font-bold">
-                  {coin.name.toUpperCase()}
+                  {/* {coin.name.charAt(0).toUpperCase() + coin.name.slice(1)} */}
+                  {coin?.name}
                 </span>
                 <span className="text-xs font-light">
                   {coin.symbol.toLocaleUpperCase()}
