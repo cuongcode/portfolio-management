@@ -23,7 +23,6 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
     if (item?.transactions.length === 0) {
       return 0;
     }
-
     return _sum(item?.transactions.map((trans: any) => trans.quantity));
   });
 
