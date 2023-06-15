@@ -15,6 +15,20 @@ export const DataContext = createContext<Coin[]>([]);
 export const DataContextProvider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState<any>(staticData);
 
+  const _sum = (array: []) => {
+    return array.reduce((sum, i) => sum + i, 0);
+  };
+
+  const holdingsList = data.map((item: any) => {
+    if (item?.transactions.length === 0) {
+      return 0;
+    }
+
+    return _sum(item?.transactions.map((trans: any) => trans.quantity));
+  });
+
+  // const totalCostList = data.map()
+
   useEffect(() => {
     data.map(async (item: any) => {
       const body = {
@@ -91,12 +105,19 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
   const DataContextProviderValue = useMemo(
     () => ({
       data,
+      holdingsList,
       coinAddHandle,
       coinDeleteHandle,
       coinTransactionsHandle,
       transactionAddHandle,
     }),
-    [data, coinAddHandle, coinDeleteHandle, coinTransactionsHandle]
+    [
+      data,
+      holdingsList,
+      coinAddHandle,
+      coinDeleteHandle,
+      coinTransactionsHandle,
+    ]
   );
 
   return (

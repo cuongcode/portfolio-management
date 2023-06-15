@@ -6,14 +6,16 @@ import { TransactionsTable } from './table-transactions';
 
 export const BoardTransactions = ({
   coin,
+  holdings,
   transactionAddHandle,
 }: {
   coin: Coin;
+  holdings: number;
   transactionAddHandle: (coin: Coin, transaction: Transaction) => void;
 }) => {
-  const holdings = coin.transactions
-    .map((item) => item.quantity)
-    .reduce((sum, i) => sum + i, 0);
+  // const holdings = coin.transactions
+  //   .map((item) => item.quantity)
+  //   .reduce((sum, i) => sum + i, 0);
 
   const totalCost = coin.transactions
     .map((item) => item.quantity * item.price)
