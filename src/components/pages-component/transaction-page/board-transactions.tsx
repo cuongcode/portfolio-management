@@ -9,12 +9,16 @@ export const BoardTransactions = ({
   holdings,
   totalCost,
   avgNetCost,
+  holdingsValue,
+  PNL,
   transactionAddHandle,
 }: {
   coin: Coin;
   holdings: number;
   totalCost: number;
   avgNetCost: number;
+  holdingsValue: number;
+  PNL: number;
   transactionAddHandle: (coin: Coin, transaction: Transaction) => void;
 }) => {
   return (
@@ -44,7 +48,7 @@ export const BoardTransactions = ({
       {/* show total cards */}
       <div className="mb-10 flex">
         <div className=" mr-6 p-4 shadow-md">
-          <div>$5,000.00</div>
+          <div>${holdingsValue.toFixed(3)}</div>
           <div>Holdings Value</div>
         </div>
         <div className=" mr-6 p-4 shadow-md">
@@ -60,7 +64,7 @@ export const BoardTransactions = ({
           <div>Average Net Cost</div>
         </div>
         <div className=" mr-6 p-4 shadow-md">
-          <div>$50,00</div>
+          <div>${PNL.toFixed(3)}</div>
           <div>Profit / Loss</div>
         </div>
       </div>

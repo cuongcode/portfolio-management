@@ -16,6 +16,8 @@ export const DataContext = createContext<Coin[]>([]);
 export const DataContextProvider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState<any>(staticData);
 
+  const currentPriceList = data.map((item: any) => item.price);
+
   const holdingsList = data.map((item: any) => {
     if (item?.transactions.length === 0) {
       return 0;
@@ -33,6 +35,14 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
   });
 
   const avgNetCostList = _zip(totalCostList, holdingsList, (a, b) => a / b);
+
+  const holdingsValueList = _zip(
+    currentPriceList,
+    holdingsList,
+    (a, b) => a * b
+  );
+
+  const PNL_List = _zip(holdingsValueList, totalCostList, (a, b) => a - b);
 
   useEffect(() => {
     data.map(async (item: any) => {
@@ -113,6 +123,8 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
       holdingsList,
       totalCostList,
       avgNetCostList,
+      holdingsValueList,
+      PNL_List,
       coinAddHandle,
       coinDeleteHandle,
       coinTransactionsHandle,
@@ -123,6 +135,8 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
       holdingsList,
       totalCostList,
       avgNetCostList,
+      holdingsValueList,
+      PNL_List,
       coinAddHandle,
       coinDeleteHandle,
       coinTransactionsHandle,
