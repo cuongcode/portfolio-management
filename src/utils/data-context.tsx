@@ -8,16 +8,13 @@ import { handleError } from '@/services/apiHelper';
 import type { Coin } from '@/types/Coin';
 import type { Transaction } from '@/types/Transaction';
 
+import { _sum, _zip } from './base';
 import { staticData } from './static-data';
 
 export const DataContext = createContext<Coin[]>([]);
 
 export const DataContextProvider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState<any>(staticData);
-
-  const _sum = (array: []) => {
-    return array.reduce((sum, i) => sum + i, 0);
-  };
 
   const holdingsList = data.map((item: any) => {
     if (item?.transactions.length === 0) {
@@ -26,7 +23,16 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
     return _sum(item?.transactions.map((trans: any) => trans.quantity));
   });
 
-  // const totalCostList = data.map()
+  const totalCostList = data.map((item: any) => {
+    if (item?.transactions.length === 0) {
+      return 0;
+    }
+    return _sum(
+      item?.transactions.map((trans: any) => trans.price * trans.quantity)
+    );
+  });
+
+  const avgNetCostList = _zip(totalCostList, holdingsList, (a, b) => a / b);
 
   useEffect(() => {
     data.map(async (item: any) => {
@@ -105,6 +111,8 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
     () => ({
       data,
       holdingsList,
+      totalCostList,
+      avgNetCostList,
       coinAddHandle,
       coinDeleteHandle,
       coinTransactionsHandle,
@@ -113,6 +121,8 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
     [
       data,
       holdingsList,
+      totalCostList,
+      avgNetCostList,
       coinAddHandle,
       coinDeleteHandle,
       coinTransactionsHandle,

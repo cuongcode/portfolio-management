@@ -6,15 +6,27 @@ import { Main } from '@/templates/Main';
 import { DataContext } from '@/utils/data-context';
 
 const TransactionPage = ({ query }: { query: any }) => {
-  const { data, transactionAddHandle, holdingsList } = useContext(DataContext);
+  const {
+    data,
+    transactionAddHandle,
+    holdingsList,
+    totalCostList,
+    avgNetCostList,
+  } = useContext(DataContext);
   const coin = data.find((item) => item.symbol === query.slug);
   const holdings =
     holdingsList[data.findIndex((item) => item.symbol === query.slug)];
+  const totalCost =
+    totalCostList[data.findIndex((item) => item.symbol === query.slug)];
+  const avgNetCost =
+    avgNetCostList[data.findIndex((item) => item.symbol === query.slug)];
   return (
     <Main meta={<Meta title="Transaction" description="Lorem ipsum" />}>
       <BoardTransactions
         coin={coin}
         holdings={holdings}
+        totalCost={totalCost}
+        avgNetCost={avgNetCost}
         transactionAddHandle={transactionAddHandle}
       />
     </Main>

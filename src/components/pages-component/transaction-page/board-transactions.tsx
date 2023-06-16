@@ -7,20 +7,16 @@ import { TransactionsTable } from './table-transactions';
 export const BoardTransactions = ({
   coin,
   holdings,
+  totalCost,
+  avgNetCost,
   transactionAddHandle,
 }: {
   coin: Coin;
   holdings: number;
+  totalCost: number;
+  avgNetCost: number;
   transactionAddHandle: (coin: Coin, transaction: Transaction) => void;
 }) => {
-  // const holdings = coin.transactions
-  //   .map((item) => item.quantity)
-  //   .reduce((sum, i) => sum + i, 0);
-
-  const totalCost = coin.transactions
-    .map((item) => item.quantity * item.price)
-    .reduce((sum, i) => sum + i, 0);
-
   return (
     <div className="flex min-h-screen flex-col rounded-md border-[1px] border-gray-400 p-4">
       <div className="mb-10 flex justify-between">
@@ -60,7 +56,7 @@ export const BoardTransactions = ({
           <div>Total Cost</div>
         </div>
         <div className=" mr-6 p-4 shadow-md">
-          <div>$27,000.00</div>
+          <div>${avgNetCost.toFixed(3)}</div>
           <div>Average Net Cost</div>
         </div>
         <div className=" mr-6 p-4 shadow-md">
