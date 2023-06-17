@@ -44,6 +44,10 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
 
   const PNL_List = _zip(holdingsValueList, totalCostList, (a, b) => a - b);
 
+  const totalBalance = _sum(totalCostList);
+
+  const totalPNL = _sum(PNL_List);
+
   useEffect(() => {
     data.map(async (item: any) => {
       const body = {
@@ -125,6 +129,8 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
       avgNetCostList,
       holdingsValueList,
       PNL_List,
+      totalBalance,
+      totalPNL,
       coinAddHandle,
       coinDeleteHandle,
       coinTransactionsHandle,
@@ -137,6 +143,8 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
       avgNetCostList,
       holdingsValueList,
       PNL_List,
+      totalBalance,
+      totalPNL,
       coinAddHandle,
       coinDeleteHandle,
       coinTransactionsHandle,

@@ -1,3 +1,4 @@
+import { Card } from '@/components/base';
 import type { Coin } from '@/types/Coin';
 import type { Transaction } from '@/types/Transaction';
 
@@ -47,26 +48,11 @@ export const BoardTransactions = ({
 
       {/* show total cards */}
       <div className="mb-10 flex">
-        <div className=" mr-6 p-4 shadow-md">
-          <div>${holdingsValue.toFixed(3)}</div>
-          <div>Holdings Value</div>
-        </div>
-        <div className=" mr-6 p-4 shadow-md">
-          <div>{holdings}</div>
-          <div>Holdings</div>
-        </div>
-        <div className=" mr-6 p-4 shadow-md">
-          <div>${totalCost.toFixed(3)}</div>
-          <div>Total Cost</div>
-        </div>
-        <div className=" mr-6 p-4 shadow-md">
-          <div>${avgNetCost.toFixed(3)}</div>
-          <div>Average Net Cost</div>
-        </div>
-        <div className=" mr-6 p-4 shadow-md">
-          <div>${PNL.toFixed(3)}</div>
-          <div>Profit / Loss</div>
-        </div>
+        <Card title="Holdings Value" number={holdingsValue} showColor={false} />
+        <Card title="Holdings" number={holdings} showColor={false} />
+        <Card title="Total Cost" number={totalCost} showColor={false} />
+        <Card title="Average Net Cost" number={avgNetCost} showColor={false} />
+        <Card title="Profit / Loss " number={PNL} showColor />
       </div>
 
       <TransactionsTable transactions={coin.transactions} />
