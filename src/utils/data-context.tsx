@@ -30,7 +30,12 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
       return 0;
     }
     return _sum(
-      item?.transactions.map((trans: any) => trans.price * trans.quantity)
+      item?.transactions.map((trans: any) => {
+        if (trans.buy) {
+          return trans.price * trans.quantity;
+        }
+        return trans.avgNetCost * trans.quantity;
+      })
     );
   });
 

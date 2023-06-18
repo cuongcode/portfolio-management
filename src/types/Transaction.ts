@@ -5,4 +5,6 @@ export interface Transaction {
   date: Date;
   fees: number;
   notes: string;
+  buy: boolean;
+  avgNetCost: number;
 }

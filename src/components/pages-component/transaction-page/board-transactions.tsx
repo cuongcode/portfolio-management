@@ -39,6 +39,7 @@ export const BoardTransactions = ({
               transactionAdd={transactionAddHandle}
               coin={coin}
               holdings={holdings}
+              avgNetCost={avgNetCost}
             />
           }
         >
@@ -55,7 +56,10 @@ export const BoardTransactions = ({
         <Card title="Profit / Loss " number={PNL} showColor />
       </div>
 
-      <TransactionsTable transactions={coin.transactions} />
+      <TransactionsTable
+        transactions={coin.transactions}
+        avgNetCost={avgNetCost}
+      />
     </div>
   );
 };

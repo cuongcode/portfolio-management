@@ -8,10 +8,12 @@ export const AddTransactionForm = ({
   transactionAdd,
   coin,
   holdings,
+  avgNetCost,
 }: {
   transactionAdd: (coin: Coin, transaction: Transaction) => void;
   coin: Coin;
   holdings: number;
+  avgNetCost: number;
 }) => {
   const [form, setForm] = useState<any>({});
   const [errors, setErrors] = useState<any>({});
@@ -42,11 +44,14 @@ export const AddTransactionForm = ({
     if (!_validateForm()) return;
     const body = {
       price: Number(form.price),
-      quantity: Number(form.quantity),
+      quantity:
+        action === 'buy' ? Number(form.quantity) : Number(form.quantity) * -1,
       date: form.date,
       fees: Number(form.fees),
       notes: form.notes,
       id: coin.transactions.length + 1,
+      buy: action === 'buy',
+      avgNetCost,
     };
     transactionAdd(coin, body);
     setForm({});
