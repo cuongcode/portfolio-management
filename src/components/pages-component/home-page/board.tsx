@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import { Card } from '@/components/base';
 import { DataContext } from '@/utils/data-context';
@@ -27,6 +28,41 @@ export const Board = () => {
           <Card title="Total Balance" number={totalBalance} showColor={false} />
           <Card title="Total Profit Loss" number={totalPNL} showColor />
         </div>
+
+        <div className="flex space-x-2">
+          <ButtonCenterModal
+            tailwindStyle="
+            rounded-md
+            bg-green-500
+            px-4 py-2
+            text-white
+            transition
+            delay-150
+            hover:scale-110
+            duration-300
+            hover:-translate-y-1"
+            modalContent={<div>emty</div>}
+          >
+            Import Data
+          </ButtonCenterModal>
+
+          <ButtonCenterModal
+            tailwindStyle="
+            rounded-md
+            bg-green-500
+            px-4 py-2
+            text-white
+            transition
+            delay-150
+            hover:scale-110
+            duration-300
+            hover:-translate-y-1"
+            modalContent={<ExportForm data={data} />}
+          >
+            Export Data
+          </ButtonCenterModal>
+        </div>
+
         <ButtonCenterModal
           tailwindStyle="
             rounded-md
@@ -49,6 +85,32 @@ export const Board = () => {
         coinDelete={coinDeleteHandle}
         coinTransactions={coinTransactionsHandle}
       />
+    </div>
+  );
+};
+
+const ExportForm = ({ data }: { data: any[] }) => {
+  const [text, setText] = useState('Copy to Clipboard');
+  const _onCopy = () => {
+    setText('Copied');
+  };
+
+  return (
+    <div className="flex flex-col">
+      <CopyToClipboard text={JSON.stringify(data)} onCopy={_onCopy}>
+        <button
+          type="button"
+          className="rounded-md
+            bg-green-500
+            px-4 py-2
+            text-white
+          "
+        >
+          {text}
+        </button>
+      </CopyToClipboard>
+
+      <div className="">{JSON.stringify(data)}</div>
     </div>
   );
 };
