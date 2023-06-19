@@ -1,6 +1,7 @@
+import dayjs from 'dayjs';
 import Router from 'next/router';
 import type { ReactNode } from 'react';
-import React, { createContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { ApiInstance } from '@/services/api';
@@ -15,6 +16,8 @@ export const DataContext = createContext<Coin[]>([]);
 
 export const DataContextProvider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState<any>(staticData);
+  const [userInfo, setUserInfo] = useState<any>({});
+  const [allUsers, setAllUsers] = useState<any[]>([]);
 
   const currentPriceList = data.map((item: any) => item.price);
 
@@ -81,6 +84,40 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
     });
   }, []);
 
+  const saveDataToUser = () => {
+    //
+  };
+
+  const onLogin = (form: any) => {
+    const findUser = allUsers.find(
+      (user) =>
+        user.password === form.password && user.username === form.username
+    );
+    if (!findUser) {
+      toast.error('User not found');
+      return;
+    }
+    const { data, ...rest } = findUser;
+    setUserInfo(rest);
+    setData(data);
+  };
+
+  const onRegister = (form: any) => {
+    const newAllUsers = [
+      ...allUsers,
+      {
+        id: dayjs().toString(),
+        username: form.username,
+        password: form.password,
+        data: [],
+      },
+    ];
+    setAllUsers(newAllUsers);
+    setTimeout(() => {
+      onLogin(form);
+    }, 300);
+  };
+
   const coinAddHandle = async (coin: Coin) => {
     const body = {
       ids: coin?.id,
@@ -131,39 +168,62 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
     setData(importData);
   };
 
-  const DataContextProviderValue = useMemo(
-    () => ({
-      data,
-      holdingsList,
-      totalCostList,
-      avgNetCostList,
-      holdingsValueList,
-      PNL_List,
-      totalBalance,
-      totalPNL,
-      coinAddHandle,
-      coinDeleteHandle,
-      coinTransactionsHandle,
-      transactionAddHandle,
-      onImportData,
-    }),
-    [
-      data,
-      holdingsList,
-      totalCostList,
-      avgNetCostList,
-      holdingsValueList,
-      PNL_List,
-      totalBalance,
-      totalPNL,
-      coinAddHandle,
-      coinDeleteHandle,
-      coinTransactionsHandle,
-      onImportData,
-    ]
-  );
+  // const DataContextProviderValue = useMemo(
+  //   () => ({
+  //     data,
+  //     holdingsList,
+  //     totalCostList,
+  //     avgNetCostList,
+  //     holdingsValueList,
+  //     PNL_List,
+  //     totalBalance,
+  //     totalPNL,
+  //     coinAddHandle,
+  //     coinDeleteHandle,
+  //     coinTransactionsHandle,
+  //     transactionAddHandle,
+  //     onImportData,
+  //     onRegister,
+  //   }),
+  //   [
+  //     data,
+  //     holdingsList,
+  //     totalCostList,
+  //     avgNetCostList,
+  //     holdingsValueList,
+  //     PNL_List,
+  //     totalBalance,
+  //     totalPNL,
+  //     coinAddHandle,
+  //     coinDeleteHandle,
+  //     coinTransactionsHandle,
+  //     onImportData,
+  //     onRegister,
+  //   ]
+  // );
+
+  // eslint-disable-next-line react/jsx-no-constructed-context-values
+  const DataContextProviderValue = {
+    data,
+    holdingsList,
+    totalCostList,
+    avgNetCostList,
+    holdingsValueList,
+    PNL_List,
+    totalBalance,
+    totalPNL,
+    coinAddHandle,
+    coinDeleteHandle,
+    coinTransactionsHandle,
+    transactionAddHandle,
+    onImportData,
+    onRegister,
+    saveDataToUser,
+    onLogin,
+  };
 
   return (
+    // @ts-ignore
     <DataContext.Provider value={DataContextProviderValue}>
       {children}
     </DataContext.Provider>

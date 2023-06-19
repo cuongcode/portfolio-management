@@ -30,6 +30,7 @@
     "@heroicons/react": "v1",
     "apisauce": "^3.0.0",
     "axios": "^1.4.0",
+    "dayjs": "^1.11.8",
     "lodash": "^4.17.21",
     "next": "^13.4.1",
     "next-seo": "^6.0.0",
