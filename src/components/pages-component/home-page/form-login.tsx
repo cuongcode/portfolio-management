@@ -4,18 +4,17 @@ import { TextInput } from '@/components/base';
 import { DataContext } from '@/utils/data-context';
 
 export const LoginForm = () => {
-  const { onRegister } = useContext(DataContext);
+  const { onRegister, onLogin } = useContext(DataContext);
 
   const [formData, setFormData] = useState<any>({});
 
   const _onChange = (e: any) => {
-    console.log('🚀 ~ file: form-login.tsx:16 ~ LoginForm ~ e:', e);
     const { value, name } = e.target;
     setFormData((prev: any) => ({ ...prev, [name]: value }));
   };
 
   const _onLogin = () => {
-    //
+    onLogin(formData);
   };
   const _onRegister = () => {
     onRegister(formData);

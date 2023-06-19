@@ -10,7 +10,7 @@ import { LoginForm } from '../pages-component/home-page/form-login';
 import { Button } from './button';
 
 export const Navbar = () => {
-  const { saveDataToUser } = useContext(DataContext);
+  const { saveDataToUser, userInfo } = useContext(DataContext);
   const isLogin = false;
   return (
     <div className="flex justify-between">
@@ -18,6 +18,9 @@ export const Navbar = () => {
         <Link className="hover:no-underline" href="/">
           <img className="w-32" alt="coingecko-logo" src={coingeckoLogo.src} />
         </Link>
+      </div>
+      <div>
+        User {userInfo?.username}:{userInfo?.password}
       </div>
       <div className="flex items-center">
         {!isLogin ? (

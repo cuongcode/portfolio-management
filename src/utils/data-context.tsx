@@ -85,7 +85,10 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const saveDataToUser = () => {
-    //
+    const newAllUsers = [...allUsers];
+    const findIdx = newAllUsers.findIndex((user) => user.id === userInfo.id);
+    newAllUsers[findIdx].data = data;
+    setAllUsers(newAllUsers);
   };
 
   const onLogin = (form: any) => {
@@ -97,9 +100,9 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
       toast.error('User not found');
       return;
     }
-    const { data, ...rest } = findUser;
+    const { data: userData, ...rest } = findUser;
     setUserInfo(rest);
-    setData(data);
+    setData(userData);
   };
 
   const onRegister = (form: any) => {
@@ -220,6 +223,7 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
     onRegister,
     saveDataToUser,
     onLogin,
+    userInfo,
   };
 
   return (
