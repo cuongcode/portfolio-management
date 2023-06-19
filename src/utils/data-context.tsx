@@ -126,6 +126,11 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const onImportData = (text: string) => {
+    const importData = JSON.parse(text);
+    setData(importData);
+  };
+
   const DataContextProviderValue = useMemo(
     () => ({
       data,
@@ -140,6 +145,7 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
       coinDeleteHandle,
       coinTransactionsHandle,
       transactionAddHandle,
+      onImportData,
     }),
     [
       data,
@@ -153,6 +159,7 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
       coinAddHandle,
       coinDeleteHandle,
       coinTransactionsHandle,
+      onImportData,
     ]
   );
 

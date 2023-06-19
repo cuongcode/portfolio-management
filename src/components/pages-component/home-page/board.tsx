@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-import { Card } from '@/components/base';
+import { Card, TextInput } from '@/components/base';
 import { DataContext } from '@/utils/data-context';
 
 import { ButtonCenterModal } from './button-center-modal';
@@ -17,6 +17,7 @@ export const Board = () => {
     coinAddHandle,
     coinDeleteHandle,
     coinTransactionsHandle,
+    onImportData,
   } = useContext(DataContext);
 
   return (
@@ -41,7 +42,7 @@ export const Board = () => {
             hover:scale-110
             duration-300
             hover:-translate-y-1"
-            modalContent={<div>emty</div>}
+            modalContent={<ImportForm onImportData={onImportData} />}
           >
             Import Data
           </ButtonCenterModal>
@@ -111,6 +112,47 @@ const ExportForm = ({ data }: { data: any[] }) => {
       </CopyToClipboard>
 
       <div className="">{JSON.stringify(data)}</div>
+    </div>
+  );
+};
+const ImportForm = ({
+  onImportData,
+}: {
+  onImportData: (text: string) => void;
+}) => {
+  const [data, setData] = useState('');
+
+  const _onChange = (e) => {
+    setData(e.target.value);
+  };
+
+  const _onImport = () => {
+    onImportData(data);
+    setData('');
+  };
+
+  return (
+    <div className="flex flex-col">
+      <button
+        type="button"
+        className="rounded-md
+            bg-green-500
+            px-4 py-2
+            text-white
+          "
+        onClick={_onImport}
+      >
+        Import
+      </button>
+
+      <TextInput
+        title="Import data"
+        type="text"
+        name="import-data"
+        placeholder="Paste your data here"
+        value={data}
+        onChange={_onChange}
+      />
     </div>
   );
 };
