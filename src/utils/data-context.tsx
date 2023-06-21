@@ -156,8 +156,24 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
   const transactionAddHandle = (coin: Coin, transaction: Transaction) => {
     const updatedTransactions = [...coin.transactions, transaction];
     const updatedCoin = { ...coin, transactions: updatedTransactions };
-    setData((current) => {
-      return current.map((item) => {
+    setData((current: any) => {
+      return current.map((item: any) => {
+        if (item.id === updatedCoin.id) {
+          return updatedCoin;
+        }
+        return item;
+      });
+    });
+  };
+  const transactionDeleteHandle = (coin: Coin, transaction: Transaction) => {
+    const updatedTransactions = [...coin.transactions];
+    const deleteIndex = updatedTransactions.findIndex(
+      (item) => item.id === transaction.id
+    );
+    updatedTransactions.splice(deleteIndex, 1);
+    const updatedCoin = { ...coin, transactions: updatedTransactions };
+    setData((current: any) => {
+      return current.map((item: any) => {
         if (item.id === updatedCoin.id) {
           return updatedCoin;
         }
@@ -171,40 +187,6 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
     setData(importData);
   };
 
-  // const DataContextProviderValue = useMemo(
-  //   () => ({
-  //     data,
-  //     holdingsList,
-  //     totalCostList,
-  //     avgNetCostList,
-  //     holdingsValueList,
-  //     PNL_List,
-  //     totalBalance,
-  //     totalPNL,
-  //     coinAddHandle,
-  //     coinDeleteHandle,
-  //     coinTransactionsHandle,
-  //     transactionAddHandle,
-  //     onImportData,
-  //     onRegister,
-  //   }),
-  //   [
-  //     data,
-  //     holdingsList,
-  //     totalCostList,
-  //     avgNetCostList,
-  //     holdingsValueList,
-  //     PNL_List,
-  //     totalBalance,
-  //     totalPNL,
-  //     coinAddHandle,
-  //     coinDeleteHandle,
-  //     coinTransactionsHandle,
-  //     onImportData,
-  //     onRegister,
-  //   ]
-  // );
-
   // eslint-disable-next-line react/jsx-no-constructed-context-values
   const DataContextProviderValue = {
     data,
@@ -215,15 +197,16 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
     PNL_List,
     totalBalance,
     totalPNL,
+    userInfo,
     coinAddHandle,
     coinDeleteHandle,
     coinTransactionsHandle,
     transactionAddHandle,
+    transactionDeleteHandle,
     onImportData,
     onRegister,
     saveDataToUser,
     onLogin,
-    userInfo,
   };
 
   return (

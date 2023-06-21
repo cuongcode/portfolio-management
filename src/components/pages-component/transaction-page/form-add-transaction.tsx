@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useState } from 'react';
 
 import { TextInput } from '@/components/base';
@@ -49,7 +50,7 @@ export const AddTransactionForm = ({
       date: form.date,
       fees: Number(form.fees),
       notes: form.notes,
-      id: coin.transactions.length + 1,
+      id: dayjs().toString(),
       buy: action === 'buy',
       avgNetCost,
     };

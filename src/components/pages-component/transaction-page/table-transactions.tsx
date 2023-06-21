@@ -1,12 +1,21 @@
+import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
+import { useContext } from 'react';
+
+import type { Coin } from '@/types/Coin';
 import type { Transaction } from '@/types/Transaction';
+import { DataContext } from '@/utils/data-context';
 
 export const TransactionsTable = ({
   transactions,
   avgNetCost,
+  coin,
 }: {
   transactions: Transaction[];
   avgNetCost: number;
+  coin: Coin;
 }) => {
+  const { transactionDeleteHandle } = useContext(DataContext);
+
   return (
     <table className="table-fixed text-left">
       <thead>
@@ -19,6 +28,7 @@ export const TransactionsTable = ({
           <th>Date</th>
           <th>PNL</th>
           <th>Notes</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -43,9 +53,16 @@ export const TransactionsTable = ({
                   ).toFixed(3)}
             </td>
             <td>{transaction.notes}</td>
-            <td className="flex flex-col items-center">
+            <td className="flex items-center space-x-3">
               <button type="button" className="w-fit">
-                -
+                <PencilIcon className="w-4" />
+              </button>
+              <button
+                onClick={() => transactionDeleteHandle(coin, transaction)}
+                type="button"
+                className="w-fit"
+              >
+                <TrashIcon className="w-4" />
               </button>
             </td>
           </tr>
