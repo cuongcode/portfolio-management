@@ -181,6 +181,23 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
       });
     });
   };
+  const transactionEditHandle = (coin: Coin, transaction: Transaction) => {
+    const updatedTransactions = coin.transactions.map((item) => {
+      if (transaction.id === item.id) {
+        return transaction;
+      }
+      return item;
+    });
+    const updatedCoin = { ...coin, transactions: updatedTransactions };
+    setData((current: any) => {
+      return current.map((item: any) => {
+        if (item.id === updatedCoin.id) {
+          return updatedCoin;
+        }
+        return item;
+      });
+    });
+  };
 
   const onImportData = (text: string) => {
     const importData = JSON.parse(text);
@@ -203,6 +220,7 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
     coinTransactionsHandle,
     transactionAddHandle,
     transactionDeleteHandle,
+    transactionEditHandle,
     onImportData,
     onRegister,
     saveDataToUser,

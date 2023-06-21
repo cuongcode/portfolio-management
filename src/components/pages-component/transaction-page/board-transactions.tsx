@@ -68,6 +68,7 @@ export const BoardTransactions = ({
         transactions={coin.transactions}
         avgNetCost={avgNetCost}
         coin={coin}
+        holdings={holdings}
       />
     </div>
   );
