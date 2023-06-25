@@ -1,10 +1,7 @@
-import { ChevronRightIcon, TrashIcon } from '@heroicons/react/outline';
-import { useState } from 'react';
-
 import type { Coin } from '@/types/Coin';
 
-import { DeleteCoinForm } from './form-delete-coin';
-import { ModalCenter } from './modal-center';
+import { DeleteCoinButton } from './delete-coin-button';
+import { OpenTransactionsButton } from './open-transactions-button';
 
 export const CoinsTable = ({
   coins,
@@ -51,40 +48,5 @@ export const CoinsTable = ({
         ))}
       </tbody>
     </table>
-  );
-};
-
-export const OpenTransactionsButton = ({
-  onOpenTransactions,
-}: {
-  onOpenTransactions: () => void;
-}) => {
-  return (
-    <button type="button" className="" onClick={onOpenTransactions}>
-      <ChevronRightIcon className="w-4" />
-    </button>
-  );
-};
-
-export const DeleteCoinButton = ({
-  onDeleteCoin,
-}: {
-  onDeleteCoin: () => void;
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <div>
-      <button type="button" onClick={() => setIsOpen(true)}>
-        <TrashIcon className="w-4" />
-      </button>
-      {isOpen ? (
-        <ModalCenter open={isOpen} onClose={() => setIsOpen(false)}>
-          <DeleteCoinForm
-            onDeleteCoin={onDeleteCoin}
-            onClose={() => setIsOpen(false)}
-          />
-        </ModalCenter>
-      ) : null}
-    </div>
   );
 };
