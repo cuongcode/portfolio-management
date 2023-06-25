@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
+import { Navbar } from '@/components/template-component';
 import { Footer } from '@/components/template-component/footer';
-import { Navbar } from '@/components/template-component/navbar';
 import { AppConfig } from '@/utils/AppConfig';
 
 type IMainProps = {

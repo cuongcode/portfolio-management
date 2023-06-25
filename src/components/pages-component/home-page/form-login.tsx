@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import { TextInput } from '@/components/base';
 import { DataContext } from '@/utils/data-context';
 
-export const LoginForm = () => {
+export const LoginForm = ({ onClose }: { onClose: () => void }) => {
   const { onRegister, onLogin } = useContext(DataContext);
 
   const [formData, setFormData] = useState<any>({});
@@ -14,10 +14,14 @@ export const LoginForm = () => {
   };
 
   const _onLogin = () => {
-    onLogin(formData);
+    onLogin(formData, () => {
+      onClose();
+    });
   };
   const _onRegister = () => {
-    onRegister(formData);
+    onRegister(formData, () => {
+      onClose();
+    });
   };
 
   return (
@@ -38,28 +42,30 @@ export const LoginForm = () => {
         value={formData.password}
         onChange={_onChange}
       />
-      <button
-        type="button"
-        className="rounded-md
+      <div className="flex flex-col gap-2">
+        <button
+          type="button"
+          className="rounded-md
             bg-green-500
             px-4 py-2
             text-white
           "
-        onClick={_onLogin}
-      >
-        Login
-      </button>
-      <button
-        type="button"
-        className="rounded-md
+          onClick={_onLogin}
+        >
+          Login
+        </button>
+        <button
+          type="button"
+          className="rounded-md
             bg-green-500
             px-4 py-2
             text-white
           "
-        onClick={_onRegister}
-      >
-        Register
-      </button>
+          onClick={_onRegister}
+        >
+          Register
+        </button>
+      </div>
     </div>
   );
 };

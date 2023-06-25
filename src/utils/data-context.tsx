@@ -118,7 +118,7 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
     setAllUsers(newAllUsers);
   };
 
-  const onLogin = (form: any) => {
+  const onLogin = (form: any, successCB?: () => void) => {
     const findUser = allUsers.find(
       (user) =>
         user.password === form.password && user.username === form.username
@@ -130,9 +130,10 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
     const { data: userData, ...rest } = findUser;
     setUserInfo(rest);
     setData(userData);
+    if (successCB) successCB();
   };
 
-  const onRegister = (form: any) => {
+  const onRegister = (form: any, successCB?: () => void) => {
     const newAllUsers = [
       ...allUsers,
       {
@@ -146,6 +147,7 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
     setTimeout(() => {
       onLogin(form);
     }, 300);
+    if (successCB) successCB();
   };
 
   const coinAddHandle = async (coin: Coin) => {

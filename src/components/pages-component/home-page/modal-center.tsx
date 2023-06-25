@@ -10,6 +10,7 @@ export const ModalCenter = ({
   children: ReactNode;
   onClose: () => void;
 }) => {
+  // SHOULD MAKE CLICK OUTSIDE TO CLOSE MODAL
   if (!open) return null;
   return (
     // try to make animation here but fail
