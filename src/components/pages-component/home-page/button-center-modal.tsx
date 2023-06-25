@@ -4,11 +4,11 @@ import { useState } from 'react';
 import { ModalCenter } from './modal-center';
 
 export const ButtonCenterModal = ({
-  tailwindStyle,
+  className,
   children,
   modalContent,
 }: {
-  tailwindStyle: any;
+  className: string;
   children: ReactNode;
   modalContent: any;
 }) => {
@@ -19,7 +19,7 @@ export const ButtonCenterModal = ({
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className={tailwindStyle}
+        className={className}
       >
         {children}
       </button>

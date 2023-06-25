@@ -2,13 +2,13 @@ import '../styles/global.css';
 
 import type { AppProps } from 'next/app';
 
-import { DataContextProvider } from '@/utils/data-context';
+import { DataProvider } from '@/utils/data-context';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
-    <DataContextProvider>
+    <DataProvider>
       <Component {...pageProps} />
-    </DataContextProvider>
+    </DataProvider>
   );
 };
 

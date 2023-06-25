@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import Router from 'next/router';
 import type { ReactNode } from 'react';
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { ApiInstance } from '@/services/api';
@@ -9,12 +9,37 @@ import { handleError } from '@/services/apiHelper';
 import type { Coin } from '@/types/Coin';
 import type { Transaction } from '@/types/Transaction';
 
-import { _sum, _zip } from './base';
+import { sumOfNumberArray, zip } from './base';
 import { staticData } from './static-data';
 
-export const DataContext = createContext<Coin[]>([]);
+interface DataContextProps {
+  // data: any;
+  // setData: React.Dispatch<React.SetStateAction<any>>;
 
-export const DataContextProvider = ({ children }: { children: ReactNode }) => {
+  data: any;
+  holdingsList: any[];
+  totalCostList: any;
+  avgNetCostList: any;
+  holdingsValueList: any;
+  PNL_List: any;
+  totalBalance: any;
+  totalPNL: any;
+  userInfo: any;
+  coinAddHandle: any;
+  coinDeleteHandle: any;
+  coinTransactionsHandle: any;
+  transactionAddHandle: any;
+  transactionDeleteHandle: any;
+  transactionEditHandle: any;
+  onImportData: any;
+  onRegister: any;
+  saveDataToUser: any;
+  onLogin: any;
+}
+
+const DataContext = createContext({} as DataContextProps);
+
+const DataProvider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState<any>(staticData);
   const [userInfo, setUserInfo] = useState<any>({});
   const [allUsers, setAllUsers] = useState<any[]>([]);
@@ -25,14 +50,16 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
     if (item?.transactions.length === 0) {
       return 0;
     }
-    return _sum(item?.transactions.map((trans: any) => trans.quantity));
+    return sumOfNumberArray(
+      item?.transactions.map((trans: any) => trans.quantity)
+    );
   });
 
   const totalCostList = data.map((item: any) => {
     if (item?.transactions.length === 0) {
       return 0;
     }
-    return _sum(
+    return sumOfNumberArray(
       item?.transactions.map((trans: any) => {
         if (trans.buy) {
           return trans.price * trans.quantity;
@@ -42,19 +69,19 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
     );
   });
 
-  const avgNetCostList = _zip(totalCostList, holdingsList, (a, b) => a / b);
+  const avgNetCostList = zip(totalCostList, holdingsList, (a, b) => a / b);
 
-  const holdingsValueList = _zip(
+  const holdingsValueList = zip(
     currentPriceList,
     holdingsList,
     (a, b) => a * b
   );
 
-  const PNL_List = _zip(holdingsValueList, totalCostList, (a, b) => a - b);
+  const PNL_List = zip(holdingsValueList, totalCostList, (a, b) => a - b);
 
-  const totalBalance = _sum(totalCostList);
+  const totalBalance = sumOfNumberArray(totalCostList);
 
-  const totalPNL = _sum(PNL_List);
+  const totalPNL = sumOfNumberArray(PNL_List);
 
   useEffect(() => {
     data.map(async (item: any) => {
@@ -204,33 +231,51 @@ export const DataContextProvider = ({ children }: { children: ReactNode }) => {
     setData(importData);
   };
 
-  // eslint-disable-next-line react/jsx-no-constructed-context-values
-  const DataContextProviderValue = {
-    data,
-    holdingsList,
-    totalCostList,
-    avgNetCostList,
-    holdingsValueList,
-    PNL_List,
-    totalBalance,
-    totalPNL,
-    userInfo,
-    coinAddHandle,
-    coinDeleteHandle,
-    coinTransactionsHandle,
-    transactionAddHandle,
-    transactionDeleteHandle,
-    transactionEditHandle,
-    onImportData,
-    onRegister,
-    saveDataToUser,
-    onLogin,
-  };
-
-  return (
-    // @ts-ignore
-    <DataContext.Provider value={DataContextProviderValue}>
-      {children}
-    </DataContext.Provider>
+  const value = useMemo<DataContextProps>(
+    () => ({
+      data,
+      holdingsList,
+      totalCostList,
+      avgNetCostList,
+      holdingsValueList,
+      PNL_List,
+      totalBalance,
+      totalPNL,
+      userInfo,
+      coinAddHandle,
+      coinDeleteHandle,
+      coinTransactionsHandle,
+      transactionAddHandle,
+      transactionDeleteHandle,
+      transactionEditHandle,
+      onImportData,
+      onRegister,
+      saveDataToUser,
+      onLogin,
+    }),
+    [
+      data,
+      holdingsList,
+      totalCostList,
+      avgNetCostList,
+      holdingsValueList,
+      PNL_List,
+      totalBalance,
+      totalPNL,
+      userInfo,
+      coinAddHandle,
+      coinDeleteHandle,
+      coinTransactionsHandle,
+      transactionAddHandle,
+      transactionDeleteHandle,
+      transactionEditHandle,
+      onImportData,
+      onRegister,
+      saveDataToUser,
+      onLogin,
+    ]
   );
+  return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 };
+
+export { DataContext, DataProvider };

@@ -1,8 +1,9 @@
-export const _sum = (array: any[]) => {
+export const sumOfNumberArray = (array: number[]) => {
   return array.reduce((sum, i) => sum + i, 0);
 };
 
-export const _zip = (
+// should re name for more clear
+export const zip = (
   array1: any[],
   array2: any[],
   func: (a: any, b: any) => any
