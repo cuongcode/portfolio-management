@@ -50,7 +50,7 @@ export const BoardTransactions = ({
       <div className="mb-5 flex items-center justify-between">
         <div className="mb-5 text-lg font-bold">Transactions</div>
         <ButtonCenterModal
-          tailwindStyle="rounded-md bg-green-500 px-4 py-2 text-white "
+          className="rounded-md bg-green-500 px-4 py-2 text-white "
           modalContent={
             <AddTransactionForm
               transactionAdd={transactionAddHandle}

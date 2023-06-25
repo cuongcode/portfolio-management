@@ -2,7 +2,7 @@ import React from 'react';
 
 import ButtonDropdown from './button-dropdown';
 
-const Header = () => {
+export const BoardHeader = () => {
   return (
     <div className="mb-10 flex justify-between">
       <div className="flex items-center">
@@ -13,5 +13,3 @@ const Header = () => {
     </div>
   );
 };
-
-export default Header;

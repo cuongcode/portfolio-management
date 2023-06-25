@@ -6,9 +6,7 @@ const HomePage = () => {
   return (
     <>
       <Main meta={<Meta title="Portfolio" description="Portfolio" />}>
-        <div>
-          <Board />
-        </div>
+        <Board />
       </Main>
       <div id="portal" />
     </>

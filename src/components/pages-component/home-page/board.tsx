@@ -3,11 +3,11 @@ import React, { useContext } from 'react';
 import { Card } from '@/components/base';
 import { DataContext } from '@/utils/data-context';
 
+import { BoardHeader } from './board-header';
 import { ButtonCenterModal } from './button-center-modal';
 import { AddNewCoinForm } from './form-add-new-coin';
 import { ExportForm } from './form-export-data';
 import { ImportForm } from './form-import-data';
-import Header from './header';
 import { CoinsTable } from './table-coins';
 
 export const Board = () => {
@@ -17,13 +17,13 @@ export const Board = () => {
     totalPNL,
     coinAddHandle,
     coinDeleteHandle,
-    coinTransactionsHandle,
+    onOpenTransactions,
     onImportData,
   } = useContext(DataContext);
 
   return (
     <div className="flex min-h-screen flex-col rounded-md border-[1px] border-gray-400 p-4">
-      <Header />
+      <BoardHeader />
 
       <div className="mb-10 flex justify-between">
         <div className="flex">
@@ -58,7 +58,7 @@ export const Board = () => {
       <CoinsTable
         coins={data}
         coinDelete={coinDeleteHandle}
-        coinTransactions={coinTransactionsHandle}
+        onOpenTransactions={onOpenTransactions}
       />
     </div>
   );
