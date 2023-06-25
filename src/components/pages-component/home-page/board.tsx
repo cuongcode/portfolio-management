@@ -33,32 +33,14 @@ export const Board = () => {
 
         <div className="flex space-x-2">
           <ButtonCenterModal
-            tailwindStyle="
-            rounded-md
-            bg-green-500
-            px-4 py-2
-            text-white
-            transition
-            delay-150
-            hover:scale-110
-            duration-300
-            hover:-translate-y-1"
+            className="rounded-md bg-green-500 px-4 py-2 text-white transition delay-150 duration-300 hover:-translate-y-1 hover:scale-110"
             modalContent={<ImportForm onImportData={onImportData} />}
           >
             Import Data
           </ButtonCenterModal>
 
           <ButtonCenterModal
-            tailwindStyle="
-            rounded-md
-            bg-green-500
-            px-4 py-2
-            text-white
-            transition
-            delay-150
-            hover:scale-110
-            duration-300
-            hover:-translate-y-1"
+            className="rounded-md bg-green-500 px-4 py-2 text-white transition delay-150 duration-300 hover:-translate-y-1 hover:scale-110"
             modalContent={<ExportForm data={data} />}
           >
             Export Data
@@ -66,16 +48,7 @@ export const Board = () => {
         </div>
 
         <ButtonCenterModal
-          tailwindStyle="
-            rounded-md
-            bg-green-500
-            px-4 py-2
-            text-white
-            transition
-            delay-150
-            hover:scale-110
-            duration-300
-            hover:-translate-y-1"
+          className="rounded-md bg-green-500 px-4 py-2 text-white transition delay-150 duration-300 hover:-translate-y-1 hover:scale-110"
           modalContent={<AddNewCoinForm onFormSubmit={coinAddHandle} />}
         >
           Add New Coin
