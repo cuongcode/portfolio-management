@@ -7,10 +7,10 @@ import { LoginSection } from './components/login-section';
 
 export const Navbar = () => {
   return (
-    <div className="flex justify-between bg-red-200">
+    <nav className="flex justify-between bg-red-200">
       <NavBarIcon />
       <LoginSection />
-    </div>
+    </nav>
   );
 };
 
