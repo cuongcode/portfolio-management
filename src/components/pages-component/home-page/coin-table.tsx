@@ -3,7 +3,7 @@ import type { Coin } from '@/types/Coin';
 import { DeleteCoinButton } from './delete-coin-button';
 import { OpenTransactionsButton } from './open-transactions-button';
 
-export const CoinsTable = ({
+export const CoinTable = ({
   coins,
   coinDelete,
   onOpenTransactions,

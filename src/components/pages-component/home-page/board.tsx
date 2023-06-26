@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Card } from '@/components/base';
 import { DataContext } from '@/utils/data-context';
 
 import { BoardHeader } from './board-header';
 import { ButtonCenterModal } from './button-center-modal';
+import { CoinTable } from './coin-table';
 import { AddNewCoinForm } from './form-add-new-coin';
 import { ExportForm } from './form-export-data';
-import { ImportForm } from './form-import-data';
-import { CoinsTable } from './table-coins';
+import { ImportDataForm } from './form-import-data';
+import { ModalCenter } from './modal-center';
 
 export const Board = () => {
   const {
@@ -32,12 +33,7 @@ export const Board = () => {
         </div>
 
         <div className="flex space-x-2">
-          <ButtonCenterModal
-            className="rounded-md bg-green-500 px-4 py-2 text-white transition delay-150 duration-300 hover:-translate-y-1 hover:scale-110"
-            modalContent={<ImportForm onImportData={onImportData} />}
-          >
-            Import Data
-          </ButtonCenterModal>
+          <ImportDataButton onImportData={onImportData} />
 
           <ButtonCenterModal
             className="rounded-md bg-green-500 px-4 py-2 text-white transition delay-150 duration-300 hover:-translate-y-1 hover:scale-110"
@@ -55,11 +51,32 @@ export const Board = () => {
         </ButtonCenterModal>
       </div>
 
-      <CoinsTable
+      <CoinTable
         coins={data}
         coinDelete={coinDeleteHandle}
         onOpenTransactions={onOpenTransactions}
       />
+    </div>
+  );
+};
+
+const ImportDataButton = ({ onImportData }: { onImportData: any }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
+        className="rounded-md bg-green-500 px-4 py-2 text-white transition delay-150 duration-300 hover:-translate-y-1 hover:scale-110"
+      >
+        Import Data
+      </button>
+      <ModalCenter open={isOpen} onClose={() => setIsOpen(false)}>
+        <ImportDataForm
+          onImportData={onImportData}
+          onClose={() => setIsOpen(false)}
+        />
+      </ModalCenter>
     </div>
   );
 };
