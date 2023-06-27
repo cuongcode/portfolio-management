@@ -85,7 +85,7 @@ const DropDown = ({ isOpen }: { isOpen: boolean }) => {
           id="menu-item-4"
         >
           <ButtonCenterModal
-            windtailStyle="flex items-center"
+            className="flex items-center"
             modalContent={<AddNewPortfolioForm />}
           >
             <PlusSmIcon className="mr-2 w-5" />
