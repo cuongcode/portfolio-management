@@ -54,4 +54,4 @@ export type RootState = ReturnType<typeof reducers>;
 export const selector = {
   user: (state: RootState) => state.user as unknown as UserState,
 };
-export { UserActions, WorkoutPlanActions };
+export { UserActions };
