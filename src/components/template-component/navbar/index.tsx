@@ -7,7 +7,7 @@ import { LoginSection } from './components/login-section';
 
 export const Navbar = () => {
   return (
-    <div className="flex justify-between bg-red-200">
+    <div className="flex justify-between">
       <NavBarIcon />
       <LoginSection />
     </div>

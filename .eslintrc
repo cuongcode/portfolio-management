@@ -38,7 +38,8 @@
             "endOfLine": "auto"
           }
         ],
-
+        "react/button-has-type": "off",
+        "import/no-extraneous-dependencies": "off",
         "@typescript-eslint/naming-convention": "off",
         "no-underscore-dangle": "off", // Allow underscore in variable name
         "@typescript-eslint/no-use-before-define": "off", // Allow to use function before it's defined
