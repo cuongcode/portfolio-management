@@ -64,7 +64,7 @@ export const TransactionsTable = ({
             <td>{transaction.notes}</td>
             <td className="flex items-center space-x-3">
               <ButtonCenterModal
-                tailwindStyle=""
+                className=""
                 modalContent={
                   <EditTransactionForm
                     coin={coin}

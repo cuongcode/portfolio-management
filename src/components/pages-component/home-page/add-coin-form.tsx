@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react';
 import type { Coin } from '@/types/Coin';
 import coinList from '@/utils/CoinGeckoCoinsList.json';
 
-export const AddNewCoinForm = ({
+export const AddCoinForm = ({
   onFormSubmit,
 }: {
   onFormSubmit: (coin: Coin) => void;

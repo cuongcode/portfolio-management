@@ -27,7 +27,7 @@ interface DataContextProps {
   userInfo: any;
   coinAddHandle: any;
   coinDeleteHandle: any;
-  coinTransactionsHandle: any;
+  onOpenTransactions: any;
   transactionAddHandle: any;
   transactionDeleteHandle: any;
   transactionEditHandle: any;
@@ -178,7 +178,7 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const coinTransactionsHandle = (coin: Coin) => {
+  const onOpenTransactions = (coin: Coin) => {
     Router.push(`/transactions/${coin.symbol}`);
   };
 
@@ -246,7 +246,7 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
       userInfo,
       coinAddHandle,
       coinDeleteHandle,
-      coinTransactionsHandle,
+      onOpenTransactions,
       transactionAddHandle,
       transactionDeleteHandle,
       transactionEditHandle,
@@ -267,7 +267,7 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
       userInfo,
       coinAddHandle,
       coinDeleteHandle,
-      coinTransactionsHandle,
+      onOpenTransactions,
       transactionAddHandle,
       transactionDeleteHandle,
       transactionEditHandle,

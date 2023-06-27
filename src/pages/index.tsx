@@ -21,13 +21,11 @@ const HomePage = () => {
   return (
     <>
       <Main meta={<Meta title="Portfolio" description="Portfolio" />}>
+        <button onClick={_test}>TEST</button>
         <div>
-          <button onClick={_test}>TEST</button>
-          <div>
-            {currentUserInfo?.name} : {currentUserInfo?.random}
-          </div>
-          <Board />
+          {currentUserInfo?.name} : {currentUserInfo?.random}
         </div>
+        <Board />
       </Main>
       <div id="portal" />
     </>
