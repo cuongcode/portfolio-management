@@ -23,7 +23,7 @@ export const Board = () => {
   return (
     <div className="flex min-h-screen flex-col rounded-md border-[1px] border-gray-400 p-4">
       <div className="mb-10 flex justify-between">
-        <BoardHeader />
+        <BoardHeader portfolioName="My Portfolio" />
       </div>
 
       <div className="mb-10 flex justify-between">

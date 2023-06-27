@@ -1,13 +1,12 @@
 import React from 'react';
 
-import ButtonDropdown from './button-dropdown';
+import { ManagePortfolioDropdown } from './manage-portfolio-dropdown';
 
-export const BoardHeader = () => {
+export const BoardHeader = ({ portfolioName }: { portfolioName: any }) => {
   return (
-    <div className="flex items-center">
-      <h3 className="mr-2 font-bold">My Portfolio</h3>
-
-      <ButtonDropdown />
+    <div className="flex items-center gap-2">
+      <h3 className="font-bold">{portfolioName}</h3>
+      <ManagePortfolioDropdown />
     </div>
   );
 };
