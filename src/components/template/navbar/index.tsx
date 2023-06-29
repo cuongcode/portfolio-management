@@ -1,13 +1,12 @@
 import Link from 'next/link';
 import React from 'react';
 
+import { LoginSection } from '@/components/authentication/login-section';
 import coingeckoLogo from '@/utils/coingecko-logo.webp';
-
-import { LoginSection } from './components/login-section';
 
 export const Navbar = () => {
   return (
-    <nav className="flex justify-between">
+    <nav className="flex justify-between py-4">
       <NavBarIcon />
       <LoginSection />
     </nav>

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import { Footer, Header, Navbar } from '@/components/template-component';
+import { Footer, Header, Navbar } from '@/components/template';
 import { AppConfig } from '@/utils/AppConfig';
 
 type IMainProps = {

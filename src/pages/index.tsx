@@ -1,29 +1,24 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Board } from '@/components/pages-component/home-page';
 import { Meta } from '@/layouts/Meta';
-import { selector, UserActions } from '@/redux';
+import { selector } from '@/redux';
 import { Main } from '@/templates/Main';
+import type { User } from '@/types/User';
 
 const HomePage = () => {
-  const { currentUserInfo } = useSelector(selector.user);
-  const dispatch = useDispatch();
-
-  const _test = () => {
-    dispatch(
-      UserActions.setCurrentUserInfo({
-        name: 'test',
-        random: Math.random(),
-      })
-    );
-  };
+  const { allUser } = useSelector(selector.user);
 
   return (
     <>
       <Main meta={<Meta title="Portfolio" description="Portfolio" />}>
-        <button onClick={_test}>TEST</button>
         <div>
-          {currentUserInfo?.name} : {currentUserInfo?.random}
+          {allUser?.map((item: User) => (
+            <div key={item.username} className="flex gap-2">
+              <div>username: {item.username}</div>
+              <div>password: {item.password}</div>
+            </div>
+          ))}
         </div>
         <Board />
       </Main>
