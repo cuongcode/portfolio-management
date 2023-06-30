@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { selector, UserActions } from '@/redux';
 
-export const SignupForm = ({ onClose }: { onClose: () => void }) => {
+export const LoginForm = ({ onClose }: { onClose: () => void }) => {
   const { allUser } = useSelector(selector.user);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -11,13 +11,21 @@ export const SignupForm = ({ onClose }: { onClose: () => void }) => {
 
   const dispatch = useDispatch();
 
+  const foundUser = allUser.find((item: any) => item.username === username);
+
   const _validate = () => {
     const errorObject: any = {};
     if (username === '') {
       errorObject.username = 'Please input your username';
     }
+    if (!foundUser) {
+      errorObject.username = 'User not found';
+    }
     if (password === '') {
       errorObject.password = 'Please input your password';
+    }
+    if (!(password === foundUser.password)) {
+      errorObject.password = 'Incorrect password';
     }
 
     setErrors(errorObject);
@@ -27,19 +35,11 @@ export const SignupForm = ({ onClose }: { onClose: () => void }) => {
     return true;
   };
 
-  const _onSignup = () => {
+  const _onLogin = () => {
     if (!_validate()) {
       return;
     }
-    const newAllUser = [
-      ...allUser,
-      {
-        username,
-        password,
-        profile: { firstname: 'Cuong', lastname: 'Nguyen' },
-      },
-    ];
-    dispatch(UserActions.setAllUser(newAllUser));
+    dispatch(UserActions.setCurrentUser(foundUser));
   };
 
   return (
@@ -71,9 +71,9 @@ export const SignupForm = ({ onClose }: { onClose: () => void }) => {
         <button
           type="button"
           className="grow rounded-md bg-green-500 px-4 py-2 text-white"
-          onClick={_onSignup}
+          onClick={_onLogin}
         >
-          Signup
+          Login
         </button>
       </div>
     </div>
