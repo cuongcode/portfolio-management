@@ -1,3 +1,4 @@
+import type { Coin } from './Coin';
 import type { UserProfile } from './UserProfile';
 
 export interface User {
@@ -5,4 +6,5 @@ export interface User {
   username: string;
   password: string;
   profile: UserProfile;
+  data: Coin[];
 }

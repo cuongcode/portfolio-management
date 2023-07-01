@@ -1,10 +1,15 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import { selector } from '@/redux';
 
 import { AddCoinForm } from './add-coin-form';
 import { ModalCenter } from './modal-center';
 
-export const AddCoinButton = ({ onAddCoin }: { onAddCoin: any }) => {
+export const AddCoinButton = () => {
+  const { currentUser } = useSelector(selector.user);
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div>
       <button
@@ -15,7 +20,11 @@ export const AddCoinButton = ({ onAddCoin }: { onAddCoin: any }) => {
         Add New Coin
       </button>
       <ModalCenter open={isOpen} onClose={() => setIsOpen(false)}>
-        <AddCoinForm onFormSubmit={onAddCoin} />
+        {currentUser ? (
+          <AddCoinForm />
+        ) : (
+          <div className="text-xl">Login to add new coin.</div>
+        )}
       </ModalCenter>
     </div>
   );

@@ -1,12 +1,23 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { UserActions } from '@/redux';
+import { DataActions, selector, UserActions } from '@/redux';
 
 export const LogoutButton = () => {
+  const { allUser, currentUser } = useSelector(selector.user);
+  const { currentData } = useSelector(selector.data);
   const dispatch = useDispatch();
 
   const _onLogout = () => {
+    const updatedCurrentUser = { ...currentUser, data: currentData };
+    const updatedAllUser = allUser.map((item: any) => {
+      if (item.id === updatedCurrentUser.id) {
+        return updatedCurrentUser;
+      }
+      return item;
+    });
+    dispatch(UserActions.setAllUser(updatedAllUser));
     dispatch(UserActions.setCurrentUser(undefined));
+    dispatch(DataActions.setCurrentData([]));
   };
 
   return (

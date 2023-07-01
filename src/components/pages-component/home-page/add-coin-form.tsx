@@ -1,16 +1,20 @@
 import { debounce } from 'lodash';
 import { useCallback, useState } from 'react';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { DataActions, selector } from '@/redux';
+import { ApiInstance } from '@/services/api';
+import { handleError } from '@/services/apiHelper';
 import type { Coin } from '@/types/Coin';
 import coinList from '@/utils/CoinGeckoCoinsList.json';
 
-export const AddCoinForm = ({
-  onFormSubmit,
-}: {
-  onFormSubmit: (coin: Coin) => void;
-}) => {
+export const AddCoinForm = () => {
+  const { currentData } = useSelector(selector.data);
   const [symbol, setSymbol] = useState('');
   const [autocompleteList, setAutocompleteList] = useState<any[]>([]);
+
+  const dispatch = useDispatch();
 
   const _debounceSearch = useCallback(
     debounce((text) => {
@@ -33,10 +37,25 @@ export const AddCoinForm = ({
     setAutocompleteList(list);
   };
 
-  const _onSubmit = (coin: any) => {
-    onFormSubmit(coin);
-    setSymbol('');
-    setAutocompleteList([]);
+  const _onAddCoin = async (coin: Coin) => {
+    const body = {
+      ids: coin?.id,
+      vs_currencies: 'usd',
+      precision: '3',
+    };
+    const res = await ApiInstance.getTokenPrice(body);
+    const { result, error } = handleError(res);
+    if (error) {
+      toast.error('Something wrong in fetch coin');
+      return;
+    }
+    if (coin?.id) {
+      const coinPrice = result?.[coin.id].usd;
+      const newCoin = { ...coin, price: coinPrice, transactions: [] };
+
+      const updatedCurrentData = [...currentData, newCoin];
+      dispatch(DataActions.setCurrentData(updatedCurrentData));
+    }
   };
 
   const _onChangeSearchSymbol = (e: any) => {
@@ -65,7 +84,7 @@ export const AddCoinForm = ({
               <button
                 key={item.symbol}
                 type="button"
-                onClick={() => _onSubmit(item)}
+                onClick={() => _onAddCoin(item)}
               >
                 <div>
                   {item.symbol} | {item.name}

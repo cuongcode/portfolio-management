@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selector, UserActions } from '@/redux';
+import { DataActions, selector, UserActions } from '@/redux';
 
 export const LoginForm = ({ onClose }: { onClose: () => void }) => {
   const { allUser } = useSelector(selector.user);
@@ -11,20 +11,20 @@ export const LoginForm = ({ onClose }: { onClose: () => void }) => {
 
   const dispatch = useDispatch();
 
-  const foundUser = allUser.find((item: any) => item.username === username);
+  const loginUser = allUser.find((item: any) => item.username === username);
 
   const _validate = () => {
     const errorObject: any = {};
     if (username === '') {
       errorObject.username = 'Please input your username';
     }
-    if (!foundUser) {
+    if (!loginUser) {
       errorObject.username = 'User not found';
     }
     if (password === '') {
       errorObject.password = 'Please input your password';
     }
-    if (!(password === foundUser.password)) {
+    if (!(password === loginUser.password)) {
       errorObject.password = 'Incorrect password';
     }
 
@@ -39,7 +39,8 @@ export const LoginForm = ({ onClose }: { onClose: () => void }) => {
     if (!_validate()) {
       return;
     }
-    dispatch(UserActions.setCurrentUser(foundUser));
+    dispatch(UserActions.setCurrentUser(loginUser));
+    dispatch(DataActions.setCurrentData(loginUser.data));
   };
 
   return (

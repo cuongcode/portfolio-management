@@ -10,15 +10,8 @@ import { ExportDataButton } from './export-data-button';
 import { ImportDataButton } from './import-data-button';
 
 export const Board = () => {
-  const {
-    data,
-    totalBalance,
-    totalPNL,
-    coinAddHandle,
-    coinDeleteHandle,
-    onOpenTransactions,
-    onImportData,
-  } = useContext(DataContext);
+  const { data, totalBalance, totalPNL, onOpenTransactions, onImportData } =
+    useContext(DataContext);
 
   return (
     <div className="flex min-h-screen flex-col rounded-md border-[1px] border-gray-400 p-4">
@@ -36,14 +29,10 @@ export const Board = () => {
           <ImportDataButton onImportData={onImportData} />
           <ExportDataButton data={data} />
         </div>
-        <AddCoinButton onAddCoin={coinAddHandle} />
+        <AddCoinButton />
       </div>
 
-      <CoinTable
-        coins={data}
-        coinDelete={coinDeleteHandle}
-        onOpenTransactions={onOpenTransactions}
-      />
+      <CoinTable onOpenTransactions={onOpenTransactions} />
     </div>
   );
 };

@@ -1,17 +1,18 @@
+import { useSelector } from 'react-redux';
+
+import { selector } from '@/redux';
 import type { Coin } from '@/types/Coin';
 
 import { DeleteCoinButton } from './delete-coin-button';
 import { OpenTransactionsButton } from './open-transactions-button';
 
 export const CoinTable = ({
-  coins,
-  coinDelete,
   onOpenTransactions,
 }: {
-  coins: Coin[];
-  coinDelete: (coin: Coin) => void;
   onOpenTransactions: (coin: Coin) => void;
 }) => {
+  const { currentData } = useSelector(selector.data);
+
   return (
     <table className="table-fixed text-left">
       <thead>
@@ -25,7 +26,7 @@ export const CoinTable = ({
         </tr>
       </thead>
       <tbody>
-        {coins.map((coin, index) => (
+        {currentData?.map((coin: any, index: any) => (
           <tr key={coin.name} className="border-t ">
             <td>{index}</td>
             <td className="">
@@ -42,7 +43,7 @@ export const CoinTable = ({
               <OpenTransactionsButton
                 onOpenTransactions={() => onOpenTransactions(coin)}
               />
-              <DeleteCoinButton onDeleteCoin={() => coinDelete(coin)} />
+              <DeleteCoinButton deletedCoin={coin} />
             </td>
           </tr>
         ))}

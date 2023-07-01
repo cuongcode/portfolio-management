@@ -170,9 +170,9 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const coinDeleteHandle = (deleteCoin: Coin) => {
-    setData((current) => {
+    setData((current: any) => {
       const newCoins = current.filter(
-        (coin) => coin.symbol !== deleteCoin.symbol
+        (coin: any) => coin.symbol !== deleteCoin.symbol
       );
       return newCoins;
     });

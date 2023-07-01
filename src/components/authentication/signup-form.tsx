@@ -20,6 +20,7 @@ export const SignupForm = ({ onClose }: { onClose: () => void }) => {
     username,
     password,
     profile: { firstname: '', lastname: '' },
+    data: [],
   };
 
   const _validate = () => {
