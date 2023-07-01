@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { selector, UserActions } from '@/redux';
 
+const { v4: uuidv4 } = require('uuid');
+
 export const SignupForm = ({ onClose }: { onClose: () => void }) => {
   const { allUser } = useSelector(selector.user);
   const [username, setUsername] = useState('');
@@ -11,10 +13,22 @@ export const SignupForm = ({ onClose }: { onClose: () => void }) => {
 
   const dispatch = useDispatch();
 
+  const allUsername = allUser.map((item: any) => item.username);
+
+  const body = {
+    id: uuidv4(),
+    username,
+    password,
+    profile: { firstname: '', lastname: '' },
+  };
+
   const _validate = () => {
     const errorObject: any = {};
     if (username === '') {
       errorObject.username = 'Please input your username';
+    }
+    if (allUsername.includes(username)) {
+      errorObject.username = 'Please use another username';
     }
     if (password === '') {
       errorObject.password = 'Please input your password';
@@ -31,15 +45,9 @@ export const SignupForm = ({ onClose }: { onClose: () => void }) => {
     if (!_validate()) {
       return;
     }
-    const newAllUser = [
-      ...allUser,
-      {
-        username,
-        password,
-        profile: { firstname: 'Cuong', lastname: 'Nguyen' },
-      },
-    ];
-    dispatch(UserActions.setAllUser(newAllUser));
+    const updatedAllUser = [...allUser, body];
+    dispatch(UserActions.setAllUser(updatedAllUser));
+    dispatch(UserActions.setCurrentUser(body));
   };
 
   return (

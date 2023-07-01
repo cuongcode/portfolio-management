@@ -14,9 +14,11 @@ const HomePage = () => {
       <Main meta={<Meta title="Portfolio" description="Portfolio" />}>
         <div>
           {allUser?.map((item: User) => (
-            <div key={item.username} className="flex gap-2">
+            <div key={item.id} className="flex gap-2">
               <div>username: {item.username}</div>
               <div>password: {item.password}</div>
+              <div>fisrtname: {item.profile.firstname}</div>
+              <div>lastname: {item.profile.lastname}</div>
             </div>
           ))}
         </div>
