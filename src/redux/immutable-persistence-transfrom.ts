@@ -28,8 +28,9 @@ const transform = {
 
 export default transform;
 
-function when(predicate, transform) {
-  return function (value) {
+// eslint-disable-next-line @typescript-eslint/no-shadow
+function when(predicate: any, transform: any) {
+  return (value: any) => {
     if (predicate(value)) {
       return transform(value);
     }
