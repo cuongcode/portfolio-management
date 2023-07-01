@@ -27,6 +27,8 @@ export const ManagePortfolioDropdown = () => {
 };
 
 const DropDown = () => {
+  const allPortfolio = ['Portfolio 1', 'Portfolio 2'];
+  const currentPortfolio = 'Portfolio 1';
   return (
     <div className="absolute -right-28 z-10 mt-2 w-56 divide-y divide-gray-300 rounded-md bg-white px-2 opacity-100 shadow-lg">
       <div className="py-1">
@@ -38,15 +40,13 @@ const DropDown = () => {
         </button>
       </div>
       <div className="py-1">
-        <div className="flex justify-between py-1 text-gray-700 hover:bg-gray-100 hover:text-gray-900">
-          <button type="button" className=" flex items-center ">
-            Current Portfolio
-          </button>
-          <CheckIcon className="w-5 text-green-600" />
-        </div>
-        <div className="py-1 text-gray-700 hover:bg-gray-100 hover:text-gray-900">
-          <button type="button">Other Portfolio</button>
-        </div>
+        {allPortfolio.map((item: any) => (
+          <PortfolioButton
+            key={item}
+            name={item}
+            currentPortfolio={currentPortfolio}
+          />
+        ))}
       </div>
       <div className="py-1">
         <div className="py-1 text-gray-700 hover:bg-gray-100 hover:text-gray-900">
@@ -63,13 +63,21 @@ const DropDown = () => {
   );
 };
 
-const PortfolioButton = () => {
+const PortfolioButton = ({
+  name,
+  currentPortfolio,
+}: {
+  name: any;
+  currentPortfolio: any;
+}) => {
   return (
     <div className="flex justify-between py-1 text-gray-700 hover:bg-gray-100 hover:text-gray-900">
       <button type="button" className=" flex items-center ">
-        Current Portfolio
+        {name}
       </button>
-      <CheckIcon className="w-5 text-green-600" />
+      {name === currentPortfolio ? (
+        <CheckIcon className="w-5 text-green-600" />
+      ) : null}
     </div>
   );
 };
