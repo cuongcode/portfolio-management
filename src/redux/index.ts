@@ -4,6 +4,8 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 
+import type { DataState } from './Data/DataRedux';
+import DataActions, { reducer as DataReducer } from './Data/DataRedux';
 import immutablePersistenceTransform from './immutable-persistence-transfrom';
 // import logger from 'redux-logger';
 import Saga from './saga';
@@ -13,12 +15,13 @@ import UserActions, { reducer as UserReducer } from './User/UserRedux';
 /* ------------- Assemble The Reducers ------------- */
 export const reducers = combineReducers({
   user: UserReducer,
+  data: DataReducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['user'],
+  whitelist: ['user', 'data'],
   transforms: [immutablePersistenceTransform],
 };
 
@@ -53,5 +56,6 @@ const createStore = (rootReducer: any, rootSaga: any) => {
 export type RootState = ReturnType<typeof reducers>;
 export const selector = {
   user: (state: RootState) => state.user as unknown as UserState,
+  data: (state: RootState) => state.data as unknown as DataState,
 };
-export { UserActions };
+export { DataActions, UserActions };

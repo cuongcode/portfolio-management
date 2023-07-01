@@ -7,18 +7,14 @@ import * as Immutable from 'seamless-immutable';
 interface UserAction extends AnyAction {}
 
 interface IActionTypes extends DefaultActionTypes {
-  SET_ALL_USER: 'setAllUser';
+  SET_ALL_USER: 'setCurrentData';
   SET_CURRENT_USER: 'setCurrentUser';
-  SET_CURRENT_USER_INFO: 'setCurrentUserInfo';
-  GET_USER_INFO: 'getUserInfo';
-  SET_TOKEN: 'setToken';
+  // GET_USER_INFO: 'getUserInfo';
 }
 
 interface IActionCreators extends DefaultActionCreators {
   setAllUser: (allUser: any) => AnyAction;
   setCurrentUser: (user: any) => AnyAction;
-  setCurrentUserInfo: (data: any) => AnyAction;
-  setToken: (token: string) => AnyAction;
 }
 
 type IActions = UserAction | AnyAction;
@@ -26,8 +22,6 @@ type IActions = UserAction | AnyAction;
 export interface UserState {
   allUser: any;
   currentUser: any;
-  currentUserInfo: any;
-  token: string;
 }
 
 type ImmutableMyType = Immutable.ImmutableObject<UserState>;
@@ -36,19 +30,23 @@ type ImmutableMyType = Immutable.ImmutableObject<UserState>;
 const { Types, Creators } = createActions<IActionTypes, IActionCreators>({
   setAllUser: ['allUser'],
   setCurrentUser: ['user'],
-  setCurrentUserInfo: ['data'],
   getUserInfo: null,
-  setToken: ['token'],
 });
 
 export const UserTypes = Types;
 export default Creators;
 
 const INITIAL_STATE: ImmutableMyType = Immutable.from({
-  allUser: [],
+  allUser: [
+    {
+      id: '1',
+      username: 'admin',
+      password: '2222',
+      profile: { firstname: 'Cuong', lastname: 'Nguyen' },
+      data: [],
+    },
+  ],
   currentUser: undefined,
-  currentUserInfo: undefined,
-  token: 'BTC',
 });
 
 const setAllUser = (state: ImmutableMyType, { allUser }: { allUser: any }) =>
@@ -57,15 +55,7 @@ const setAllUser = (state: ImmutableMyType, { allUser }: { allUser: any }) =>
 const setCurrentUser = (state: ImmutableMyType, { user }: { user: any }) =>
   state.merge({ currentUser: user });
 
-const setCurrentUserInfo = (state: ImmutableMyType, { data }: { data: any }) =>
-  state.merge({ currentUserInfo: data });
-
-const setToken = (state: ImmutableMyType, { token }: { token: string }) =>
-  state.merge({ token });
-
 export const reducer = createReducer<ImmutableMyType, IActions>(INITIAL_STATE, {
   [Types.SET_ALL_USER]: setAllUser,
   [Types.SET_CURRENT_USER]: setCurrentUser,
-  [Types.SET_CURRENT_USER_INFO]: setCurrentUserInfo,
-  [Types.SET_TOKEN]: setToken,
 });

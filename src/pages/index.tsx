@@ -8,11 +8,10 @@ import type { User } from '@/types/User';
 
 const HomePage = () => {
   const { allUser } = useSelector(selector.user);
-
   return (
     <>
       <Main meta={<Meta title="Portfolio" description="Portfolio" />}>
-        <div>
+        <div className="flex flex-col gap-2">
           {allUser?.map((item: User) => (
             <div key={item.id} className="flex gap-2">
               <div>username: {item.username}</div>
