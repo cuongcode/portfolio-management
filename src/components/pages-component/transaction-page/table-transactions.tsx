@@ -1,9 +1,9 @@
 import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
-import { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { DataActions, selector } from '@/redux';
 import type { Coin } from '@/types/Coin';
 import type { Transaction } from '@/types/Transaction';
-import { DataContext } from '@/utils/data-context';
 
 import { ButtonCenterModal } from '../home-page';
 import { EditTransactionForm } from './form-edit-transaction';
@@ -19,7 +19,22 @@ export const TransactionsTable = ({
   coin: Coin;
   holdings: number;
 }) => {
-  const { transactionDeleteHandle } = useContext(DataContext);
+  const { currentData } = useSelector(selector.data);
+  const dispatch = useDispatch();
+
+  const _onTransactionDelete = (transaction: Transaction) => {
+    const updatedTransactions = coin.transactions.filter(
+      (item: any) => item.id !== transaction.id
+    );
+    const updatedCoin = { ...coin, transactions: updatedTransactions };
+    const updatedCurrentData = currentData.map((item: any) => {
+      if (item.id === updatedCoin.id) {
+        return updatedCoin;
+      }
+      return item;
+    });
+    dispatch(DataActions.setCurrentData(updatedCurrentData));
+  };
 
   return (
     <table className="table-fixed text-left">
@@ -52,7 +67,7 @@ export const TransactionsTable = ({
                 ? (transaction.price * transaction.quantity).toFixed(3)
                 : (transaction.quantity * avgNetCost).toFixed(3)}
             </td>
-            <td>{transaction.date}</td>
+            <td>{transaction.date.toDateString()}</td>
             <td>
               {transaction.buy
                 ? '-'
@@ -78,7 +93,7 @@ export const TransactionsTable = ({
               </ButtonCenterModal>
 
               <button
-                onClick={() => transactionDeleteHandle(coin, transaction)}
+                onClick={() => _onTransactionDelete(transaction)}
                 type="button"
                 className="w-fit"
               >

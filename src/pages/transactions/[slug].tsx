@@ -1,45 +1,22 @@
+import { useContext } from 'react';
 import { useSelector } from 'react-redux';
 
 import { BoardTransactions } from '@/components/pages-component/transaction-page';
 import { Meta } from '@/layouts/Meta';
 import { selector } from '@/redux';
 import { Main } from '@/templates/Main';
-import { sumOfNumberArray, zipArray } from '@/utils/base';
+import { DataContext } from '@/utils/data-context';
 
 const TransactionPage = ({ query }: { query: any }) => {
   const { currentData } = useSelector(selector.data);
 
-  const currentPriceList = currentData.map((item: any) => item.price);
-
-  const totalCostList = currentData.map((item: any) => {
-    return sumOfNumberArray(
-      item?.transactions.map((trans: any) => {
-        if (trans.buy) {
-          return trans.price * trans.quantity;
-        }
-        return trans.avgNetCost * trans.quantity;
-      })
-    );
-  });
-
-  const holdingsList = currentData.map((item: any) => {
-    if (item?.transactions.length === 0) {
-      return 0;
-    }
-    return sumOfNumberArray(
-      item?.transactions.map((trans: any) => trans.quantity)
-    );
-  });
-
-  const avgNetCostList = zipArray(totalCostList, holdingsList, (a, b) => a / b);
-
-  const holdingsValueList = zipArray(
-    currentPriceList,
+  const {
+    avgNetCostList,
+    holdingsValueList,
     holdingsList,
-    (a, b) => a * b
-  );
-
-  const PNL_List = zipArray(holdingsValueList, totalCostList, (a, b) => a - b);
+    PNL_List,
+    totalCostList,
+  } = useContext(DataContext);
 
   const index = currentData.findIndex(
     (item: any) => item.symbol === query.slug

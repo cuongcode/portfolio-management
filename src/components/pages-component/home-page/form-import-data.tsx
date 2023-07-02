@@ -1,14 +1,13 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-export const ImportDataForm = ({
-  onImportData,
-  onClose,
-}: {
-  onImportData: (text: string) => void;
-  onClose: () => void;
-}) => {
+import { DataActions } from '@/redux';
+
+export const ImportDataForm = ({ onClose }: { onClose: () => void }) => {
   const [data, setData] = useState('');
   const [error, setError] = useState('');
+
+  const dispatch = useDispatch();
 
   const _validate = () => {
     if (data === '') {
@@ -30,7 +29,8 @@ export const ImportDataForm = ({
     if (!_validate()) {
       return;
     }
-    onImportData(data);
+    const importData = JSON.parse(data);
+    dispatch(DataActions.setCurrentData(importData));
     setData('');
     onClose();
   };

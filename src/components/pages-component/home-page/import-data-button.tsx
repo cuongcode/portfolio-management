@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ImportDataForm } from './form-import-data';
 import { ModalCenter } from './modal-center';
 
-export const ImportDataButton = ({ onImportData }: { onImportData: any }) => {
+export const ImportDataButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
@@ -15,10 +15,7 @@ export const ImportDataButton = ({ onImportData }: { onImportData: any }) => {
         Import Data
       </button>
       <ModalCenter open={isOpen} onClose={() => setIsOpen(false)}>
-        <ImportDataForm
-          onImportData={onImportData}
-          onClose={() => setIsOpen(false)}
-        />
+        <ImportDataForm onClose={() => setIsOpen(false)} />
       </ModalCenter>
     </div>
   );

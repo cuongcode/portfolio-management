@@ -37,12 +37,13 @@ export const CoinTable = ({
               </span>
             </td>
             <td>{coin.price}</td>
-            <td>${avgNetCostList[index]}</td>
+            <td>${avgNetCostList[index].toFixed(3)}</td>
             <td>
-              ${holdingsValueList[index]} (10%) {holdingsList[index]}
+              ${holdingsValueList[index].toFixed(3)} (10%){' '}
+              {holdingsList[index].toFixed(3)}
               {coin.symbol.toLocaleUpperCase()}
             </td>
-            <td>${PNL_List[index]} 4%</td>
+            <td>${PNL_List[index].toFixed(3)} 4%</td>
             <td className="flex flex-col items-center gap-1 py-1">
               <OpenTransactionsButton coin={coin} />
               <DeleteCoinButton deletedCoin={coin} />

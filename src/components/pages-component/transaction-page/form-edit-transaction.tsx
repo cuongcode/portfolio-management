@@ -1,9 +1,10 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { TextInput } from '@/components/base';
+import { DataActions, selector } from '@/redux';
 import type { Coin } from '@/types/Coin';
 import type { Transaction } from '@/types/Transaction';
-import { DataContext } from '@/utils/data-context';
 
 export const EditTransactionForm = ({
   coin,
@@ -16,7 +17,7 @@ export const EditTransactionForm = ({
   holdings: number;
   avgNetCost: number;
 }) => {
-  const { transactionEditHandle } = useContext(DataContext);
+  const { currentData } = useSelector(selector.data);
   const [form, setForm] = useState<any>({
     price: Number(transaction.price),
     quantity: Math.abs(transaction.quantity),
@@ -29,6 +30,8 @@ export const EditTransactionForm = ({
   });
   const [errors, setErrors] = useState<any>({});
   const [action, setAction] = useState<any>(transaction.buy ? 'buy' : 'sell');
+
+  const dispatch = useDispatch();
 
   const _validateForm = () => {
     const errorObject: any = {};
@@ -64,7 +67,22 @@ export const EditTransactionForm = ({
       buy: action === 'buy',
       avgNetCost,
     };
-    transactionEditHandle(coin, body);
+
+    const updatedTransactions = coin.transactions.map((item) => {
+      if (body.id === item.id) {
+        return body;
+      }
+      return item;
+    });
+    const updatedCoin = { ...coin, transactions: updatedTransactions };
+    const updatedCurrentData = currentData.map((item: any) => {
+      if (item.id === updatedCoin.id) {
+        return updatedCoin;
+      }
+      return item;
+    });
+    dispatch(DataActions.setCurrentData(updatedCurrentData));
+
     setForm({});
     setErrors({});
   };
