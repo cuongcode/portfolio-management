@@ -29,13 +29,13 @@ export const BoardTransactions = ({
           My Portfolio
         </Link>
         <ChevronRightIcon className="w-4 text-green-500" />
-        <div>{coin.name} Transaction Overview</div>
+        <div>{coin?.name} Transaction Overview</div>
       </div>
       <div className="flex items-baseline">
-        <div className="mr-2 text-lg font-bold">{coin.name}</div>
-        <div>{coin.symbol.toUpperCase()}</div>
+        <div className="mr-2 text-lg font-bold">{coin?.name}</div>
+        <div>{coin?.symbol.toUpperCase()}</div>
       </div>
-      <div className="mb-5 text-xl font-bold">${coin.price}</div>
+      <div className="mb-5 text-xl font-bold">${coin?.price}</div>
       <div className="mb-10 flex">
         <Card title="Holdings Value" number={holdingsValue} showColor={false} />
         <Card title="Holdings" number={holdings} showColor={false} />
@@ -61,7 +61,7 @@ export const BoardTransactions = ({
       </div>
 
       <TransactionsTable
-        transactions={coin.transactions}
+        transactions={coin?.transactions}
         avgNetCost={avgNetCost}
         coin={coin}
         holdings={holdings}

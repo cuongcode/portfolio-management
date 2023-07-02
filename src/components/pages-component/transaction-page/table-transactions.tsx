@@ -67,7 +67,7 @@ export const TransactionsTable = ({
                 ? (transaction.price * transaction.quantity).toFixed(3)
                 : (transaction.quantity * avgNetCost).toFixed(3)}
             </td>
-            <td>{transaction.date.toDateString()}</td>
+            <td>{transaction.date.toString()}</td>
             <td>
               {transaction.buy
                 ? '-'

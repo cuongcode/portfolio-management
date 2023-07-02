@@ -11,10 +11,10 @@ export const Card = ({
     <div className=" mr-6 p-4 shadow-md">
       {showColor ? (
         <div className={`${number > 0 ? 'text-green-500' : 'text-red-500'}`}>
-          ${number.toFixed(3)}
+          ${number?.toFixed(3)}
         </div>
       ) : (
-        <div>${number.toFixed(3)}</div>
+        <div>${number?.toFixed(3)}</div>
       )}
       <div>{title}</div>
     </div>
