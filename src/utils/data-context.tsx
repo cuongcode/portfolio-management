@@ -9,7 +9,7 @@ import { handleError } from '@/services/apiHelper';
 import type { Coin } from '@/types/Coin';
 import type { Transaction } from '@/types/Transaction';
 
-import { sumOfNumberArray, zip } from './base';
+import { sumOfNumberArray, zipArray } from './base';
 import { staticData } from './static-data';
 
 interface DataContextProps {
@@ -69,15 +69,15 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
     );
   });
 
-  const avgNetCostList = zip(totalCostList, holdingsList, (a, b) => a / b);
+  const avgNetCostList = zipArray(totalCostList, holdingsList, (a, b) => a / b);
 
-  const holdingsValueList = zip(
+  const holdingsValueList = zipArray(
     currentPriceList,
     holdingsList,
     (a, b) => a * b
   );
 
-  const PNL_List = zip(holdingsValueList, totalCostList, (a, b) => a - b);
+  const PNL_List = zipArray(holdingsValueList, totalCostList, (a, b) => a - b);
 
   const totalBalance = sumOfNumberArray(totalCostList);
 

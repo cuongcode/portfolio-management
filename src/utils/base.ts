@@ -3,7 +3,7 @@ export const sumOfNumberArray = (array: number[]) => {
 };
 
 // should re name for more clear
-export const zip = (
+export const zipArray = (
   array1: any[],
   array2: any[],
   func: (a: any, b: any) => any

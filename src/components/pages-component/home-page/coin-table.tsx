@@ -1,18 +1,19 @@
-import { useSelector } from 'react-redux';
-
-import { selector } from '@/redux';
-import type { Coin } from '@/types/Coin';
-
 import { DeleteCoinButton } from './delete-coin-button';
 import { OpenTransactionsButton } from './open-transactions-button';
 
 export const CoinTable = ({
-  onOpenTransactions,
+  data,
+  avgNetCostList,
+  holdingsValueList,
+  holdingsList,
+  PNL_List,
 }: {
-  onOpenTransactions: (coin: Coin) => void;
+  data: any;
+  avgNetCostList: any;
+  holdingsValueList: any;
+  holdingsList: any;
+  PNL_List: any;
 }) => {
-  const { currentData } = useSelector(selector.data);
-
   return (
     <table className="table-fixed text-left">
       <thead>
@@ -26,8 +27,8 @@ export const CoinTable = ({
         </tr>
       </thead>
       <tbody>
-        {currentData?.map((coin: any, index: any) => (
-          <tr key={coin.name} className="border-t ">
+        {data?.map((coin: any, index: any) => (
+          <tr key={coin.id} className="border-t ">
             <td>{index}</td>
             <td className="">
               <span className="mr-1 font-bold">{coin.name}</span>
@@ -36,13 +37,14 @@ export const CoinTable = ({
               </span>
             </td>
             <td>{coin.price}</td>
-            <td>24,120.81</td>
-            <td>$1000 (10%) 0.1BTC</td>
-            <td>$20.00 4%</td>
+            <td>${avgNetCostList[index]}</td>
+            <td>
+              ${holdingsValueList[index]} (10%) {holdingsList[index]}
+              {coin.symbol.toLocaleUpperCase()}
+            </td>
+            <td>${PNL_List[index]} 4%</td>
             <td className="flex flex-col items-center gap-1 py-1">
-              <OpenTransactionsButton
-                onOpenTransactions={() => onOpenTransactions(coin)}
-              />
+              <OpenTransactionsButton coin={coin} />
               <DeleteCoinButton deletedCoin={coin} />
             </td>
           </tr>

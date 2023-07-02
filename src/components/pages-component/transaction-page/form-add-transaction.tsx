@@ -1,24 +1,28 @@
-import dayjs from 'dayjs';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { TextInput } from '@/components/base';
+import { DataActions, selector } from '@/redux';
 import type { Coin } from '@/types/Coin';
-import type { Transaction } from '@/types/Transaction';
+
+const { v4: uuidv4 } = require('uuid');
 
 export const AddTransactionForm = ({
-  transactionAdd,
   coin,
   holdings,
   avgNetCost,
 }: {
-  transactionAdd: (coin: Coin, transaction: Transaction) => void;
   coin: Coin;
   holdings: number;
   avgNetCost: number;
 }) => {
+  const { currentData } = useSelector(selector.data);
+
   const [form, setForm] = useState<any>({});
   const [errors, setErrors] = useState<any>({});
   const [action, setAction] = useState<any>('buy');
+
+  const dispatch = useDispatch();
 
   const _validateForm = () => {
     const errorObject: any = {};
@@ -50,11 +54,22 @@ export const AddTransactionForm = ({
       date: form.date,
       fees: Number(form.fees),
       notes: form.notes,
-      id: dayjs().toString(),
+      id: uuidv4(),
       buy: action === 'buy',
       avgNetCost,
     };
-    transactionAdd(coin, body);
+
+    const updatedTransactions = [...coin.transactions, body];
+    const updatedCoin = { ...coin, transactions: updatedTransactions };
+    const updatedCurrentData = currentData.map((item: any) => {
+      if (item.id === updatedCoin.id) {
+        return updatedCoin;
+      }
+      return item;
+    });
+
+    dispatch(DataActions.setCurrentData(updatedCurrentData));
+
     setForm({});
     setErrors({});
   };

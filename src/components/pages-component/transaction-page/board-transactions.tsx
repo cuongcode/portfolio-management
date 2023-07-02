@@ -3,7 +3,6 @@ import Link from 'next/link';
 
 import { Card } from '@/components/base';
 import type { Coin } from '@/types/Coin';
-import type { Transaction } from '@/types/Transaction';
 
 import { AddTransactionForm, ButtonCenterModal } from '../home-page';
 import { TransactionsTable } from './table-transactions';
@@ -15,7 +14,6 @@ export const BoardTransactions = ({
   avgNetCost,
   holdingsValue,
   PNL,
-  transactionAddHandle,
 }: {
   coin: Coin;
   holdings: number;
@@ -23,7 +21,6 @@ export const BoardTransactions = ({
   avgNetCost: number;
   holdingsValue: number;
   PNL: number;
-  transactionAddHandle: (coin: Coin, transaction: Transaction) => void;
 }) => {
   return (
     <div className="flex min-h-screen flex-col rounded-md border-[1px] border-gray-400 p-4">
@@ -53,7 +50,6 @@ export const BoardTransactions = ({
           className="rounded-md bg-green-500 px-4 py-2 text-white "
           modalContent={
             <AddTransactionForm
-              transactionAdd={transactionAddHandle}
               coin={coin}
               holdings={holdings}
               avgNetCost={avgNetCost}
