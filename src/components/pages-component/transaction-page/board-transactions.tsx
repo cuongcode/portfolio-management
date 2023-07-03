@@ -1,27 +1,38 @@
 import { ChevronRightIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
 
 import { Card } from '@/components/base';
-import type { Coin } from '@/types/Coin';
+import { selector } from '@/redux';
+import {
+  selectAvgNetCostList,
+  selectHoldingsList,
+  selectHoldingsValueList,
+  selectPNL_List,
+  selectTotalCostList,
+} from '@/redux/Data/DataRedux';
 
 import { AddTransactionForm, ButtonCenterModal } from '../home-page';
 import { TransactionsTable } from './table-transactions';
 
-export const BoardTransactions = ({
-  coin,
-  holdings,
-  totalCost,
-  avgNetCost,
-  holdingsValue,
-  PNL,
-}: {
-  coin: Coin;
-  holdings: number;
-  totalCost: number;
-  avgNetCost: number;
-  holdingsValue: number;
-  PNL: number;
-}) => {
+export const BoardTransactions = ({ symbol }: { symbol: any }) => {
+  const { currentData } = useSelector(selector.data);
+
+  const avgNetCostList = selectAvgNetCostList(currentData);
+  const holdingsValueList = selectHoldingsValueList(currentData);
+  const holdingsList = selectHoldingsList(currentData);
+  const PNL_List = selectPNL_List(currentData);
+  const totalCostList = selectTotalCostList(currentData);
+
+  const index = currentData.findIndex((item: any) => item.symbol === symbol);
+
+  const coin = currentData[index];
+  const holdings = holdingsList[index];
+  const totalCost = totalCostList[index];
+  const avgNetCost = avgNetCostList[index];
+  const holdingsValue = holdingsValueList[index];
+  const PNL = PNL_List[index];
+
   return (
     <div className="flex min-h-screen flex-col rounded-md border-[1px] border-gray-400 p-4">
       <div className="mb-5 flex">

@@ -1,10 +1,10 @@
-import { userInfo } from 'os';
 import type { ReactNode } from 'react';
 import React, { createContext, useEffect, useMemo } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { DataActions, selector } from '@/redux';
+import { selectCurrentPriceList } from '@/redux/Data/DataRedux';
 import { ApiInstance } from '@/services/api';
 import { handleError } from '@/services/apiHelper';
 
@@ -57,7 +57,10 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
     });
   }, []);
 
-  const currentPriceList = currentData.map((item: any) => item.price);
+  // useMemo should use
+  const currentPriceList = selectCurrentPriceList(currentData);
+
+  // const currentPriceList = currentData.map((item: any) => item.price);
 
   const holdingsList = currentData.map((item: any) => {
     if (item?.transactions.length === 0) {
@@ -105,7 +108,6 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
       PNL_List,
       totalBalance,
       totalPNL,
-      userInfo,
     }),
     [
       holdingsList,
@@ -115,7 +117,6 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
       PNL_List,
       totalBalance,
       totalPNL,
-      userInfo,
     ]
   );
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

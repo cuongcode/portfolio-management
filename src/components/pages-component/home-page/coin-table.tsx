@@ -1,19 +1,24 @@
+import { useSelector } from 'react-redux';
+
+import { selector } from '@/redux';
+import {
+  selectAvgNetCostList,
+  selectHoldingsList,
+  selectHoldingsValueList,
+  selectPNL_List,
+} from '@/redux/Data/DataRedux';
+
 import { DeleteCoinButton } from './delete-coin-button';
 import { OpenTransactionsButton } from './open-transactions-button';
 
-export const CoinTable = ({
-  data,
-  avgNetCostList,
-  holdingsValueList,
-  holdingsList,
-  PNL_List,
-}: {
-  data: any;
-  avgNetCostList: any;
-  holdingsValueList: any;
-  holdingsList: any;
-  PNL_List: any;
-}) => {
+export const CoinTable = () => {
+  const { currentData } = useSelector(selector.data);
+
+  const avgNetCostList = selectAvgNetCostList(currentData);
+  const holdingsValueList = selectHoldingsValueList(currentData);
+  const holdingsList = selectHoldingsList(currentData);
+  const PNL_List = selectPNL_List(currentData);
+
   return (
     <table className="table-fixed text-left">
       <thead>
@@ -27,7 +32,7 @@ export const CoinTable = ({
         </tr>
       </thead>
       <tbody>
-        {data?.map((coin: any, index: any) => (
+        {currentData?.map((coin: any, index: any) => (
           <tr key={coin.id} className="border-t ">
             <td>{index}</td>
             <td className="">

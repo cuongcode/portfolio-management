@@ -46,6 +46,7 @@
     "redux-persist": "^6.0.0",
     "redux-saga": "^1.2.3",
     "reduxsauce": "^1.2.1",
+    "reselect": "^4.1.8",
     "seamless-immutable": "^7.1.4",
     "uuid": "^9.0.0"
   },
