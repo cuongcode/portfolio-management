@@ -21,7 +21,7 @@ export const reducers = combineReducers({
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['user', 'data'],
+  whitelist: ['user'],
   transforms: [immutablePersistenceTransform],
 };
 
