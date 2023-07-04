@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { selector } from '@/redux';
 import {
   selectAvgNetCostList,
+  selectCurrentPriceList,
   selectHoldingsList,
   selectHoldingsValueList,
   selectPNL_List,
@@ -18,37 +19,44 @@ export const CoinTable = () => {
   const holdingsValueList = selectHoldingsValueList(currentData);
   const holdingsList = selectHoldingsList(currentData);
   const PNL_List = selectPNL_List(currentData);
+  const currentPriceList = selectCurrentPriceList(currentData);
+  const coinSymbolList = currentData.map((item: any) => item.symbol);
+
+  const coinSymbolCol = { head: 'Coin', data: coinSymbolList };
+  const currentPriceCol = { head: 'Price', data: currentPriceList };
+  const avgPriceCol = { head: 'Avg Price', data: avgNetCostList };
+  const holdingsCol = { head: 'Holdings', data: holdingsList };
+  const pnlCol = { head: 'PNL', data: PNL_List };
+  const holdingsValueCol = { head: '', data: holdingsValueList };
 
   return (
     <table className="table-fixed text-left">
       <thead>
         <tr className="border-t">
-          <th>#</th>
-          <th>Coin</th>
-          <th>Price</th>
-          <th>Avg Price</th>
-          <th>Holdings</th>
-          <th>PNL</th>
+          <th>{coinSymbolCol.head}</th>
+          <th>{currentPriceCol.head}</th>
+          <th>{avgPriceCol.head}</th>
+          <th>{holdingsCol.head}</th>
+          <th>{pnlCol.head}</th>
         </tr>
       </thead>
       <tbody>
         {currentData?.map((coin: any, index: any) => (
           <tr key={coin.id} className="border-t ">
-            <td>{index}</td>
             <td className="">
               <span className="mr-1 font-bold">{coin.name}</span>
               <span className="text-xs font-light">
-                {coin.symbol.toLocaleUpperCase()}
+                {coinSymbolCol.data[index].toLocaleUpperCase()}
               </span>
             </td>
-            <td>{coin.price}</td>
-            <td>${avgNetCostList[index].toFixed(3)}</td>
+            <td>{currentPriceCol.data[index]}</td>
+            <td>${avgPriceCol.data[index].toFixed(3)}</td>
             <td>
-              ${holdingsValueList[index].toFixed(3)} (10%){' '}
-              {holdingsList[index].toFixed(3)}
-              {coin.symbol.toLocaleUpperCase()}
+              ${holdingsValueCol.data[index].toFixed(3)} (10%){' '}
+              {holdingsCol.data[index].toFixed(3)}
+              {coinSymbolCol.data[index].toLocaleUpperCase()}
             </td>
-            <td>${PNL_List[index].toFixed(3)} 4%</td>
+            <td>${pnlCol.data[index].toFixed(3)} 4%</td>
             <td className="flex flex-col items-center gap-1 py-1">
               <OpenTransactionsButton coin={coin} />
               <DeleteCoinButton deletedCoin={coin} />
