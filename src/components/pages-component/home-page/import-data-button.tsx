@@ -1,9 +1,13 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import { selector } from '@/redux';
 
 import { ImportDataForm } from './form-import-data';
 import { ModalCenter } from './modal-center';
 
 export const ImportDataButton = () => {
+  const { currentUser } = useSelector(selector.user);
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
@@ -15,7 +19,11 @@ export const ImportDataButton = () => {
         Import Data
       </button>
       <ModalCenter open={isOpen} onClose={() => setIsOpen(false)}>
-        <ImportDataForm onClose={() => setIsOpen(false)} />
+        {currentUser ? (
+          <ImportDataForm onClose={() => setIsOpen(false)} />
+        ) : (
+          <div className="text-xl">Login to add new coin.</div>
+        )}
       </ModalCenter>
     </div>
   );

@@ -8,7 +8,7 @@ import { selectCurrentPriceList } from '@/redux/Data/DataRedux';
 import { ApiInstance } from '@/services/api';
 import { handleError } from '@/services/apiHelper';
 
-import { sumOfNumberArray, zipArray } from './base';
+import { sumOfNumberArray, zipArray } from '../src/utils/base';
 
 interface DataContextProps {
   // data: any;

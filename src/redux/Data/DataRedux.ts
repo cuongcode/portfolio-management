@@ -79,8 +79,8 @@ export const selectTotalCostList = createSelector(dataState, (currentData) =>
 );
 
 export const selectAvgNetCostList = createSelector(
-  selectHoldingsList,
   selectTotalCostList,
+  selectHoldingsList,
   (totalCostList, holdingsList) =>
     zipArray(totalCostList, holdingsList, (a, b) => a / b)
 );

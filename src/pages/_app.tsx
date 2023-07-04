@@ -1,10 +1,9 @@
 import '../styles/global.css';
 
+import { DataProvider } from 'context/data-context';
 import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-
-import { DataProvider } from '@/utils/data-context';
 
 import Redux from '../redux';
 

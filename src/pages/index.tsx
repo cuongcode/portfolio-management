@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 
+import { PieChart } from '@/components/chart/PieChart';
 import { Board } from '@/components/pages-component/home-page';
 import { Meta } from '@/layouts/Meta';
 import { selector } from '@/redux';
@@ -21,6 +22,7 @@ const HomePage = () => {
             </div>
           ))}
         </div>
+        <PieChart />
         <Board />
       </Main>
       <div id="portal" />
