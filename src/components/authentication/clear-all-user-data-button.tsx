@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { UserActions } from '@/redux';
 
-import { ModalCenter } from '../pages-component/home-page';
+import { ModalCenter } from '../pages/home-page';
 
 export const ClearAllUserDataButton = () => {
   const [isOpen, setIsOpen] = useState(false);

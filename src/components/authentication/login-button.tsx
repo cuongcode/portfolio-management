@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { ModalCenter } from '../pages-component/home-page';
+import { ModalCenter } from '../pages/home-page';
 import { LoginForm } from './login-form';
 
 export const LoginButton = () => {

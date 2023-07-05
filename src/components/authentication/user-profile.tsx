@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { ModalCenter } from '../pages-component/home-page';
+import { ModalCenter } from '../pages/home-page';
 import { EditProfileForm } from './edit-profile-form';
 
 export const UserProfile = ({ currentUser }: { currentUser: any }) => {

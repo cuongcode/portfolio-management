@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { ModalCenter } from '../pages-component/home-page';
+import { ModalCenter } from '../pages/home-page';
 import { SignupForm } from './signup-form';
 
 export const SignUpButton = () => {

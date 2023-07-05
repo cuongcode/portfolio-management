@@ -1,4 +1,4 @@
-import { BoardTransactions } from '@/components/pages-component/transaction-page';
+import { BoardTransactions } from '@/components/pages/transaction-page';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
 

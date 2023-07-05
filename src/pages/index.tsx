@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 
 import { PieChart } from '@/components/chart/PieChart';
-import { Board } from '@/components/pages-component/home-page';
+import { Board } from '@/components/pages/home-page';
 import { Meta } from '@/layouts/Meta';
 import { selector } from '@/redux';
 import { Main } from '@/templates/Main';
