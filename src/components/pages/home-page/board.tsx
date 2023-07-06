@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Card } from '@/components/base';
-import { DataActions, selector } from '@/redux';
+import { selector, UserActions } from '@/redux';
 import { selectTotalBalance, selectTotalPNL } from '@/redux/Data/DataRedux';
 import { ApiInstance } from '@/services/api';
 import { handleError } from '@/services/apiHelper';
@@ -15,6 +15,7 @@ import { ExportDataButton } from './export-data-button';
 import { ImportDataButton } from './import-data-button';
 
 export const Board = () => {
+  const { currentUser, allUser } = useSelector(selector.user);
   const { currentData } = useSelector(selector.data);
 
   const dispatch = useDispatch();
@@ -41,7 +42,15 @@ export const Board = () => {
           }
           return prev;
         });
-        dispatch(DataActions.setCurrentData(updatedCurrentData));
+        const updatedCurrentUser = { ...currentUser, data: updatedCurrentData };
+        const updatedAlluser = allUser.map((user: any) => {
+          if (user.id === updatedCurrentUser.id) {
+            return updatedCurrentUser;
+          }
+          return user;
+        });
+        dispatch(UserActions.setCurrentUser(updatedCurrentUser));
+        dispatch(UserActions.setAllUser(updatedAlluser));
       }
     });
   }, []);

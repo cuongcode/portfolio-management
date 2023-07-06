@@ -24,7 +24,7 @@ export const LoginForm = ({ onClose }: { onClose: () => void }) => {
     if (password === '') {
       errorObject.password = 'Please input your password';
     }
-    if (!(password === loginUser.password)) {
+    if (loginUser && !(password === loginUser.password)) {
       errorObject.password = 'Incorrect password';
     }
 

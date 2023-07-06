@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { DataActions, selector } from '@/redux';
+import { DataActions, selector, UserActions } from '@/redux';
 import { ApiInstance } from '@/services/api';
 import { handleError } from '@/services/apiHelper';
 import type { Coin } from '@/types/Coin';
@@ -11,6 +11,7 @@ import coinList from '@/utils/CoinGeckoCoinsList.json';
 
 export const AddCoinForm = () => {
   const { currentData } = useSelector(selector.data);
+  const { currentUser, allUser } = useSelector(selector.user);
   const [symbol, setSymbol] = useState('');
   const [autocompleteList, setAutocompleteList] = useState<any[]>([]);
 
@@ -54,6 +55,15 @@ export const AddCoinForm = () => {
       const newCoin = { ...coin, price: coinPrice, transactions: [] };
 
       const updatedCurrentData = [...currentData, newCoin];
+      const updatedCurrentUser = { ...currentUser, data: updatedCurrentData };
+      const updatedAlluser = allUser.map((user: any) => {
+        if (user.id === updatedCurrentUser.id) {
+          return updatedCurrentUser;
+        }
+        return user;
+      });
+      dispatch(UserActions.setCurrentUser(updatedCurrentUser));
+      dispatch(UserActions.setAllUser(updatedAlluser));
       dispatch(DataActions.setCurrentData(updatedCurrentData));
     }
   };

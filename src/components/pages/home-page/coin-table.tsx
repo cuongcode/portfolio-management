@@ -1,6 +1,7 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { selector } from '@/redux';
+import { DataActions, selector } from '@/redux';
 import {
   selectAvgNetCostList,
   selectCurrentPriceList,
@@ -14,6 +15,13 @@ import { OpenTransactionsButton } from './open-transactions-button';
 
 export const CoinTable = () => {
   const { currentData } = useSelector(selector.data);
+  const { currentUser } = useSelector(selector.user);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (currentUser) {
+      dispatch(DataActions.setCurrentData(currentUser.data));
+    }
+  }, []);
 
   const avgNetCostList = selectAvgNetCostList(currentData);
   const holdingsValueList = selectHoldingsValueList(currentData);
@@ -41,7 +49,7 @@ export const CoinTable = () => {
         </tr>
       </thead>
       <tbody>
-        {currentData?.map((coin: any, index: any) => (
+        {currentData.map((coin: any, index: any) => (
           <tr key={coin.id} className="border-t ">
             <td className="">
               <span className="mr-1 font-bold">{coin.name}</span>

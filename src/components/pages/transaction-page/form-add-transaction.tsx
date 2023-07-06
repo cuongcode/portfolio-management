@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { TextInput } from '@/components/base';
-import { DataActions, selector } from '@/redux';
+import { DataActions, selector, UserActions } from '@/redux';
 import type { Coin } from '@/types/Coin';
 
 const { v4: uuidv4 } = require('uuid');
@@ -17,6 +17,7 @@ export const AddTransactionForm = ({
   avgNetCost: number;
 }) => {
   const { currentData } = useSelector(selector.data);
+  const { currentUser, allUser } = useSelector(selector.user);
 
   const [form, setForm] = useState<any>({});
   const [errors, setErrors] = useState<any>({});
@@ -68,6 +69,15 @@ export const AddTransactionForm = ({
       return item;
     });
 
+    const updatedCurrentUser = { ...currentUser, data: updatedCurrentData };
+    const updatedAlluser = allUser.map((user: any) => {
+      if (user.id === updatedCurrentUser.id) {
+        return updatedCurrentUser;
+      }
+      return user;
+    });
+    dispatch(UserActions.setCurrentUser(updatedCurrentUser));
+    dispatch(UserActions.setAllUser(updatedAlluser));
     dispatch(DataActions.setCurrentData(updatedCurrentData));
 
     setForm({});

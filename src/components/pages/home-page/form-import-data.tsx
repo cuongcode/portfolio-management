@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { DataActions } from '@/redux';
+import { DataActions, selector, UserActions } from '@/redux';
 
 export const ImportDataForm = ({ onClose }: { onClose: () => void }) => {
+  const { currentUser, allUser } = useSelector(selector.user);
+
   const [data, setData] = useState('');
   const [error, setError] = useState('');
 
@@ -30,7 +32,18 @@ export const ImportDataForm = ({ onClose }: { onClose: () => void }) => {
       return;
     }
     const importData = JSON.parse(data);
+
+    const updatedCurrentUser = { ...currentUser, data: importData };
+    const updatedAlluser = allUser.map((user: any) => {
+      if (user.id === updatedCurrentUser.id) {
+        return updatedCurrentUser;
+      }
+      return user;
+    });
+    dispatch(UserActions.setCurrentUser(updatedCurrentUser));
+    dispatch(UserActions.setAllUser(updatedAlluser));
     dispatch(DataActions.setCurrentData(importData));
+
     setData('');
     onClose();
   };

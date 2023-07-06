@@ -1,7 +1,7 @@
 import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { DataActions, selector } from '@/redux';
+import { DataActions, selector, UserActions } from '@/redux';
 import type { Coin } from '@/types/Coin';
 import type { Transaction } from '@/types/Transaction';
 
@@ -19,6 +19,8 @@ export const TransactionsTable = ({
   coin: Coin;
   holdings: number;
 }) => {
+  const { currentUser, allUser } = useSelector(selector.user);
+
   const { currentData } = useSelector(selector.data);
   const dispatch = useDispatch();
 
@@ -33,6 +35,16 @@ export const TransactionsTable = ({
       }
       return item;
     });
+
+    const updatedCurrentUser = { ...currentUser, data: updatedCurrentData };
+    const updatedAlluser = allUser.map((user: any) => {
+      if (user.id === updatedCurrentUser.id) {
+        return updatedCurrentUser;
+      }
+      return user;
+    });
+    dispatch(UserActions.setCurrentUser(updatedCurrentUser));
+    dispatch(UserActions.setAllUser(updatedAlluser));
     dispatch(DataActions.setCurrentData(updatedCurrentData));
   };
 

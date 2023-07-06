@@ -1,9 +1,10 @@
 import { ChevronRightIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Card } from '@/components/base';
-import { selector } from '@/redux';
+import { DataActions, selector } from '@/redux';
 import {
   selectAvgNetCostList,
   selectHoldingsList,
@@ -17,6 +18,14 @@ import { TransactionsTable } from './table-transactions';
 
 export const BoardTransactions = ({ symbol }: { symbol: any }) => {
   const { currentData } = useSelector(selector.data);
+  const { currentUser } = useSelector(selector.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (currentUser) {
+      dispatch(DataActions.setCurrentData(currentUser.data));
+    }
+  }, []);
 
   const avgNetCostList = selectAvgNetCostList(currentData);
   const holdingsValueList = selectHoldingsValueList(currentData);
