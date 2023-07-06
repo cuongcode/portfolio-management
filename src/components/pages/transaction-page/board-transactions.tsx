@@ -14,7 +14,7 @@ import {
 } from '@/redux/Data/DataRedux';
 
 import { AddTransactionForm, ButtonCenterModal } from '../home-page';
-import { TransactionsTable } from './table-transactions';
+import { TransactionsTable } from './transaction-table';
 
 export const BoardTransactions = ({ symbol }: { symbol: any }) => {
   const { currentData } = useSelector(selector.data);

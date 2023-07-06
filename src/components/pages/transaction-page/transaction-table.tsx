@@ -1,11 +1,10 @@
-import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
-import { useDispatch, useSelector } from 'react-redux';
+import { PencilIcon } from '@heroicons/react/outline';
 
-import { DataActions, selector, UserActions } from '@/redux';
 import type { Coin } from '@/types/Coin';
 import type { Transaction } from '@/types/Transaction';
 
 import { ButtonCenterModal } from '../home-page';
+import { DeleteTransactionButton } from './delete-transaction-button';
 import { EditTransactionForm } from './form-edit-transaction';
 
 export const TransactionsTable = ({
@@ -19,35 +18,6 @@ export const TransactionsTable = ({
   coin: Coin;
   holdings: number;
 }) => {
-  const { currentUser, allUser } = useSelector(selector.user);
-
-  const { currentData } = useSelector(selector.data);
-  const dispatch = useDispatch();
-
-  const _onTransactionDelete = (transaction: Transaction) => {
-    const updatedTransactions = coin.transactions.filter(
-      (item: any) => item.id !== transaction.id
-    );
-    const updatedCoin = { ...coin, transactions: updatedTransactions };
-    const updatedCurrentData = currentData.map((item: any) => {
-      if (item.id === updatedCoin.id) {
-        return updatedCoin;
-      }
-      return item;
-    });
-
-    const updatedCurrentUser = { ...currentUser, data: updatedCurrentData };
-    const updatedAlluser = allUser.map((user: any) => {
-      if (user.id === updatedCurrentUser.id) {
-        return updatedCurrentUser;
-      }
-      return user;
-    });
-    dispatch(UserActions.setCurrentUser(updatedCurrentUser));
-    dispatch(UserActions.setAllUser(updatedAlluser));
-    dispatch(DataActions.setCurrentData(updatedCurrentData));
-  };
-
   return (
     <table className="table-fixed text-left">
       <thead>
@@ -104,13 +74,7 @@ export const TransactionsTable = ({
                 <PencilIcon className="w-4" />
               </ButtonCenterModal>
 
-              <button
-                onClick={() => _onTransactionDelete(transaction)}
-                type="button"
-                className="w-fit"
-              >
-                <TrashIcon className="w-4" />
-              </button>
+              <DeleteTransactionButton coin={coin} transaction={transaction} />
             </td>
           </tr>
         ))}
