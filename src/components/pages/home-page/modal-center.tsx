@@ -20,7 +20,7 @@ export const ModalCenter = ({
   if (!open) return null;
   return (
     // try to make animation here but fail
-    <div className="fixed inset-0 flex h-screen w-screen flex-col items-center justify-center bg-black/60 transition duration-500	ease-in-out">
+    <div className="fixed inset-0 z-10 flex h-screen w-screen flex-col items-center justify-center bg-black/60 transition duration-500	ease-in-out">
       <div
         ref={popupRef}
         className="flex h-fit w-96 flex-col rounded-lg bg-white p-4"
