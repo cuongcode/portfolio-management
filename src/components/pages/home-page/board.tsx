@@ -79,7 +79,11 @@ export const Board = () => {
         </div>
         <AddCoinButton />
       </div>
-      {currentUser.data.length !== 0 ? <CoinTable /> : <CoinGeckoNoCoin />}
+      {currentUser && currentUser.data.length !== 0 ? (
+        <CoinTable />
+      ) : (
+        <CoinGeckoNoCoin />
+      )}
     </div>
   );
 };
