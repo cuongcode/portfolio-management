@@ -90,9 +90,9 @@ export const AddCoinForm = () => {
 
         {autocompleteList?.length ? (
           <div className="flex flex-col">
-            {autocompleteList.map((item) => (
+            {autocompleteList.map((item, index) => (
               <button
-                key={item.symbol}
+                key={index}
                 type="button"
                 onClick={() => _onAddCoin(item)}
               >
