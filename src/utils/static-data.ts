@@ -1,4 +1,4 @@
-export const staticData = [
+export const STATIC_DATA = [
   {
     id: 'bitcoin',
     symbol: 'btc',
