@@ -102,6 +102,7 @@ export const EditTransactionForm = ({
 
     setForm({});
     setErrors({});
+    onClose();
   };
 
   const _onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
