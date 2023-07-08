@@ -1,6 +1,7 @@
+import clsx from 'clsx';
 import { debounce } from 'lodash';
 import { useCallback, useState } from 'react';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { DataActions, selector, UserActions } from '@/redux';
@@ -14,6 +15,7 @@ export const AddCoinForm = () => {
   const { currentUser, allUser } = useSelector(selector.user);
   const [symbol, setSymbol] = useState('');
   const [autocompleteList, setAutocompleteList] = useState<any[]>([]);
+  const [inputcolorerror, setInputColorError] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -39,32 +41,50 @@ export const AddCoinForm = () => {
   };
 
   const _onAddCoin = async (coin: Coin) => {
-    const body = {
-      ids: coin?.id,
-      vs_currencies: 'usd',
-      precision: '3',
-    };
-    const res = await ApiInstance.getTokenPrice(body);
-    const { result, error } = handleError(res);
-    if (error) {
-      toast.error('Something wrong in fetch coin');
-      return;
+    let isCheck = true;
+    for (const item of currentData) {
+      if (item.id === coin.id) {
+        setInputColorError(true);
+        isCheck = false;
+      }
     }
-    if (coin?.id) {
-      const coinPrice = result?.[coin.id].usd;
-      const newCoin = { ...coin, price: coinPrice, transactions: [] };
+    if (isCheck) {
+      const body = {
+        ids: coin?.id,
+        vs_currencies: 'usd',
+        precision: '3',
+      };
+      const res = await ApiInstance.getTokenPrice(body);
+      const { result, error } = handleError(res);
+      if (error) {
+        toast.error('Something wrong in fetch coin');
+        return;
+      }
+      if (coin?.id) {
+        const coinPrice = result?.[coin.id].usd;
+        const newCoin = { ...coin, price: coinPrice, transactions: [] };
 
-      const updatedCurrentData = [...currentData, newCoin];
-      const updatedCurrentUser = { ...currentUser, data: updatedCurrentData };
-      const updatedAlluser = allUser.map((user: any) => {
-        if (user.id === updatedCurrentUser.id) {
-          return updatedCurrentUser;
+        const updatedCurrentData = [...currentData, newCoin];
+        const updatedCurrentUser = { ...currentUser, data: updatedCurrentData };
+        const updatedAlluser = allUser.map((user: any) => {
+          if (user.id === updatedCurrentUser.id) {
+            return updatedCurrentUser;
+          }
+          return user;
+        });
+        dispatch(UserActions.setCurrentUser(updatedCurrentUser));
+        dispatch(UserActions.setAllUser(updatedAlluser));
+        dispatch(DataActions.setCurrentData(updatedCurrentData));
+      }
+    } else {
+      toast.error(
+        'It is not possible to add the same coin that has already been added.',
+        {
+          style: {
+            textAlign: 'center',
+          },
         }
-        return user;
-      });
-      dispatch(UserActions.setCurrentUser(updatedCurrentUser));
-      dispatch(UserActions.setAllUser(updatedAlluser));
-      dispatch(DataActions.setCurrentData(updatedCurrentData));
+      );
     }
   };
 
@@ -79,7 +99,10 @@ export const AddCoinForm = () => {
       <h2 className="mb-4 font-bold">Seach your favorite coin</h2>
       <div className="flex flex-col">
         <input
-          className="mb-4 rounded-md border-2 p-2"
+          className={clsx(
+            'mb-4 rounded-md border-2 p-2',
+            inputcolorerror ? 'border-red-500' : null
+          )}
           type="text"
           id="symbol"
           name="symbol"
@@ -104,6 +127,7 @@ export const AddCoinForm = () => {
           </div>
         ) : null}
       </div>
+      <Toaster />
     </>
   );
 };
