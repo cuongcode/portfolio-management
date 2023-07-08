@@ -1,12 +1,8 @@
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  PlusSmIcon,
-} from '@heroicons/react/outline';
+import { ChevronDownIcon } from '@heroicons/react/outline';
 import React, { useState } from 'react';
 
-import { ButtonCenterModal } from './button-center-modal';
-import { AddNewPortfolioForm } from './form-add-new-portfolio';
+import { CreatePortfolioButton } from './create-portfolio-button';
+import { SelectPortfolioButton } from './select-portfolio-button';
 
 export const ManagePortfolioDropdown = () => {
   const [isDropdown, setIsDropdown] = useState(false);
@@ -41,7 +37,7 @@ const DropDown = () => {
       </div>
       <div className="py-1">
         {allPortfolio.map((item: any) => (
-          <PortfolioButton
+          <SelectPortfolioButton
             key={item}
             name={item}
             currentPortfolio={currentPortfolio}
@@ -50,34 +46,9 @@ const DropDown = () => {
       </div>
       <div className="py-1">
         <div className="py-1 text-gray-700 hover:bg-gray-100 hover:text-gray-900">
-          <ButtonCenterModal
-            className="flex items-center"
-            modalContent={<AddNewPortfolioForm />}
-          >
-            <PlusSmIcon className="mr-2 w-5" />
-            <div> Create Portfolio</div>
-          </ButtonCenterModal>
+          <CreatePortfolioButton />
         </div>
       </div>
-    </div>
-  );
-};
-
-const PortfolioButton = ({
-  name,
-  currentPortfolio,
-}: {
-  name: any;
-  currentPortfolio: any;
-}) => {
-  return (
-    <div className="flex justify-between py-1 text-gray-700 hover:bg-gray-100 hover:text-gray-900">
-      <button type="button" className=" flex items-center ">
-        {name}
-      </button>
-      {name === currentPortfolio ? (
-        <CheckIcon className="w-5 text-green-600" />
-      ) : null}
     </div>
   );
 };

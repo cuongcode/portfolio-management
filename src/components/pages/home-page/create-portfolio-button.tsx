@@ -1,30 +1,23 @@
-import type { ReactNode } from 'react';
+import { PlusSmIcon } from '@heroicons/react/outline';
 import { useState } from 'react';
 
+import { AddNewPortfolioForm } from './form-add-new-portfolio';
 import { ModalCenter } from './modal-center';
 
-export const ButtonCenterModal = ({
-  className,
-  children,
-  modalContent,
-}: {
-  className: string;
-  children: ReactNode;
-  modalContent: any;
-}) => {
+export const CreatePortfolioButton = () => {
   const [isOpen, setIsOpen] = useState(false);
-
   return (
     <div>
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className={className}
+        className="flex items-center"
       >
-        {children}
+        <PlusSmIcon className="mr-2 w-5" />
+        <div> Create Portfolio</div>
       </button>
       <ModalCenter open={isOpen} onClose={() => setIsOpen(false)}>
-        {modalContent}
+        <AddNewPortfolioForm />
       </ModalCenter>
     </div>
   );

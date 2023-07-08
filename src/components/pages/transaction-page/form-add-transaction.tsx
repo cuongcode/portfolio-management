@@ -11,10 +11,12 @@ export const AddTransactionForm = ({
   coin,
   holdings,
   avgNetCost,
+  onClose,
 }: {
   coin: Coin;
   holdings: number;
   avgNetCost: number;
+  onClose: () => void;
 }) => {
   const { currentData } = useSelector(selector.data);
   const { currentUser, allUser } = useSelector(selector.user);
@@ -197,7 +199,7 @@ export const AddTransactionForm = ({
           <button
             className="grow rounded-md border-2 p-2"
             type="submit"
-            disabled
+            onClick={onClose}
           >
             Cancel
           </button>

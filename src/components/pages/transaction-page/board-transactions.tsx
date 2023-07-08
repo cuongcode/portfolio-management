@@ -13,8 +13,8 @@ import {
   selectTotalCostList,
 } from '@/redux/Data/DataRedux';
 
-import { AddTransactionForm, ButtonCenterModal } from '../home-page';
-import { TransactionsTable } from './table-transactions';
+import { AddTransactionButton } from './add-transaction-button';
+import { TransactionsTable } from './transaction-table';
 
 export const BoardTransactions = ({ symbol }: { symbol: any }) => {
   const { currentData } = useSelector(selector.data);
@@ -66,18 +66,11 @@ export const BoardTransactions = ({ symbol }: { symbol: any }) => {
 
       <div className="mb-5 flex items-center justify-between">
         <div className="mb-5 text-lg font-bold">Transactions</div>
-        <ButtonCenterModal
-          className="rounded-md bg-green-500 px-4 py-2 text-white "
-          modalContent={
-            <AddTransactionForm
-              coin={coin}
-              holdings={holdings}
-              avgNetCost={avgNetCost}
-            />
-          }
-        >
-          Add Transaction
-        </ButtonCenterModal>
+        <AddTransactionButton
+          coin={coin}
+          holdings={holdings}
+          avgNetCost={avgNetCost}
+        />
       </div>
 
       <TransactionsTable

@@ -3,7 +3,6 @@ export * from './add-coin-button';
 export * from './add-coin-form';
 export * from './board';
 export * from './board-header';
-export * from './button-center-modal';
 export * from './export-data-button';
 export * from './export-data-form';
 export * from './form-import-data';

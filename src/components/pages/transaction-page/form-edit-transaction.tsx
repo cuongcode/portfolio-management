@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { TextInput } from '@/components/base';
@@ -11,26 +11,32 @@ export const EditTransactionForm = ({
   transaction,
   holdings,
   avgNetCost,
+  onClose,
 }: {
   coin: Coin;
   transaction: Transaction;
   holdings: number;
   avgNetCost: number;
+  onClose: () => void;
 }) => {
   const { currentUser, allUser } = useSelector(selector.user);
   const { currentData } = useSelector(selector.data);
-  const [form, setForm] = useState<any>({
-    price: Number(transaction.price),
-    quantity: Math.abs(transaction.quantity),
-    date: transaction.date,
-    fees: Number(transaction.fees),
-    notes: transaction.notes,
-    id: transaction.id,
-    buy: transaction.buy,
-    avgNetCost: transaction.avgNetCost,
-  });
+  const [form, setForm] = useState<any>({});
   const [errors, setErrors] = useState<any>({});
   const [action, setAction] = useState<any>(transaction.buy ? 'buy' : 'sell');
+
+  useEffect(() => {
+    setForm({
+      price: Number(transaction.price),
+      quantity: Math.abs(transaction.quantity),
+      date: transaction.date,
+      fees: Number(transaction.fees),
+      notes: transaction.notes,
+      id: transaction.id,
+      buy: transaction.buy,
+      avgNetCost: transaction.avgNetCost,
+    });
+  }, []);
 
   const dispatch = useDispatch();
 
@@ -96,6 +102,7 @@ export const EditTransactionForm = ({
 
     setForm({});
     setErrors({});
+    onClose();
   };
 
   const _onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -210,8 +217,8 @@ export const EditTransactionForm = ({
         <div className="flex justify-between space-x-2">
           <button
             className="grow rounded-md border-2 p-2"
-            type="submit"
-            disabled
+            type="button"
+            onClick={onClose}
           >
             Cancel
           </button>
