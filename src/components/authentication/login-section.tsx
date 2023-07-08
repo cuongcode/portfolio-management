@@ -5,7 +5,6 @@ import { selector } from '@/redux';
 
 import { ClearAllUserDataButton } from './clear-all-user-data-button';
 import { LoginButton } from './login-button';
-import { LogoutButton } from './logout-button';
 import { SignUpButton } from './signup-button';
 import { UserProfile } from './user-profile';
 
@@ -13,8 +12,6 @@ export const LoginSection = () => {
   const { currentUser } = useSelector(selector.user);
   return (
     <div className="flex items-center gap-2">
-      {currentUser && <UserProfile currentUser={currentUser} />}
-
       {!currentUser ? (
         <>
           <LoginButton />
@@ -22,8 +19,8 @@ export const LoginSection = () => {
         </>
       ) : (
         <>
+          <UserProfile currentUser={currentUser} />
           {currentUser?.username === 'admin' && <ClearAllUserDataButton />}
-          <LogoutButton />
         </>
       )}
     </div>

@@ -1,6 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}',
+    './pages/**/*.{ts,tsx}',
+    './public/**/*.html',
+    './node_modules/flowbite-reat/**/*.js',
+  ],
   theme: {
     fontSize: {
       xs: '0.75rem',
@@ -41,5 +46,6 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  // eslint-disable-next-line global-require
+  plugins: [require('flowbite/plugin')],
 };

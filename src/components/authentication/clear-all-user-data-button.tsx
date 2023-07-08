@@ -13,13 +13,9 @@ export const ClearAllUserDataButton = () => {
   };
   return (
     <>
-      <button
-        type="button"
-        className="rounded-md bg-green-500 px-4 py-2 text-white"
-        onClick={() => setIsOpen(true)}
-      >
+      <p className="block cursor-pointer px-4 py-2 text-base hover:bg-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">
         Clear
-      </button>
+      </p>
       <ModalCenter open={isOpen} onClose={() => setIsOpen(false)}>
         <div className="flex flex-col gap-2">
           <div>Are you sure to clear all user data ?</div>

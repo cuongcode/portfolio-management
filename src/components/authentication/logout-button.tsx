@@ -21,12 +21,11 @@ export const LogoutButton = () => {
   };
 
   return (
-    <button
-      type="button"
-      className="rounded-md bg-green-500 px-4 py-2 text-white"
+    <p
+      className="block cursor-pointer px-4 py-2 text-base hover:bg-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
       onClick={_onLogout}
     >
       Logout
-    </button>
+    </p>
   );
 };
