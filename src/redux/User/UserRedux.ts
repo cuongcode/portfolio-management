@@ -3,32 +3,35 @@ import type { DefaultActionCreators, DefaultActionTypes } from 'reduxsauce';
 import { createActions, createReducer } from 'reduxsauce';
 import * as Immutable from 'seamless-immutable';
 
+import type { User } from '@/types/User';
+import { EMPTY_USER } from '@/utils/empty-user';
+
 /* ------------- Model interface Create Action ------------- */
 interface UserAction extends AnyAction {}
 
 interface IActionTypes extends DefaultActionTypes {
-  SET_ALL_USER: 'setCurrentData';
+  SET_ALL_USER: 'setAllUser';
   SET_CURRENT_USER: 'setCurrentUser';
   // GET_USER_INFO: 'getUserInfo';
 }
 
 interface IActionCreators extends DefaultActionCreators {
-  setAllUser: (allUser: any) => AnyAction;
-  setCurrentUser: (user: any) => AnyAction;
+  setAllUser: (newAllUser: User[]) => AnyAction;
+  setCurrentUser: (user: User) => AnyAction;
 }
 
 type IActions = UserAction | AnyAction;
 
 export interface UserState {
-  allUser: any;
-  currentUser: any;
+  allUser: User[];
+  currentUser: User;
 }
 
 type ImmutableMyType = Immutable.ImmutableObject<UserState>;
 
 /* ------------- Types and Action Creators ------------- */
 const { Types, Creators } = createActions<IActionTypes, IActionCreators>({
-  setAllUser: ['allUser'],
+  setAllUser: ['newAllUser'],
   setCurrentUser: ['user'],
   getUserInfo: null,
 });
@@ -37,7 +40,7 @@ export const UserTypes = Types;
 export default Creators;
 
 const INITIAL_STATE: ImmutableMyType = Immutable.from({
-  allUser: [
+  allUser: <User[]>[
     {
       id: '1',
       username: 'admin',
@@ -46,13 +49,15 @@ const INITIAL_STATE: ImmutableMyType = Immutable.from({
       data: [],
     },
   ],
-  currentUser: undefined,
+  currentUser: <User>EMPTY_USER,
 });
 
-const setAllUser = (state: ImmutableMyType, { allUser }: { allUser: any }) =>
-  state.merge({ allUser });
+const setAllUser = (
+  state: ImmutableMyType,
+  { newAllUser }: { newAllUser: User[] }
+) => state.merge({ allUser: newAllUser });
 
-const setCurrentUser = (state: ImmutableMyType, { user }: { user: any }) =>
+const setCurrentUser = (state: ImmutableMyType, { user }: { user: User }) =>
   state.merge({ currentUser: user });
 
 export const reducer = createReducer<ImmutableMyType, IActions>(INITIAL_STATE, {

@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import { DataActions, selector, UserActions } from '@/redux';
+import { EMPTY_USER } from '@/utils/empty-user';
 
 export const LogoutButton = () => {
   const { allUser, currentUser } = useSelector(selector.user);
@@ -16,7 +17,7 @@ export const LogoutButton = () => {
       return item;
     });
     dispatch(UserActions.setAllUser(updatedAllUser));
-    dispatch(UserActions.setCurrentUser(undefined));
+    dispatch(UserActions.setCurrentUser(EMPTY_USER));
     dispatch(DataActions.setCurrentData([]));
   };
 

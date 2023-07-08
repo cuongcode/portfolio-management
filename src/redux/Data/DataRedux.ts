@@ -4,6 +4,8 @@ import { createActions, createReducer } from 'reduxsauce';
 import { createSelector } from 'reselect';
 import * as Immutable from 'seamless-immutable';
 
+import type { Coin } from '@/types/Coin';
+import type { Transaction } from '@/types/Transaction';
 import { sumOfNumberArray, zipArray } from '@/utils/base';
 
 /* ------------- Model interface Create Action ------------- */
@@ -14,13 +16,13 @@ interface IActionTypes extends DefaultActionTypes {
 }
 
 interface IActionCreators extends DefaultActionCreators {
-  setCurrentData: (data: any) => AnyAction;
+  setCurrentData: (data: Coin[]) => AnyAction;
 }
 
 type IActions = DataAction | AnyAction;
 
 export interface DataState {
-  currentData: any;
+  currentData: Coin[];
 }
 
 type ImmutableMyType = Immutable.ImmutableObject<DataState>;
@@ -34,10 +36,10 @@ export const DataTypes = Types;
 export default Creators;
 
 const INITIAL_STATE: ImmutableMyType = Immutable.from({
-  currentData: [],
+  currentData: <Coin[]>[],
 });
 
-const setCurrentData = (state: ImmutableMyType, { data }: { data: any }) =>
+const setCurrentData = (state: ImmutableMyType, { data }: { data: Coin[] }) =>
   state.merge({ currentData: data });
 
 export const reducer = createReducer<ImmutableMyType, IActions>(INITIAL_STATE, {
@@ -45,30 +47,30 @@ export const reducer = createReducer<ImmutableMyType, IActions>(INITIAL_STATE, {
 });
 
 /* ------------- Selector ------------- */
-const dataState = (state: any) => state;
+const dataState = (state: Coin[]) => state;
 
 export const selectCurrentPriceList = createSelector(dataState, (currentData) =>
-  currentData.map((item: any) => item.price)
+  currentData.map((item: Coin) => item.price)
 );
 
 export const selectHoldingsList = createSelector(dataState, (currentData) =>
-  currentData.map((item: any) => {
-    if (item?.transactions.length === 0) {
+  currentData.map((item: Coin) => {
+    if (item.transactions.length === 0) {
       return 0;
     }
     return sumOfNumberArray(
-      item?.transactions.map((trans: any) => trans.quantity)
+      item.transactions.map((trans: Transaction) => trans.quantity)
     );
   })
 );
 
 export const selectTotalCostList = createSelector(dataState, (currentData) =>
-  currentData.map((item: any) => {
-    if (item?.transactions.length === 0) {
+  currentData.map((item: Coin) => {
+    if (item.transactions.length === 0) {
       return 0;
     }
     return sumOfNumberArray(
-      item?.transactions.map((trans: any) => {
+      item.transactions.map((trans: Transaction) => {
         if (trans.buy) {
           return trans.price * trans.quantity;
         }

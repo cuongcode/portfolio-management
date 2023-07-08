@@ -13,16 +13,16 @@ export const LoginSection = () => {
   const { currentUser } = useSelector(selector.user);
   return (
     <div className="flex items-center gap-2">
-      {currentUser && <UserProfile currentUser={currentUser} />}
+      {currentUser.id && <UserProfile currentUser={currentUser} />}
 
-      {!currentUser ? (
+      {!currentUser.id ? (
         <>
           <LoginButton />
           <SignUpButton />
         </>
       ) : (
         <>
-          {currentUser?.username === 'admin' && <ClearAllUserDataButton />}
+          {currentUser.username === 'admin' && <ClearAllUserDataButton />}
           <LogoutButton />
         </>
       )}
