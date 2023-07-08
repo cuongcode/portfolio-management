@@ -26,11 +26,12 @@ export const UserProfile = ({ currentUser }: { currentUser: any }) => {
 
   return (
     <>
-      <div className="dropdown" ref={popupRef}>
+      <div className="w-full" ref={popupRef}>
         <button
+          style={{ width: '100%' }}
           id="dropdownDefaultButton"
           data-dropdown-toggle="dropdown"
-          className=" inline-flex items-center rounded-lg bg-green-500 px-4 py-2.5 text-center text-base font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300"
+          className="inline-flex items-center rounded-lg bg-green-500 px-4 py-2.5 text-center text-base font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300"
           onClick={toggleIsDropdownShow}
         >
           {hasName ? (
@@ -60,14 +61,14 @@ export const UserProfile = ({ currentUser }: { currentUser: any }) => {
 
         <div
           id="dropdown"
-          className={`z-10 w-full cursor-pointer divide-y divide-gray-100 rounded bg-white text-base shadow ${
+          className={`absolute z-10 cursor-pointer divide-y divide-gray-100 rounded bg-white text-base shadow ${
             isDropdownShow ? 'block' : 'hidden'
           }`}
         >
-          <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+          <ul className="w-56 py-2 text-sm text-gray-700 dark:text-gray-200">
             <li>
               <p
-                className="block px-4 py-2 text-base hover:bg-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="relative block px-4 py-2 text-base hover:bg-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
                 onClick={toggleIsModalOpen}
               >
                 Edit profile
