@@ -1,32 +1,79 @@
-import { ArcElement, Chart as ChartJS, Colors, Tooltip } from 'chart.js';
-import React from 'react';
-import { Pie } from 'react-chartjs-2';
+import type { ChartItem, ChartTypeRegistry } from 'chart.js/auto';
+import Chart from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { selector } from '@/redux';
 import { selectHoldingsValueList } from '@/redux/Data/DataRedux';
 
-ChartJS.register(ArcElement, Tooltip, Colors);
+Chart.register(ChartDataLabels);
 
 export const PieChart = () => {
   const { currentData } = useSelector(selector.data);
 
   const HoldingsValueList = selectHoldingsValueList(currentData);
 
-  const chartData = {
-    labels: currentData.map((item: any) => item.symbol.toUpperCase()),
-    datasets: [
-      {
-        label: '$',
-        data: HoldingsValueList,
-        borderWidth: 1,
-      },
-    ],
-  };
+  const [listlabels, setListLabels] = useState<any[]>([]);
+
+  useEffect(() => {
+    const a = currentData.map((item: any) => item.symbol.toUpperCase());
+    const normalArray = Object.keys(a).map((key) => a[key]);
+    setListLabels(normalArray);
+  }, [currentData]);
+
+  useEffect(() => {
+    let chart: Chart<keyof ChartTypeRegistry, any[], any>;
+    const ctx = document.getElementById('myChart') as ChartItem;
+    if (ctx) {
+      chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: listlabels,
+          datasets: [
+            {
+              label: '$',
+              data: HoldingsValueList,
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          plugins: {
+            datalabels: {
+              formatter: (value) => {
+                function totalSum(total: number, datapoint: number) {
+                  return total + datapoint;
+                }
+                const totalValue = HoldingsValueList.reduce(totalSum, 0);
+                const percentageValue = ((value / totalValue) * 100).toFixed(1);
+                return `${percentageValue}%`;
+              },
+            },
+            legend: {
+              position: 'right',
+              labels: {
+                usePointStyle: true,
+                pointStyle: 'circle',
+                padding: 15,
+              },
+            },
+          },
+        },
+        plugins: [ChartDataLabels],
+      });
+    }
+
+    return () => {
+      chart.destroy();
+    };
+  }, [listlabels, HoldingsValueList]);
 
   return (
-    <div className="w-64">
-      <Pie data={chartData} />
+    <div className="my-10 flex w-full items-center justify-center">
+      <div className="w-80">
+        <canvas id="myChart" />
+      </div>
     </div>
   );
 };
