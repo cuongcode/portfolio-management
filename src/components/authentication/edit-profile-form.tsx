@@ -33,6 +33,7 @@ export const EditProfileForm = ({ onClose }: { onClose: () => void }) => {
     });
     dispatch(UserActions.setAllUser(updatedAllUser));
     dispatch(UserActions.setCurrentUser(updatedUser));
+    onClose();
   };
 
   return (
