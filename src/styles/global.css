@@ -19,3 +19,8 @@ a:hover {
 .content ul {
   @apply my-6;
 }
+
+
+.logo-footer{
+  border-bottom: none
+}

@@ -6,7 +6,7 @@ import coingeckoLogo from '@/utils/coingecko-logo.webp';
 import { FooterHeader, FooterLinkBoard } from './components/index';
 
 const FOOTER_LINK_SECTIONS = [
-  { title: 'about', links: ['company', 'careers', 'blog'] },
+  { title: 'about', links: ['Company', 'Careers', 'Blogs'] },
   {
     title: 'Support',
     links: ['Contact Support', 'Help Resources', 'Release Updates'],

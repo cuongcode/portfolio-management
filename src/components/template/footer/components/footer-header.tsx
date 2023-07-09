@@ -8,11 +8,19 @@ export const FooterHeader = ({
   description: any;
 }) => {
   return (
-    <div className="flex flex-col text-left text-sm">
-      <Link className="hover:no-underline" href="/">
-        <img className="w-32" alt={logo?.alt} src={logo?.path} />
+    <div className="flex flex-col items-center text-left text-sm">
+      <Link className="logo-footer mb-2" href="/">
+        <img className="w-40" alt={logo?.alt} src={logo?.path} />
       </Link>
-      <div>{description}</div>
+      <hr
+        className="mx-auto inline-block"
+        style={{
+          width: '170px',
+          backgroundColor: '#8bc53f',
+          height: '2px',
+        }}
+      />
+      <div className="mt-3">{description}</div>
     </div>
   );
 };
