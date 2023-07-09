@@ -8,6 +8,7 @@ import { DataActions, selector, UserActions } from '@/redux';
 import { ApiInstance } from '@/services/api';
 import { handleError } from '@/services/apiHelper';
 import type { Coin } from '@/types/Coin';
+import type { User } from '@/types/User';
 import coinList from '@/utils/CoinGeckoCoinsList.json';
 
 export const AddCoinForm = () => {
@@ -66,7 +67,7 @@ export const AddCoinForm = () => {
 
         const updatedCurrentData = [...currentData, newCoin];
         const updatedCurrentUser = { ...currentUser, data: updatedCurrentData };
-        const updatedAlluser = allUser.map((user: any) => {
+        const updatedAlluser = allUser.map((user: User) => {
           if (user.id === updatedCurrentUser.id) {
             return updatedCurrentUser;
           }
@@ -88,7 +89,7 @@ export const AddCoinForm = () => {
     }
   };
 
-  const _onChangeSearchSymbol = (e: any) => {
+  const _onChangeSearchSymbol = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchSymbol = e.target.value;
     setSymbol(searchSymbol);
     _debounceSearch(searchSymbol);

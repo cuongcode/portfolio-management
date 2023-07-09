@@ -1,6 +1,9 @@
 import { PencilIcon } from '@heroicons/react/outline';
 import { useState } from 'react';
 
+import type { Coin } from '@/types/Coin';
+import type { Transaction } from '@/types/Transaction';
+
 import { ModalCenter } from '../home-page';
 import { EditTransactionForm } from './form-edit-transaction';
 
@@ -10,10 +13,10 @@ export const EditTransactionButton = ({
   holdings,
   avgNetCost,
 }: {
-  coin: any;
-  transaction: any;
-  holdings: any;
-  avgNetCost: any;
+  coin: Coin;
+  transaction: Transaction;
+  holdings: number;
+  avgNetCost: number;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (

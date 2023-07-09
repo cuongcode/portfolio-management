@@ -1,9 +1,11 @@
 import { useState } from 'react';
 
+import type { Coin } from '@/types/Coin';
+
 import { ExportDataForm } from './export-data-form';
 import { ModalCenter } from './modal-center';
 
-export const ExportDataButton = ({ data }: { data: any }) => {
+export const ExportDataButton = ({ data }: { data: Coin[] }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>

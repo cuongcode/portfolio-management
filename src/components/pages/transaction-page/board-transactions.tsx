@@ -12,11 +12,12 @@ import {
   selectPNL_List,
   selectTotalCostList,
 } from '@/redux/Data/DataRedux';
+import type { Coin } from '@/types/Coin';
 
 import { AddTransactionButton } from './add-transaction-button';
 import { TransactionsTable } from './transaction-table';
 
-export const BoardTransactions = ({ symbol }: { symbol: any }) => {
+export const BoardTransactions = ({ symbol }: { symbol: string }) => {
   const { currentData } = useSelector(selector.data);
   const { currentUser } = useSelector(selector.user);
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ export const BoardTransactions = ({ symbol }: { symbol: any }) => {
   const PNL_List = selectPNL_List(currentData);
   const totalCostList = selectTotalCostList(currentData);
 
-  const index = currentData.findIndex((item: any) => item.symbol === symbol);
+  const index = currentData.findIndex((item: Coin) => item.symbol === symbol);
 
   const coin = currentData[index];
   const holdings = holdingsList[index];
@@ -64,21 +65,25 @@ export const BoardTransactions = ({ symbol }: { symbol: any }) => {
         <Card title="Profit / Loss " number={PNL} showColor />
       </div>
 
-      <div className="mb-5 flex items-center justify-between">
-        <div className="mb-5 text-lg font-bold">Transactions</div>
-        <AddTransactionButton
-          coin={coin}
-          holdings={holdings}
-          avgNetCost={avgNetCost}
-        />
-      </div>
+      {coin ? (
+        <>
+          <div className="mb-5 flex items-center justify-between">
+            <div className="mb-5 text-lg font-bold">Transactions</div>
+            <AddTransactionButton
+              coin={coin}
+              holdings={holdings || 0}
+              avgNetCost={avgNetCost}
+            />
+          </div>
 
-      <TransactionsTable
-        transactions={coin?.transactions}
-        avgNetCost={avgNetCost}
-        coin={coin}
-        holdings={holdings}
-      />
+          <TransactionsTable
+            transactions={coin.transactions}
+            avgNetCost={avgNetCost}
+            coin={coin}
+            holdings={holdings || 0}
+          />
+        </>
+      ) : null}
     </div>
   );
 };

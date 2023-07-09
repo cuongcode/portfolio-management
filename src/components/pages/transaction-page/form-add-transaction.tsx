@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TextInput } from '@/components/base';
 import { DataActions, selector, UserActions } from '@/redux';
 import type { Coin } from '@/types/Coin';
+import type { User } from '@/types/User';
 
 const { v4: uuidv4 } = require('uuid');
 
@@ -64,7 +65,7 @@ export const AddTransactionForm = ({
 
     const updatedTransactions = [...coin.transactions, body];
     const updatedCoin = { ...coin, transactions: updatedTransactions };
-    const updatedCurrentData = currentData.map((item: any) => {
+    const updatedCurrentData = currentData.map((item: Coin) => {
       if (item.id === updatedCoin.id) {
         return updatedCoin;
       }
@@ -72,7 +73,7 @@ export const AddTransactionForm = ({
     });
 
     const updatedCurrentUser = { ...currentUser, data: updatedCurrentData };
-    const updatedAlluser = allUser.map((user: any) => {
+    const updatedAlluser = allUser.map((user: User) => {
       if (user.id === updatedCurrentUser.id) {
         return updatedCurrentUser;
       }
@@ -88,12 +89,12 @@ export const AddTransactionForm = ({
 
   const _onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
-    setForm((current: any) => ({ ...current, [name]: value }));
-    setErrors((current: any) => ({ ...current, [name]: '' }));
+    setForm((prev: any) => ({ ...prev, [name]: value }));
+    setErrors((prev: any) => ({ ...prev, [name]: '' }));
   };
 
   const _onMaxClick = () => {
-    setForm((current: any) => ({ ...current, quantity: holdings }));
+    setForm((prev: any) => ({ ...prev, quantity: holdings }));
   };
 
   return (
