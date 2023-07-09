@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 
 import { selector } from '@/redux';
 import { selectHoldingsValueList } from '@/redux/Data/DataRedux';
+import type { Coin } from '@/types/Coin';
 
 Chart.register(ChartDataLabels);
 
@@ -17,7 +18,7 @@ export const PieChart = () => {
   const [listlabels, setListLabels] = useState<any[]>([]);
 
   useEffect(() => {
-    const a = currentData.map((item: any) => item.symbol.toUpperCase());
+    const a = currentData.map((item: Coin) => item.symbol.toUpperCase());
     const normalArray = Object.keys(a).map((key) => a[key]);
     setListLabels(normalArray);
   }, [currentData]);

@@ -9,6 +9,7 @@ import {
   selectHoldingsValueList,
   selectPNL_List,
 } from '@/redux/Data/DataRedux';
+import type { Coin } from '@/types/Coin';
 
 import { DeleteCoinButton } from './delete-coin-button';
 import { OpenTransactionsButton } from './open-transactions-button';
@@ -28,7 +29,7 @@ export const CoinTable = () => {
   const holdingsList = selectHoldingsList(currentData);
   const PNL_List = selectPNL_List(currentData);
   const currentPriceList = selectCurrentPriceList(currentData);
-  const coinSymbolList = currentData.map((item: any) => item.symbol);
+  const coinSymbolList = currentData.map((item: Coin) => item.symbol);
 
   const coinSymbolCol = { head: 'Coin', data: coinSymbolList };
   const currentPriceCol = { head: 'Price', data: currentPriceList };
@@ -49,7 +50,7 @@ export const CoinTable = () => {
         </tr>
       </thead>
       <tbody>
-        {currentData.map((coin: any, index: any) => (
+        {currentData.map((coin: Coin, index: number) => (
           <tr key={coin.id} className="border-t ">
             <td className="">
               <span className="mr-1 font-bold">{coin.name}</span>

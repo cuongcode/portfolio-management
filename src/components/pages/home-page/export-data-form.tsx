@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
-export const ExportDataForm = ({ data }: { data: any[] }) => {
+import type { Coin } from '@/types/Coin';
+
+export const ExportDataForm = ({ data }: { data: Coin[] }) => {
   const [isCopied, setIsCopied] = useState(false);
   const _onCopy = () => {
     navigator.clipboard.writeText(JSON.stringify(data));

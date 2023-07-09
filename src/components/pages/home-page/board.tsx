@@ -8,6 +8,8 @@ import { selector, UserActions } from '@/redux';
 import { selectTotalBalance, selectTotalPNL } from '@/redux/Data/DataRedux';
 import { ApiInstance } from '@/services/api';
 import { handleError } from '@/services/apiHelper';
+import type { Coin } from '@/types/Coin';
+import type { User } from '@/types/User';
 
 import { AddCoinButton } from './add-coin-button';
 import { AddCoinForm } from './add-coin-form';
@@ -24,7 +26,7 @@ export const Board = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    currentData.map(async (item: any) => {
+    currentData.map(async (item: Coin) => {
       const body = {
         ids: item?.id,
         vs_currencies: 'usd',
@@ -39,14 +41,14 @@ export const Board = () => {
       if (item?.id) {
         const coinPrice = result?.[item.id]?.usd;
         const updateCoin = { ...item, price: coinPrice };
-        const updatedCurrentData = currentData.map((prev: any) => {
+        const updatedCurrentData = currentData.map((prev: Coin) => {
           if (prev.id === updateCoin.id) {
             return updateCoin;
           }
           return prev;
         });
         const updatedCurrentUser = { ...currentUser, data: updatedCurrentData };
-        const updatedAlluser = allUser.map((user: any) => {
+        const updatedAlluser = allUser.map((user: User) => {
           if (user.id === updatedCurrentUser.id) {
             return updatedCurrentUser;
           }

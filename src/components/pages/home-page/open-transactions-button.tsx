@@ -1,7 +1,9 @@
 import { ChevronRightIcon } from '@heroicons/react/outline';
 import Router from 'next/router';
 
-export const OpenTransactionsButton = ({ coin }: { coin: any }) => {
+import type { Coin } from '@/types/Coin';
+
+export const OpenTransactionsButton = ({ coin }: { coin: Coin }) => {
   const onOpenTransactions = () => {
     Router.push(`/transactions/${coin.symbol}`);
   };

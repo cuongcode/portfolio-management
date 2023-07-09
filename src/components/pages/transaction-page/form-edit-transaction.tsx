@@ -5,6 +5,7 @@ import { TextInput } from '@/components/base';
 import { DataActions, selector, UserActions } from '@/redux';
 import type { Coin } from '@/types/Coin';
 import type { Transaction } from '@/types/Transaction';
+import type { User } from '@/types/User';
 
 export const EditTransactionForm = ({
   coin,
@@ -82,7 +83,7 @@ export const EditTransactionForm = ({
       return item;
     });
     const updatedCoin = { ...coin, transactions: updatedTransactions };
-    const updatedCurrentData = currentData.map((item: any) => {
+    const updatedCurrentData = currentData.map((item: Coin) => {
       if (item.id === updatedCoin.id) {
         return updatedCoin;
       }
@@ -90,7 +91,7 @@ export const EditTransactionForm = ({
     });
 
     const updatedCurrentUser = { ...currentUser, data: updatedCurrentData };
-    const updatedAlluser = allUser.map((user: any) => {
+    const updatedAlluser = allUser.map((user: User) => {
       if (user.id === updatedCurrentUser.id) {
         return updatedCurrentUser;
       }
@@ -107,12 +108,12 @@ export const EditTransactionForm = ({
 
   const _onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
-    setForm((current: any) => ({ ...current, [name]: value }));
-    setErrors((current: any) => ({ ...current, [name]: '' }));
+    setForm((prev: any) => ({ ...prev, [name]: value }));
+    setErrors((prev: any) => ({ ...prev, [name]: '' }));
   };
 
   const _onMaxClick = () => {
-    setForm((current: any) => ({ ...current, quantity: holdings }));
+    setForm((prev: any) => ({ ...prev, quantity: holdings }));
   };
 
   return (

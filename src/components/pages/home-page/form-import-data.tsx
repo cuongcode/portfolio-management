@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { DataActions, selector, UserActions } from '@/redux';
+import type { User } from '@/types/User';
 
 export const ImportDataForm = ({ onClose }: { onClose: () => void }) => {
   const { currentUser, allUser } = useSelector(selector.user);
@@ -34,7 +35,7 @@ export const ImportDataForm = ({ onClose }: { onClose: () => void }) => {
     const importData = JSON.parse(data);
 
     const updatedCurrentUser = { ...currentUser, data: importData };
-    const updatedAlluser = allUser.map((user: any) => {
+    const updatedAlluser = allUser.map((user: User) => {
       if (user.id === updatedCurrentUser.id) {
         return updatedCurrentUser;
       }
