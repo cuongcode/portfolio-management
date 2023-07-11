@@ -55,15 +55,15 @@ export const CoinTable = () => {
             <td className="">
               <span className="mr-1 font-bold">{coin.name}</span>
               <span className="text-xs font-light">
-                {coinSymbolCol.data[index].toLocaleUpperCase()}
+                {coinSymbolCol.data[index]?.toLocaleUpperCase()}
               </span>
             </td>
             <td>{currentPriceCol.data[index]}</td>
             <td>${avgPriceCol.data[index].toFixed(3)}</td>
             <td>
               ${holdingsValueCol.data[index].toFixed(3)} (10%){' '}
-              {holdingsCol.data[index].toFixed(3)}
-              {coinSymbolCol.data[index].toLocaleUpperCase()}
+              {holdingsCol.data[index]?.toFixed(3)}
+              {coinSymbolCol.data[index]?.toLocaleUpperCase()}
             </td>
             <td>${pnlCol.data[index].toFixed(3)} 4%</td>
             <td className="flex flex-col items-center gap-1 py-1">
