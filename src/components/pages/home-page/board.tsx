@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Card } from '@/components/base';
 import { CoinGeckoImages } from '@/components/images';
-import { selector, UserActions } from '@/redux';
+import { DataActions, selector, UserActions } from '@/redux';
 import { selectTotalBalance, selectTotalPNL } from '@/redux/Data/DataRedux';
 import { ApiInstance } from '@/services/api';
 import { handleError } from '@/services/apiHelper';
@@ -20,45 +20,8 @@ import { ImportDataButton } from './import-data-button';
 import { ModalCenter } from './modal-center';
 
 export const Board = () => {
-  const { currentUser, allUser } = useSelector(selector.user);
+  const { currentUser } = useSelector(selector.user);
   const { currentData } = useSelector(selector.data);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    currentData.map(async (item: Coin) => {
-      const body = {
-        ids: item?.id,
-        vs_currencies: 'usd',
-        precision: '3',
-      };
-      const res = await ApiInstance.getTokenPrice(body);
-      const { result, error } = handleError(res);
-      if (error) {
-        toast.error('Something wrong in fetch coin');
-        return;
-      }
-      if (item?.id) {
-        const coinPrice = result?.[item.id]?.usd;
-        const updateCoin = { ...item, price: coinPrice };
-        const updatedCurrentData = currentData.map((prev: Coin) => {
-          if (prev.id === updateCoin.id) {
-            return updateCoin;
-          }
-          return prev;
-        });
-        const updatedCurrentUser = { ...currentUser, data: updatedCurrentData };
-        const updatedAlluser = allUser.map((user: User) => {
-          if (user.id === updatedCurrentUser.id) {
-            return updatedCurrentUser;
-          }
-          return user;
-        });
-        dispatch(UserActions.setCurrentUser(updatedCurrentUser));
-        dispatch(UserActions.setAllUser(updatedAlluser));
-      }
-    });
-  }, []);
 
   const totalBalance = selectTotalBalance(currentData);
   const totalPNL = selectTotalPNL(currentData);
@@ -75,11 +38,14 @@ export const Board = () => {
           <Card title="Total Profit Loss" number={totalPNL} showColor />
         </div>
 
-        <div className="flex space-x-2">
+        <div className="flex items-center space-x-2">
           <ImportDataButton />
           <ExportDataButton data={currentData} />
         </div>
-        <AddCoinButton />
+        <div className="flex items-center space-x-2">
+          <UpdatePriceButton />
+          <AddCoinButton />
+        </div>
       </div>
       {currentUser && currentUser.data.length !== 0 ? (
         <CoinTable />
@@ -116,5 +82,52 @@ const CoinGeckoNoCoin = () => {
         )}
       </ModalCenter>
     </div>
+  );
+};
+
+const UpdatePriceButton = () => {
+  const { currentUser, allUser } = useSelector(selector.user);
+  const { currentData } = useSelector(selector.data);
+
+  const dispatch = useDispatch();
+  const _refreshPrice = async () => {
+    const ids = currentData.map((item: Coin) => item.id).join(',');
+
+    const body = {
+      ids,
+      vs_currencies: 'usd',
+      precision: '3',
+    };
+
+    const res = await ApiInstance.getTokenPrice(body);
+    const { result, error } = handleError(res);
+    if (error) {
+      toast.error('Something wrong in fetch coin');
+      return;
+    }
+    const updatedCurrentData = currentData.map((item: Coin) => ({
+      ...item,
+      price: result?.[item.id].usd,
+    }));
+
+    const updatedCurrentUser = { ...currentUser, data: updatedCurrentData };
+    const updatedAlluser = allUser.map((user: User) => {
+      if (user.id === updatedCurrentUser.id) {
+        return updatedCurrentUser;
+      }
+      return user;
+    });
+    dispatch(UserActions.setCurrentUser(updatedCurrentUser));
+    dispatch(UserActions.setAllUser(updatedAlluser));
+    dispatch(DataActions.setCurrentData(updatedCurrentData));
+  };
+  return (
+    <button
+      type="button"
+      onClick={_refreshPrice}
+      className="rounded-md bg-green-500 px-4 py-2 text-white"
+    >
+      Update Price
+    </button>
   );
 };
