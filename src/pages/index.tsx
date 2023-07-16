@@ -2,7 +2,8 @@ import Link from 'next/link';
 import React from 'react';
 
 import { IllustationImage } from '@/images/illustation';
-import { LogoImage } from '@/images/logo';
+import { Meta } from '@/layouts/Meta';
+import { Main } from '@/templates/Main';
 
 const TEST_DATA = [
   { name: 'Bitcoin', price: 31000, symbol: 'btc' },
@@ -13,9 +14,8 @@ const TEST_DATA = [
 
 const LandingPage = () => {
   return (
-    <div className="h-screen bg-white">
-      <NavBar />
-      <div className="h-full bg-[#f2f2f2] px-16 py-10">
+    <Main meta={<Meta title="Landing" description="Landing" />}>
+      <div className="h-fit bg-[#f2f2f2] px-16 pb-20 pt-16">
         <div className="m-auto flex h-fit max-w-screen-lg bg-white">
           <div className="flex w-5/12 flex-col px-12 pb-12 pt-28">
             <div className="text-5xl font-bold text-gray-800">
@@ -44,7 +44,7 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Main>
   );
 };
 
@@ -70,26 +70,6 @@ const TopCoinBoard = () => {
             <span>{item.price}$</span>
           </div>
         ))}
-      </div>
-    </div>
-  );
-};
-
-const NavBar = () => {
-  return (
-    <div className="m-auto flex max-w-screen-xl items-center justify-between bg-white p-3">
-      <Link href="/">
-        <img className="h-10" src={LogoImage.logo.src} alt="logo" />
-      </Link>
-      <div className="flex gap-7">
-        <button type="button" className="text-xs">
-          Sign in
-        </button>
-        <Link href="/home-page/">
-          <button className="h-7 w-24 bg-[#2f72e3] text-xs text-white hover:bg-gray-800">
-            Get Started
-          </button>
-        </Link>
       </div>
     </div>
   );
