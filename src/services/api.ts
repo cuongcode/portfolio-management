@@ -31,13 +31,24 @@ const create = () => {
   // TEST
   const getTokenPrice = (body: any) => apiCoingecko.get('simple/price', body);
   const getTrending = () => apiCoingecko.get('search/trending');
+  const getCoinsMarkets = (body: CoinsMarketsApiBody) =>
+    apiCoingecko.get('coins/markets', body);
 
   return {
     getTokenPrice,
     getTrending,
+    getCoinsMarkets,
     //
     setAuthToken,
   };
 };
 
 export const ApiInstance = create();
+
+export interface CoinsMarketsApiBody {
+  vs_currency: string; // usd
+  ids: string;
+  order: string; // market_cap_desc
+  price_change_percentage: string; // 24h,7d,14d,30d
+  precision: string; // 3
+}

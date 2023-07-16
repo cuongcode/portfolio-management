@@ -93,7 +93,7 @@ const TopCoinBoard = () => {
   );
 };
 
-interface trendItem {
+export interface trendItem {
   coin_id: number;
   id: string;
   large: string; // img link
