@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { PriceLineChart } from '@/components/chart/price-line-chart';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
 
@@ -62,7 +63,9 @@ const InfoSection = () => {
         <div>$32,000</div>
         <div className="float-right">BTC</div>
       </div>
-      <div className="w-1/2 rounded-xl bg-white">Chart</div>
+      <div className="flex w-1/2 rounded-xl bg-white p-3">
+        <PriceLineChart />
+      </div>
     </section>
   );
 };
