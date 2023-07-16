@@ -1,16 +1,12 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { IllustationImage } from '@/images/illustation';
 import { Meta } from '@/layouts/Meta';
+import { ApiInstance } from '@/services/api';
+import { handleError } from '@/services/apiHelper';
 import { Main } from '@/templates/Main';
-
-const TEST_DATA = [
-  { name: 'Bitcoin', price: 31000, symbol: 'btc' },
-  { name: 'Ethereum', price: 1900, symbol: 'eth' },
-  { name: 'Cardano', price: 0.2, symbol: 'ada' },
-  { name: 'BNB', price: 295, symbol: 'bnb' },
-];
 
 const LandingPage = () => {
   return (
@@ -51,26 +47,62 @@ const LandingPage = () => {
 export default LandingPage;
 
 const TopCoinBoard = () => {
+  const [trendList, setTrendList] = useState<any>([]);
+
+  useEffect(() => {
+    _onGetTrend();
+  }, []);
+
+  const _onGetTrend = async () => {
+    const res = await ApiInstance.getTrending();
+    const { result, error } = handleError(res);
+    if (error) {
+      toast.error('Something wrong in fetch coin');
+      return;
+    }
+    const updatedTrendList = result?.coins
+      .slice(0, 4)
+      .map((item: any) => item.item);
+    setTrendList(updatedTrendList);
+  };
+
   return (
     <div className="relative border-2 p-2 pt-4">
-      <div className="absolute -top-4 bg-[#efc12d] px-2">Top Coins</div>
+      <button
+        type="button"
+        onClick={_onGetTrend}
+        className="absolute -top-4 bg-[#efc12d] px-2"
+      >
+        Trending
+      </button>
       <div className="flex flex-col divide-y-2">
-        {TEST_DATA.map((item: any) => (
+        {trendList.map((item: trendItem) => (
           <div
-            key={item.name}
+            key={item.id}
             className="flex items-center gap-1 text-sm text-gray-700"
           >
-            <span>
-              <img
-                src={`https://cryptoicons.org/api/icon/${item.symbol}/18`}
-                alt={item.name}
-              />
+            <span className="w-1/12">
+              <img className="w-4" src={item.thumb} alt={item.name} />
             </span>
             <span className="w-5/12">{item.name}</span>
-            <span>{item.price}$</span>
+            <span className="">Rank #{item.market_cap_rank}</span>
           </div>
         ))}
       </div>
     </div>
   );
 };
+
+interface trendItem {
+  coin_id: number;
+  id: string;
+  large: string; // img link
+  market_cap_rank: number;
+  name: string;
+  price_btc: number;
+  score: number;
+  slug: string;
+  small: string; // img link
+  symbol: string;
+  thumb: string; // img link
+}

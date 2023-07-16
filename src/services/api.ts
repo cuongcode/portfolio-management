@@ -30,9 +30,11 @@ const create = () => {
 
   // TEST
   const getTokenPrice = (body: any) => apiCoingecko.get('simple/price', body);
+  const getTrending = () => apiCoingecko.get('search/trending');
 
   return {
     getTokenPrice,
+    getTrending,
     //
     setAuthToken,
   };
