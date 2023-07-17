@@ -1,21 +1,17 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { IllustationImage } from '@/images/illustation';
-import { LogoImage } from '@/images/logo';
-
-const TEST_DATA = [
-  { name: 'Bitcoin', price: 31000, symbol: 'btc' },
-  { name: 'Ethereum', price: 1900, symbol: 'eth' },
-  { name: 'Cardano', price: 0.2, symbol: 'ada' },
-  { name: 'BNB', price: 295, symbol: 'bnb' },
-];
+import { Meta } from '@/layouts/Meta';
+import { ApiInstance } from '@/services/api';
+import { handleError } from '@/services/apiHelper';
+import { Main } from '@/templates/Main';
 
 const LandingPage = () => {
   return (
-    <div className="h-screen bg-white">
-      <NavBar />
-      <div className="h-full bg-[#f2f2f2] px-16 py-10">
+    <Main meta={<Meta title="Landing" description="Landing" />}>
+      <div className="h-fit bg-[#f2f2f2] px-16 pb-20 pt-16">
         <div className="m-auto flex h-fit max-w-screen-lg bg-white">
           <div className="flex w-5/12 flex-col px-12 pb-12 pt-28">
             <div className="text-5xl font-bold text-gray-800">
@@ -44,30 +40,52 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Main>
   );
 };
 
 export default LandingPage;
 
 const TopCoinBoard = () => {
+  const [trendList, setTrendList] = useState<any>([]);
+
+  useEffect(() => {
+    _onGetTrend();
+  }, []);
+
+  const _onGetTrend = async () => {
+    const res = await ApiInstance.getTrending();
+    const { result, error } = handleError(res);
+    if (error) {
+      toast.error('Something wrong in fetch coin');
+      return;
+    }
+    const updatedTrendList = result?.coins
+      .slice(0, 4)
+      .map((item: any) => item.item);
+    setTrendList(updatedTrendList);
+  };
+
   return (
     <div className="relative border-2 p-2 pt-4">
-      <div className="absolute -top-4 bg-[#efc12d] px-2">Top Coins</div>
+      <button
+        type="button"
+        onClick={_onGetTrend}
+        className="absolute -top-4 bg-[#efc12d] px-2"
+      >
+        Trending
+      </button>
       <div className="flex flex-col divide-y-2">
-        {TEST_DATA.map((item: any) => (
+        {trendList.map((item: trendItem) => (
           <div
-            key={item.name}
+            key={item.id}
             className="flex items-center gap-1 text-sm text-gray-700"
           >
-            <span>
-              <img
-                src={`https://cryptoicons.org/api/icon/${item.symbol}/18`}
-                alt={item.name}
-              />
+            <span className="w-1/12">
+              <img className="w-4" src={item.thumb} alt={item.name} />
             </span>
             <span className="w-5/12">{item.name}</span>
-            <span>{item.price}$</span>
+            <span className="">Rank #{item.market_cap_rank}</span>
           </div>
         ))}
       </div>
@@ -75,22 +93,16 @@ const TopCoinBoard = () => {
   );
 };
 
-const NavBar = () => {
-  return (
-    <div className="m-auto flex max-w-screen-xl items-center justify-between bg-white p-3">
-      <Link href="/">
-        <img className="h-10" src={LogoImage.logo.src} alt="logo" />
-      </Link>
-      <div className="flex gap-7">
-        <button type="button" className="text-xs">
-          Sign in
-        </button>
-        <Link href="/home-page/">
-          <button className="h-7 w-24 bg-[#2f72e3] text-xs text-white hover:bg-gray-800">
-            Get Started
-          </button>
-        </Link>
-      </div>
-    </div>
-  );
-};
+export interface trendItem {
+  coin_id: number;
+  id: string;
+  large: string; // img link
+  market_cap_rank: number;
+  name: string;
+  price_btc: number;
+  score: number;
+  slug: string;
+  small: string; // img link
+  symbol: string;
+  thumb: string; // img link
+}

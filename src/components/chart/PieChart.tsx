@@ -19,7 +19,7 @@ export const PieChart = () => {
 
   useEffect(() => {
     const a = currentData.map((item: Coin) => item.symbol.toUpperCase());
-    const normalArray = Object.keys(a).map((key) => a[key]);
+    const normalArray = Object.keys(a).map((key: any) => a[key]);
     setListLabels(normalArray);
   }, [currentData]);
 
