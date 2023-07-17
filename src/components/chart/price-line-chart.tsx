@@ -44,6 +44,7 @@ export const PriceLineChart = () => {
               },
             },
           },
+          maintainAspectRatio: false,
         },
       });
     }
