@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+import React from 'react';
 
 import { PriceLineChart } from '@/components/chart/price-line-chart';
 import { TotalValueColumnChart } from '@/components/chart/total-value-bar-chart';
+import { CoinsMarkets } from '@/components/pages/dash-board';
+import { Cog6ToothIcon, Square2x2Icon, WalletIcon } from '@/icons';
 import { Meta } from '@/layouts/Meta';
-import type { CoinsMarketsApiBody } from '@/services/api';
-import { ApiInstance } from '@/services/api';
-import { handleError } from '@/services/apiHelper';
 import { Main } from '@/templates/Main';
 
 const DashBoard = () => {
@@ -55,7 +53,7 @@ export default DashBoard;
 
 const MenuLink = ({ children }: { children: any }) => {
   return (
-    <div className="cursor-pointer px-5 py-3 hover:border-l-4 hover:border-l-[#2f72e3] hover:bg-[#d1e1fb] hover:pl-4">
+    <div className="flex cursor-pointer items-center gap-1 px-5 py-3 hover:border-l-4 hover:border-l-[#2f72e3] hover:bg-[#d1e1fb] hover:pl-4">
       {children}
     </div>
   );
@@ -65,9 +63,24 @@ const Menu = () => {
   return (
     <div className="flex flex-col">
       <div className="px-5 py-2 text-sm font-semibold">Menu</div>
-      <MenuLink>Dashboard</MenuLink>
-      <MenuLink>Portfolio</MenuLink>
-      <MenuLink>Setting</MenuLink>
+      <MenuLink>
+        <div className="rounded-md bg-[#d1e1fb] p-1">
+          <Square2x2Icon className="h-4 w-4" />
+        </div>
+        <div>Dashboard</div>
+      </MenuLink>
+      <MenuLink>
+        <div className="rounded-md bg-[#d1e1fb] p-1">
+          <WalletIcon className="h-4 w-4" />
+        </div>
+        <div>Portfolio</div>
+      </MenuLink>
+      <MenuLink>
+        <div className="rounded-md bg-[#d1e1fb] p-1">
+          <Cog6ToothIcon className="h-4 w-4" />
+        </div>
+        <div>Setting</div>
+      </MenuLink>
     </div>
   );
 };
@@ -90,88 +103,3 @@ const InfoSection = () => {
     </section>
   );
 };
-
-const CoinsMarkets = () => {
-  const [coinsMarkets, setCoinsMarkets] = useState<CoinsMarketItem[]>([]);
-
-  useEffect(() => {
-    _onGetCoinsMarkets();
-  }, []);
-
-  const _onGetCoinsMarkets = async () => {
-    // bitcoin, ethereum, cardano, binancecoin
-    const body: CoinsMarketsApiBody = {
-      vs_currency: 'usd',
-      ids: '',
-      order: 'market_cap_desc',
-      price_change_percentage: '24h,7d,14d,30d',
-      precision: '3',
-    };
-    const res = await ApiInstance.getCoinsMarkets(body);
-    const { result, error } = handleError(res);
-    if (error) {
-      toast.error('Something wrong in fetch coin');
-    }
-    if (result) {
-      const updatedCoinsMarkets = [...result].slice(0, 20);
-      setCoinsMarkets(updatedCoinsMarkets);
-    }
-  };
-
-  return (
-    <div className="flex flex-col">
-      <div className="mb-2 flex items-center justify-between font-semibold">
-        <span className="w-7">#</span>
-        <span className="w-4/12">Coin</span>
-        <span className="w-2/12">Price</span>
-        <span className="w-16">24h</span>
-        <span className="w-16">7d</span>
-        <span className="w-16">14d</span>
-        <span className="w-16">30d</span>
-      </div>
-      {coinsMarkets.map((item: CoinsMarketItem) => (
-        <div
-          key={item.id}
-          className="flex items-center justify-between text-sm"
-        >
-          <span className="w-7">{item.market_cap_rank}</span>
-          <span className="flex w-4/12 items-center gap-2">
-            <img className="h-4 w-4" src={item.image} alt={item.name} />
-            <span className="text-base font-semibold">{item.name}</span>{' '}
-            {item.name.length < 10 ? (
-              <span className="text-sm text-gray-600">
-                {item.symbol.toUpperCase()}
-              </span>
-            ) : null}
-          </span>
-          <span className="w-2/12">{item.current_price}</span>
-          <span className="w-16">
-            {item.price_change_percentage_24h_in_currency.toFixed(1)}%
-          </span>
-          <span className="w-16">
-            {item.price_change_percentage_7d_in_currency.toFixed(1)}%
-          </span>
-          <span className="w-16">
-            {item.price_change_percentage_14d_in_currency.toFixed(1)}%
-          </span>
-          <span className="w-16">
-            {item.price_change_percentage_30d_in_currency.toFixed(1)}%
-          </span>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-interface CoinsMarketItem {
-  id: string;
-  current_price: number;
-  image: string; // link
-  market_cap_rank: number;
-  name: string;
-  symbol: string;
-  price_change_percentage_7d_in_currency: number;
-  price_change_percentage_14d_in_currency: number;
-  price_change_percentage_30d_in_currency: number;
-  price_change_percentage_24h_in_currency: number;
-}
