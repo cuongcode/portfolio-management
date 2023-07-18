@@ -27,6 +27,7 @@ export const TotalValueColumnChart = () => {
         },
         options: {
           maintainAspectRatio: false,
+          animation: false,
         },
       });
     }
