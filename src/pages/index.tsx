@@ -22,7 +22,7 @@ const LandingPage = () => {
               <span>Manage your cryptocurrency as easy as winking.</span>
               <span>Sign up and get started right away.</span>
             </div>
-            <Link href="/home-page/">
+            <Link href="/dash-board/">
               <button className="h-7 w-24 bg-[#2f72e3] text-xs text-white hover:bg-gray-800">
                 Get Started
               </button>

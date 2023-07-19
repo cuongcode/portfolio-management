@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { ReactNode } from 'react';
 import React from 'react';
 
@@ -36,19 +37,19 @@ const Menu = () => {
   return (
     <div className="flex flex-col">
       <div className="px-5 py-2 text-sm font-semibold">Menu</div>
-      <MenuLink>
+      <MenuLink to="/dash-board/">
         <div className="rounded-md bg-[#d1e1fb] p-1">
           <Square2x2Icon className="h-4 w-4" />
         </div>
         <div>Dashboard</div>
       </MenuLink>
-      <MenuLink>
+      <MenuLink to="/portfolio/">
         <div className="rounded-md bg-[#d1e1fb] p-1">
           <WalletIcon className="h-4 w-4" />
         </div>
         <div>Portfolio</div>
       </MenuLink>
-      <MenuLink>
+      <MenuLink to="/">
         <div className="rounded-md bg-[#d1e1fb] p-1">
           <Cog6ToothIcon className="h-4 w-4" />
         </div>
@@ -58,10 +59,12 @@ const Menu = () => {
   );
 };
 
-const MenuLink = ({ children }: { children: any }) => {
+const MenuLink = ({ children, to }: { children: any; to: string }) => {
   return (
-    <div className="flex cursor-pointer items-center gap-1 px-5 py-3 hover:border-l-4 hover:border-l-[#2f72e3] hover:bg-[#d1e1fb] hover:pl-4">
-      {children}
-    </div>
+    <Link href={to}>
+      <div className="flex cursor-pointer items-center gap-1 px-5 py-3 hover:border-l-4 hover:border-l-[#2f72e3] hover:bg-[#d1e1fb] hover:pl-4">
+        {children}
+      </div>
+    </Link>
   );
 };
