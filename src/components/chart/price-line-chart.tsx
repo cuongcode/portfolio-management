@@ -14,7 +14,7 @@ export const PriceLineChart = () => {
 
   useEffect(() => {
     let chart: Chart<keyof ChartTypeRegistry, any[], any>;
-    const ctx = document.getElementById('myChart') as ChartItem;
+    const ctx = document.getElementById('PriceLineChart') as ChartItem;
     if (ctx) {
       chart = new Chart(ctx, {
         type: 'line',
@@ -59,7 +59,7 @@ export const PriceLineChart = () => {
     <div className="m-auto flex w-full flex-col">
       <CoinOptionDropdown />
       <div className="">
-        <canvas id="myChart" />
+        <canvas id="PriceLineChart" />
       </div>
     </div>
   );

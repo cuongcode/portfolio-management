@@ -26,10 +26,9 @@ export const CoinsMarkets = () => {
   }, []);
 
   const _onGetCoinsMarkets = async () => {
-    // bitcoin, ethereum, cardano, binancecoin
     const body: CoinsMarketsApiBody = {
       vs_currency: 'usd',
-      ids: '',
+      ids: '', // empty string to get all coins
       order: 'market_cap_desc',
       price_change_percentage: '24h,7d,14d,30d',
       precision: '3',

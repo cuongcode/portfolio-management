@@ -25,7 +25,7 @@ export const PieChart = () => {
 
   useEffect(() => {
     let chart: Chart<keyof ChartTypeRegistry, any[], any>;
-    const ctx = document.getElementById('myChart') as ChartItem;
+    const ctx = document.getElementById('PieChart') as ChartItem;
     if (ctx) {
       chart = new Chart(ctx, {
         type: 'pie',
@@ -71,10 +71,8 @@ export const PieChart = () => {
   }, [listlabels, HoldingsValueList]);
 
   return (
-    <div className="my-10 flex w-full items-center justify-center">
-      <div className="w-80">
-        <canvas id="myChart" />
-      </div>
+    <div className="">
+      <canvas id="PieChart" />
     </div>
   );
 };
