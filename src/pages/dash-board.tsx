@@ -12,21 +12,21 @@ const DashBoard = () => {
       <div className="text-xs">
         An overview of cryptocurrency portfolios and market
       </div>
-      <div className="mt-6">
+      <div className="mt-8">
         <InfoSection />
       </div>
-      <div className="mt-6">
+      <div className="mt-8">
         <div className="text-lg font-semibold">Portfolio Stats</div>
       </div>
-      <div className="mt-6">
+      <div className="mt-5">
         <div className="h-fit rounded-xl bg-white p-5">
           <TotalValueColumnChart />
         </div>
       </div>
-      <div className="mt-6">
+      <div className="mt-8">
         <div className="text-lg font-semibold">Explore Market</div>
       </div>
-      <div className="mt-6">
+      <div className="mt-5">
         <div className="h-fit rounded-xl bg-white p-5">
           <CoinsMarkets />
         </div>
