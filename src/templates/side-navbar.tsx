@@ -24,7 +24,7 @@ export const SideNavbar = (props: ISideNavbarProps) => {
           <div className="flex w-3/4 flex-col p-10 xl:w-3/5">
             {props.children}
           </div>
-          <div className="hidden min-h-screen w-1/5 bg-white xl:flex">
+          <div className="hidden min-h-screen w-1/5 bg-white xl:block">
             {props.sideChildren}
           </div>
         </div>
